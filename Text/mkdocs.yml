@@ -1,0 +1,15 @@
+site_name: MVAPICH
+site_url: https://example.com/
+nav:
+    
+    - Benchmarks: 'benchmarks.md'
+    - Installation: 'install.md'
+    - Tunning: 'perf-tuning.md'
+    - 'Parameters':
+        - 'Overview' : 'parameters.md'
+        - 'General' : 'parameters-general.md'
+        - 'MPIrun' : 'parameters-mpirun_rsh.md'
+        - 'Nem' : 'parameters-nem.md'
+    - Scalability: 'scalable.md'
+    - Troubleshooting: 'troubleshooting.md'
+    - Usage: 'usage.md'

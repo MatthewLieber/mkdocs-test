@@ -1,0 +1,505 @@
+\section{FAQ and Troubleshooting with MVAPICH2}
+\label{sec:troubleshooting}
+
+Based on our experience and feedback we have received from our users, here we
+include some of the problems a user may experience and the steps to resolve
+them. If you are experiencing any other problem, please feel free to contact us
+by sending an email to
+\href{mailto:mvapich-discuss@cse.ohio-state.edu}{mvapich-discuss@cse.ohio-state.edu}.
+
+MVAPICH2 can be used over eight underlying interfaces, namely OFA-IB-CH3,
+OFA-IB-Nemesis, OFA-IWARP-CH3, OFA-RoCE-CH3, TrueScale (PSM-CH3),
+Omni-Path (PSM2-CH3), TCP/IP-CH3  and
+TCP/IP-Nemesis. Based on the underlying library being utilized, the
+troubleshooting steps may be different. We have divided the troubleshooting tips
+into four sections: General troubleshooting and Troubleshooting over any one of
+the five transport interfaces.
+
+\subsection{General Questions and Troubleshooting}
+
+\subsubsection{Issues with MVAPICH2 and MPI programs that internally override libc functions}
+
+The MPI applications overriding the libc functions (e.g., malloc and free) to use custom memory allocators when running with MVAPICH2 library lead to issues in MVAPICH2's memory interception mechanism. To circumvent this issue, the applications can try the following work around:
+
+\begin{itemize}
+    \item{Use the LD\_PRELOAD environment variable to export the path of
+            the MVAPICH2 shared library object (libmpich.so or libmpi.so).
+            eg: export LD\_PRELOAD=/path/to/libmpi.so}
+\end{itemize}
+
+\subsubsection{Issues with MVAPICH2 and Python based MPI programs}
+
+Using an application written using Python with MVAPICH2 can potentially
+result in the memory registration cache mechanism in MVAPICH2 being
+disabled at runtime due to an interaction between the Python memory
+allocator and the memory registration cache mechanism in MVAPICH2. We are
+working towards resolving this issue. In the mean time, we recommend that
+you try the following work arounds:
+
+\begin{itemize}
+    \item{Use the LD\_PRELOAD environment variable to export the path of
+            the MVAPICH2 shared library object (libmpich.so or libmpi.so).
+            eg: export LD\_PRELOAD=/path/to/libmpi.so}
+    \item{Increase the size of the internal communication buffer being used
+            by MVAPICH2 and the switch point between eager and rendezvous
+            protocol in MVAPICH2 to a larger value. Please refer to
+            Section~\ref{sec:impact-disable-dereg} for more details.}
+\end{itemize}
+
+\subsubsection{Issues with MVAPICH2 and Google TCMalloc}
+
+Using an application that utilizes the Google TCMalloc library with
+MVAPICH2 can potentially result in issues at compile time and/or runtime
+due to an interaction between the Google TCMalloc library and the memory
+registration cache mechanism in MVAPICH2. We are working towards resolving
+this issue. In the mean time, we recommend that you disable the memory
+registration cache mechanism in MVAPICH2 to work-around this issue.
+MVAPICH2 has the capability to memory disable registration cache support at
+configure / build time and also at runtime.
+
+If the issue you are facing is at compile time, then you need to
+re-configure the MVAPICH2 library to disable memory registration cache at
+configure time using the ``--disable-registration-cache'' option. Please
+refer to Section~\ref{subsec:config-gen2} of the MVAPICH2 userguide for
+more details on how to disable registration cache at build time.
+
+If the issue you are facing is at run time, then please re-run your
+application after setting \\ ``MV2\_USE\_LAZY\_MEM\_UNREGISTER=0''.  Please
+refer to Section~\ref{def:mv2_use_lazy_mem_unregister} of the MVAPICH2
+userguide for more details on how to disable registration cache at run
+time.
+
+Please refer to Section~\ref{sec:impact-disable-dereg} for more details on
+the impact of disabling memory registration cache on application
+performance.
+
+\subsubsection{Impact of disabling memory registration cache on application
+performance}
+\label{sec:impact-disable-dereg}
+
+Whether disabling registration cache will have a negative effect on
+application performance depends entirely on the communication pattern of
+the application. If the application uses mostly small to medium sized
+messages (approximately less than 16 KB), then disabling registration
+cache will mostly have no impact on the performance of the application.
+
+However, if the application uses messages of larger size, then there might
+be an impact depending on the frequency of communication. If this is the
+case, then it might be useful to increase the size of the internal
+communication buffer being used by MVAPICH2 (using the
+``MV2\_VBUF\_TOTAL\_SIZE'' environment variable) and the switch point
+between eager and rendezvous protocol in MVAPICH2 (using the
+``MV2\_IBA\_EAGER\_THRESHOLD'') to a larger value. In this scenario, we
+recommend that you set both to the same value (possibly slightly greater
+than the median message size being used by your application). Please refer
+to Sections~\ref{def:rdma-iba-eager-threshold}
+and~\ref{def:vbuf-total-size} of the userguide for more information about
+these two parameters.
+
+\subsubsection{MVAPICH2 failed to register memory with InfiniBand HCA}
+
+OFED provides network vendor specific kernel module parameters to control
+the size of Memory translation table(MTT) used to map virtual to physical
+address. This will limit the amount of physical memory can be registered
+with InfiniBand device. The following two parameters are provided to control
+the size of this table.
+\begin{enumerate}
+  \item log\_num\_mtt
+  \item log\_mtts\_per\_seg
+\end{enumerate}
+
+The amount of memory that can be registered is calculated by 
+
+\CommandBox{max\_reg\_mem = $(2^{log\_num\_mtt})$ * $(2^{log\_mtts\_per\_seg})$ * PAGE\_SIZE}{0.9}
+
+It is recommended to adjust log\_num\_mtt to allow at least twice the amount of physical memory on your machine. 
+For example, if a node has 64 GB of memory and a 4 KB page size, log\_num\_mtt should be set to 24 and 
+(assuming log\_mtts\_per\_seg is set to 1) 
+
+These parameters are set on the mlx4\_core module in /etc/modprobe.conf \\
+\CommandBox{ options mlx4\_core log\_num\_mtt=24} {0.9}
+
+\subsubsection{Invalid Communicators Error}
+
+This is a problem which typically occurs due to the presence of
+multiple installations of MVAPICH2 on the same set of nodes. The
+problem is due to the presence of \texttt{mpi.h} other than the
+one, which is used for executing the program. This problem can be
+resolved by making sure that the \texttt {mpi.h} from other
+installation is not included.
+
+\subsubsection{Are \texttt{fork()} and \texttt{system()} supported?}
+
+\texttt{fork()} and \texttt{system()} is supported for the OpenFabrics
+device as long as the kernel is being used is Linux 2.6.16 or newer.
+Additionally, the version of OFED used should be 1.2 or higher.  The
+environment variable IBV\_FORK\_SAFE=1 must also be set to enable fork
+support.
+
+\subsubsection{MPI+OpenMP shows bad performance} MVAPICH2 uses CPU
+affinity to have better performance for single-threaded programs. For
+multi-threaded programs, e.g. MPI+OpenMP, it may schedule all the
+threads of a process to run on the same CPU. CPU affinity should be
+disabled in this case to solve the problem, i.e. set
+\texttt{MV2\_ENABLE\_AFFINITY} to 0. In addition, please read Section
+~\ref{sec:advanced_multi_thread} on using MVAPICH2 in multi-threaded
+environments. We also recommend using the compiler/platform specific run-time
+options to bind the OpenMP threads to processors. Please refer to 
+Section (~\ref{sec:advanced_omp_thread_binding}) for more information. 
+
+\subsubsection{Error message ``No such file or directory" when using Lustre file system}
+   If you are using ADIO support for Lustre, please make sure of the
+   following:\\
+   {-- Check your Lustre setup}\\
+   {-- You are able to create,
+	read to and write from files in the Lustre mounted directory}\\
+   {-- The directory is mounted on all nodes on which the job is
+   executed}\\
+    {-- The path to the file is correctly specified}\\
+    {-- The permissions for the file or directory are correctly specified}
+    
+\subsubsection{Program segfaults with ``File locking failed in ADIOI\_Set\_lock''}
+If you are using ADIO support for Lustre, the recent Lustre releases
+require an additional mount option to have correct file locks.
+Please include the following option with your Lustre mount command: ``-o
+localflock''.\\
+
+\CommandBox{\$ mount -o localflock -t lustre xxxx@o2ib:/datafs /mnt/datafs}{0.9}
+
+\subsubsection{Running MPI programs built with gfortran}
+
+MPI programs built with gfortran might not appear to run correctly due
+to the default output buffering used by gfortran.  If it seems there is
+an issue with program output, the \texttt{GFORTRAN\_UNBUFFERED\_ALL}
+variable can be set to ``y'' and exported into the environment before
+using the \texttt{mpiexec} or \texttt{mpirun\_rsh} command to launch the
+program, as below:\\
+
+\CommandBox{\$ export GFORTRAN\_UNBUFFERED\_ALL=y}{0.7}
+
+Or, if using {\tt mpirun\_rsh}, export the environment variable as in the
+example:
+
+\CommandBox{\$ mpirun\_rsh -np 2 n1 n2 GFORTRAN\_UNBUFFERED\_ALL=y ./a.out}{0.9}
+
+\subsubsection{How do I obtain MVAPICH2 version and configuration information?}
+\label{subsec:version}
+
+The \texttt{mpiname} application is provided with MVAPICH2 to assist with
+determining the MPI library
+version and related information.  The usage of \texttt{mpiname} is as
+follows:
+
+\CommandBox{\$ mpiname [OPTION]}{0.7}
+
+Print MPI library information.  With no OPTION, the output is the same as
+-v.
+
+  -a    print all information
+
+  -c    print compilers
+
+  -d    print device
+
+  -h    display this help and exit
+
+  -n    print the MPI name
+
+  -o    print configuration options
+
+  -r    print release date
+
+  -v    print library version
+
+\subsubsection{How do I compile my MPI application with static libraries,
+and not use shared libraries?}
+\label{subsec:shlib}
+
+MVAPICH2 is configured to be built with shared-libraries by default. To link
+your application to the static version of the library, use the command below
+when compiling your application:
+
+\CommandBox {\$ mpicc -noshlib -o cpi cpi.c}{0.7}
+
+\subsubsection{Does MVAPICH2 work across AMD and Intel systems?}
+
+Yes, as long as you compile MVAPICH2 and your programs on one of the systems, 
+either AMD or Intel, and run the same binary across the systems. 
+MVAPICH2 has platform specific parameters for performance 
+optimizations and it may not work if you compile MVAPICH2 and your programs
+on different systems and try to run the binaries together.
+
+\subsubsection{I want to enable debugging for my build. How do I do
+this?}
+
+We recommend that you enable debugging when you intend to take a look at
+back traces of processes in GDB (or other debuggers). You can use the
+following configure options to enable debugging:
+\texttt{--enable-g=dbg --disable-fast}.
+
+Additionally:
+\begin{itemize}
+\item See parameter \texttt{MV2\_DEBUG\_CORESIZE} (section~\ref{def:debug-coresize}) to enable core dumps.
+\item See parameter \texttt{MV2\_DEBUG\_SHOW\_BACKTRACE} (section~\ref{def:debug-backtrace}) to show a basic backtrace in case of error.
+\end{itemize}
+
+\subsubsection{How can I run my application with a different group ID?}
+\label{subsec:run-alternate_group_id}
+
+You can specify a different group id for your MPI application using the
+\texttt{-sg group} option to \texttt{mpirun\_rsh}. The following example
+executes \emph{a.out} on host1 and host2 using \emph{secondarygroup} as
+their group id.
+
+\CommandBox{\$ mpirun\_rsh -sg secondarygroup -np 2 host1 host2 ./a.out}{0.9}
+
+\subsection{Issues and Failures with Job launchers}
+
+\subsubsection{/usr/bin/env: mpispawn: No such file or directory}
+
+If \texttt{mpirun\_rsh} fails with this error message, it was unable to
+locate a necessary utility. This can be fixed by ensuring that all
+MVAPICH2 executables are in the PATH on all nodes.  If PATHs cannot be
+setup as mentioned, then invoke mpirun\_rsh with a path prefix. For
+example:
+
+\CommandBox{\$ /path/to/mpirun\_rsh -np 2 node1 node2 ./mpi\_proc}{0.7}
+
+\subsubsection{TotalView complains that ``The MPI library contains no
+suitable type definition for struct MPIR\_PROCDESC''}
+
+Ensure that the MVAPICH2 job launcher mpirun\_rsh is compiled with debug
+symbols. Details are available in Section \ref{subsec:mpi-tv}.
+
+\subsection{Problems Building MVAPICH2}
+\subsubsection{Unable to convert MPI\_SIZEOF\_AINT to a hex string}
+
+\texttt{configure: error: Unable to convert MPI\_SIZEOF\_AINT to a hex string.
+\\This is either because we are building on a very strange platform or there
+is a bug somewhere in configure.}
+
+This error can be misleading.  The problem is often not that you're building on
+a strange platform, but that there was some problem running an executable that
+made configure have trouble determining the size of a datatype.  The true
+problem is often that you're trying to link against a library that is not found
+in your system's default path for linking at runtime.  Please check that you've properly set LD\_LIBRARY\_PATH or used the correct rpath settings in LDFLAGS.
+
+\subsubsection{Cannot Build with the PathScale Compiler}
+
+There is a known bug with the PathScale compiler (before version 2.5)
+when building MVAPICH2.  This problem will be solved in the next major
+release of the PathScale compiler.  To work around this bug, use the the
+``\texttt{-LNO:simd=0}'' C compiler option.  This can be set in the
+build script similarly to:
+
+\begin{verbatim}
+export CC="pathcc -LNO:simd=0"
+\end{verbatim}
+
+Please note the use of double quotes. If you are building MVAPICH2 using the
+PathScale compiler (version below 2.5), then you should add ``-g'' to your
+CFLAGS, in order to get around a compiler bug.
+
+\subsubsection{nvlink fatal : Unsupported file type '../lib/.libs/libmpich.so'}
+There have been recent reports of this issue when using the PGI compiler.  This
+may be able to be solved by adding ``-ta=tesla:nordc'' to your CFLAGS.  The
+following example shows MVAPICH2 being configured with the proper CPPFLAGS and
+CFLAGS to get around this issue (Note: --enable-cuda=basic is optional).
+
+\begin{small}
+    \begin{description}
+        \item[Example:] \texttt{./configure --enable-cuda=basic
+            CPPFLAGS="-D\_\_x86\_64 \\
+            -D\_\_align\_\_\textbackslash(n\textbackslash)=\_\_attribute\_\_\textbackslash(\textbackslash(aligned\textbackslash(n\textbackslash)\textbackslash)\textbackslash) \\
+            -D\_\_location\_\_\textbackslash(a\textbackslash)=\_\_annotate\_\_\textbackslash(a\textbackslash) \\
+            -DCUDARTAPI="\\
+            CFLAGS="-ta=tesla:nordc"}
+    \end{description}
+\end{small}
+
+
+\subsubsection{Libtool has a problem linking with non-GNU compiler (like PGI)}
+
+If you are using a compiler that is not recognized by autoconf as a GNU compiler,
+Libtool uses an default library search path to look for shared objects which is "/lib /usr/lib /usr/local/lib".
+Then, if your libraries are not in one of these paths, MVAPICH2 may fail to link properly.
+
+You can work around this issue by adding the following configure flags:
+
+\begin{verbatim}
+./configure \
+lt_cv_sys_lib_search_path_spec="/lib64 /usr/lib64 /usr/local/lib64"   \
+lt_cv_sys_lib_dlsearch_path_spec="/lib64 /usr/lib64 /usr/local/lib64" \
+... ...
+\end{verbatim}
+
+The above example considers that the correct library search path for your system is "/lib64 /usr/lib64 /usr/local/lib64".
+
+\subsection{With OFA-IB-CH3 Interface}
+
+\subsubsection{Cannot Open HCA}
+
+    The above error reports that the InfiniBand Adapter is not ready for
+communication. Make sure that the drivers are up. This can be done by executing
+the following command which  gives the path at which drivers are setup.
+
+\CommandBox{\$ locate libibverbs}{0.7}
+
+\subsubsection{Checking state of IB Link}
+In order to check the status of the IB link, one of the OFED utilities
+can be used: \texttt{ibstatus}, \texttt{ibv\_devinfo}.
+
+%\subsubsection{Undefined reference to ibv\_get\_device\_list}
+%   Add \texttt{-DGEN2\_OLD\_DEVICE\_LIST\_VERB} macro to CFLAGS and rebuild
+%MVAPICH2-gen2. If this happens, this means that your Gen2 installation is old
+%and needs to be updated.
+
+\subsubsection{Creation of CQ or QP failure}
+A possible reason could be inability to pin the memory required.  Make sure the
+following steps are taken.
+
+\begin{enumerate}
+\item In \texttt{/etc/security/limits.conf} add the following
+\begin{verbatim}
+* soft memlock phys_mem_in_KB
+\end{verbatim}
+
+\item After this, add the following to \texttt{/etc/init.d/sshd}
+\begin{verbatim}
+ulimit -l  phys_mem_in_KB
+\end{verbatim}
+
+\item Restart sshd
+\end{enumerate}
+
+With some distros, we've found that adding the ulimit -l line to the sshd init script is no longer necessary.  For instance, the following steps work for our RHEL5 systems.
+
+\begin{enumerate}
+\item Add the following lines to \texttt{/etc/security/limits.conf}
+\begin{verbatim}
+* soft memlock unlimited
+* hard memlock unlimited
+\end{verbatim}
+
+\item Restart sshd
+\end{enumerate}
+
+\subsubsection{Hang with Multi-rail Configuration}
+If your system has multiple HCAs per node, ensure that the number of
+HCAs per node is the same across all nodes. Otherwise, specify the
+correct number of HCAs using the parameter ~\ref{def:num-hcas}.
+
+If you configure MVAPICH2 with \texttt{RDMA\_CM} and see this issue,
+ensure that the different HCAs on the same node are on different
+subnets.
+
+\subsubsection{Hang with the HSAM Functionality}
+HSAM functionality uses multi-pathing mechanism with LMC functionality.
+However, some versions of OpenFabrics Drivers (including OpenFabrics
+Enterprise Distribution (OFED) 1.1) and using the Up*/Down* routing
+engine do not configure the routes correctly using the LMC mechanism.
+We strongly suggest to upgrade to OFED 1.2, which supports Up*/Down*
+routing engine and LMC mechanism correctly.
+
+\subsubsection{Failure with Automatic Path Migration}
+MVAPICH2 (OFA-IB-CH3) provides network fault tolerance 
+with Automatic Path Migration
+(APM). However, APM is supported only with OFED 1.2 onwards. With OFED
+1.1 and prior versions of OpenFabrics drivers, APM functionality is not
+completely supported. Please refer to Section~\ref{def:mv2-use-apm} and
+section~\ref{def:mv2-use-apm-test}
+
+\subsubsection{Error opening file}
+If you configure MVAPICH2 with \texttt{RDMA\_CM} and see this error,
+you need to verify if you have setup up the local IP address to be
+used by RDMA\_CM in the file \texttt{/etc/mv2.conf}. Further, you need
+to make sure that this file has the appropriate file read permissions.
+Please follow Section~\ref{subsec:mpi-rdma-cm} for more details on this.
+
+\subsubsection{RDMA CM Address error}
+If you get this error, please verify that the IP address specified
+\texttt{/etc/mv2.conf} is correctly specified with the IP address of
+the device you plan to use RDMA\_CM with.
+
+\subsubsection{RDMA CM Route error}
+If see this error, you need to check whether the specified network is
+working or not.
+
+%\subsubsection{TotalView does not seem to be working}
+%If you are experiencing problems using TotalView, you should try this
+%workaround:\\
+%
+%\begin{verbatim}
+%$ ./configure `CFLAGS=-D_XOPEN_SOURCE=600' .. your configure options ..
+%make && make install
+%\end{verbatim}
+
+\subsection{With OFA-iWARP-CH3 Interface}
+\subsubsection{Error opening file}
+If you configure MVAPICH2 with RDMA\_CM and see this error, you need to
+verify if you have setup up the local IP address to be used by
+RDMA\_CM in the file \texttt{/etc/mv2.conf}. Further, you need to make sure
+that this file has the appropriate file read permissions.
+Please follow Section~\ref{subsec:mpi-iwarp} for more details on this.
+
+\subsubsection{RDMA CM Address error}
+If you get this error, please verify that the IP address specified
+\texttt{/etc/mv2.conf} is correctly specified with the IP address of
+the device you plan to use RDMA\_CM with.
+
+\subsubsection{RDMA CM Route error}
+If see this error, you need to check whether the specified network is
+working or not.
+
+\subsection{Checkpoint/Restart}
+\label{sec:troubleshooting-ckpt}
+
+\subsubsection{Failure during Restart}
+
+Please make sure the following things for a successful restart:
+\begin{itemize}
+\item The BLCR modules must be loaded on all the compute nodes and
+the console node before a restart
+\item The checkpoint file of MPI job console must be accessible from
+the console node.
+\item The corresponding checkpoint files of the MPI processes must
+be accessible from the compute nodes using the same path as when
+checkpoint was taken.
+\end{itemize}
+
+The following things can cause a restart to fail:
+\begin{itemize}
+
+\item The job which was checkpointed is not terminated or the some processes in
+that job are not cleaned properly. Usually they will be cleaned automatically,
+otherwise, since the pid can't be used by BLCR to restart, it will fail.
+
+\item The processes in the job have opened temporary files and these temporary
+files are removed or not accessible from the nodes where the processes are
+restarted on.
+
+\item If the processes are restarted on different nodes, then all the nodes must
+have the exact same libraries installed.  In particular, you may be required to
+disable any ``prelinking''.  Please look at
+\url{https://upc-bugs.lbl.gov//blcr/doc/html/FAQ.html#prelink} for further
+details.
+
+\end{itemize}
+
+FAQ regarding Berkeley Lab Checkpoint/Restart (BLCR) can be found at:\\
+~\href{http://upc-bugs.lbl.gov/blcr/doc/html/FAQ.html}{http://upc-bugs.lbl.gov/blcr/doc/html/FAQ.html}
+And the user guide for BLCR can be found at
+~\href{http://upc-bugs.lbl.gov/blcr/doc/html/BLCR\_Users\_Guide.html}{http://upc-bugs.lbl.gov/blcr/doc/html/BLCR\_Users\_Guide.html}
+
+
+If you encounter any problem with the Checkpoint/Restart support, please
+feel free to contact us at \href{mailto:mvapich-discuss@cse.ohio-state.edu}
+{mvapich-discuss@cse.ohio-state.edu}.
+
+\subsubsection{Errors related to SHArP with multiple concurrent jobs}
+\label{sec:sharp-errors}
+
+There is a large, yet finite number of jobs that can run in parallel which takes
+advantage of SHArP. If this limit is exceeded, one may observe errors like
+\texttt{ERROR sharp\_get\_job\_data\_len failed: Job not found}. This is a
+system limitation.

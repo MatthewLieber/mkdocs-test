@@ -1,0 +1,70 @@
+\section{Performance Tuning}
+\label{sec:performance-tuning}
+
+MVAPICH2 supports many different parameters for tuning performance for a
+wide variety of applications. These parameters can be either compile time
+parameters or run time parameters.
+
+In this section we classify these parameters depending on what you are tuning for 
+and provide guidelines on how to use them.
+
+\subsection{Two-sided Point-to-point Tuning}
+
+Two-sided point-to-point latency and bandwidth can be tuned very simply by using the
+parameters RDMA\_IBA\_EAGER\_THRESHOLD (run time parameter) and
+NUM\_RDMA\_BUFFER (run time parameter).
+
+Messages larger than RDMA\_IBA\_EAGER\_THRESHOLD will go over the
+Rendezvous protocol using zero copy. While this can reduce the number of
+copies, it can be costly for small messages.
+
+NUM\_RDMA\_BUFFER indicates the number of RDMA buffers per
+connection. If this parameter is increased, more outstanding messages
+can be transferred by using the fast path. However, increasing this
+parameter also leads to increased memory usage.
+
+\subsection{One-sided Point-to-point Tuning}
+
+One-sided point-to-point performance can be tuned by using the following parameters:
+
+ \begin{itemize}
+\item RDMA\_PUT\_FALLBACK\_THRESHOLD (run time parameter)
+\item RDMA\_GET\_FALLBACK\_THRESHOLD (run time parameter)
+\item RDMA\_EAGERSIZE\_1SC (run time parameter)
+ \end{itemize}
+
+These parameters take effect only if MVAPICH2 is
+configured with -D\_1SC\_ flag.
+
+MVAPICH2 uses two schemes for one sided communication. One is implemented
+on top of point to point communication (RDMA channel) and the other is direct
+one sided implementation (extension of CH3 interface). The RDMA\_PUT\_FALLBACK\_THRESHOLD
+variable is
+used to define the switch point between these two schemes for MPI\_PUT messages.
+Messages with size smaller than this threshold will use point-to-point scheme.
+Similarly, RDMA\_GET\_FALLBACK\_THRESHOLD defines the switch point
+between these two schemes for MPI\_GET messages.
+
+One sided implementation will either do copy-and-send or register user
+buffer on the fly when sending messages. The variable 
+RDMA\_EAGERSIZE\_1SC defines the switch point
+between these two schemes. Please note that if the value 
+of RDMA\_EAGERSIZE\_1SC is smaller
+than\\ RDMA\_PUT\_FALLBACK\_THRESHOLD or RDMA\_GET\_FALLBACK\_THRESHOLD, it
+will take no effect.
+
+
+\subsection{Tuning Memory Usage}
+
+Memory usage often plays a significant role in application performance,
+and especially more so for large scale clusters. 
+The main parameters which decide the memory usage are : 
+ \begin{itemize}
+\item VBUF\_TOTAL\_SIZE (compile time parameter)
+\item NUM\_RDMA\_BUFFER (run time parameter)
+ \end{itemize}
+
+The product of VBUF\_TOTAL\_SIZE and 
+NUM\_RDMA\_BUFFER generally is a measure of the amount of memory
+to be pinned down for eager message passing. These buffers are not
+shared across connections.

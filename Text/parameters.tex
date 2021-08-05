@@ -1,0 +1,1693 @@
+\section{MVAPICH2 Parameters (CH3-Based Interfaces)}
+\label{def:mvapich-parameters}
+
+%\subsection{MV2\_3DTORUS\_SUPPORT}
+%\label{def:mv2-3dtorus-support}
+%\begin{itemize}
+%    \item Class: Run time
+%    \item Default: Disabled
+%    \item Value Domain: $<$0, 1$>$
+%    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+%\end{itemize}
+%When this environment variable is set, the MPI library will query the
+%Subnet Manager for the correct Service Level to be used for a given path
+%between a pair LIDs in a 3D torus network.
+
+\subsection{MV2\_ALLREDUCE\_2LEVEL\_MSG} 
+\label{def:mv2_allreduce_2level_msg}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 256K Bytes
+    \item Applicable interface(s):  OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to determine the threshold for the 
+2-level Allreduce algorithm. We now use the shared-memory-based 
+algorithm for messages smaller than the \\
+MV2\_SHMEM\_ALLREDUCE\_MSG threshold
+(\ref{def:mv2-shmem-coll-allreduce-threshold}), 
+the 2-level algorithm for medium sized messages up to the threshold 
+defined by this parameter. We use the default point-to-point algorithms messages
+larger than this threshold. 
+
+\subsection{MV2\_CKPT\_AGGREGATION\_BUFPOOL\_SIZE}
+\label{def:mv2_ckpt_aggregation_bufpool_size}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 8M
+    \item Applicable interface(s):  OFA-IB-CH3
+\end{itemize}
+This parameter determines the size of the buffer pool reserved for use in checkpoint aggregation.
+Note that this variable can be set with suffixes such as `K'/`k', `M'/`m' or `G'/`g'
+to denote Kilobyte, Megabyte or Gigabyte respectively.
+
+\subsection{MV2\_CKPT\_AGGREGATION\_CHUNK\_SIZE}
+\label{def:mv2_ckpt_aggregation_chunk_size}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 1M
+    \item Applicable interface(s):  OFA-IB-CH3
+\end{itemize}
+The checkpoint data that has been coalesced into the buffer pool, is written to the back-end file system,
+with the value of this parameter as the chunk size.
+Note that this variable can be set with suffixes such as `K'/`k', `M'/`m' or `G'/`g'
+to denote Kilobyte, Megabyte or Gigabyte respectively.
+
+
+\subsection{MV2\_CKPT\_FILE}
+\label{def:mv2-ckpt-file}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: /tmp/ckpt
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This parameter specifies the path and the base file name for
+checkpoint files of MPI processes. The checkpoint files will be
+named as \${MV2\_CKPT\_FILE.$<$number of checkpoint$>$.$<$process rank$>$},
+for example, /tmp/ckpt.1.0 is the checkpoint file for process 0's
+first checkpoint. To checkpoint on network-based file systems, user
+just need to specify the path to it, such as
+/mnt/pvfs2/my\_ckpt\_file.
+
+\subsection{MV2\_CKPT\_INTERVAL}
+\label{def:mv2-ckpt-interval}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 0
+    \item Unit: minutes
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This parameter can be used to enable automatic checkpointing. To let
+MPI job console automatically take checkpoints, this value needs to
+be set to the desired checkpointing interval. A zero will disable
+automatic checkpointing. Using automatic checkpointing, the
+checkpoint file for the MPI job console will be named as
+\${MV2\_CKPT\_FILE.$<$number of checkpoint$>$.auto}. Users need to use
+this file for restart.
+
+\subsection{MV2\_CKPT\_MAX\_SAVE\_CKPTS}
+\label{def:mv2-max-save-ckpts}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 0
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This parameter is used to limit the number of checkpoints saved on
+file system to save the file system space. When set to a positive
+value N, only the last N checkpoints will be saved.
+
+\subsection{MV2\_CKPT\_NO\_SYNC}
+\label{def:mv2-ckpt-no-sync}
+\begin{itemize}
+    \item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+When this parameter is set to any value, the checkpoints will not be
+required to sync to disk. It can reduce the checkpointing delay in
+many cases. But if users are using local file system, or any
+parallel file system with local cache, to store the checkpoints, it
+is recommended not to set this parameter because otherwise the
+checkpoint files will be cached in local memory and will likely be
+lost upon failure.
+
+\subsection{MV2\_CKPT\_USE\_AGGREGATION}
+\label{def:mv2-ckpt-use-aggregation}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 1 (if configured with Checkpoint Aggregation support)
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This parameter enables/disables Checkpoint aggregation scheme at run time.
+It is set to '1'(enabled) by default, when the user enables Checkpoint/Restart 
+functionality at configure time, or when the user explicitly configures
+ MVAPICH2 with aggregation support. Please note that, to use aggregation support,
+each node needs to be properly configured with FUSE library
+(cf section~\ref{para:mpi-cr-aggr}).
+
+\subsection{MV2\_DEBUG\_FT\_VERBOSE}
+\label{def:mv2-debug-ft-verbose}
+\begin{itemize}
+    \item Class: Run Time
+    \item Type: Null or positive integer
+    \item Default: 0 (disabled)
+\end{itemize}
+
+This parameter enables/disables the debug output for Fault Tolerance features (Checkpoint/Restart and Migration).
+
+Note: All debug output is disabled when MVAPICH2 is configured with the \texttt{--enable-fast=ndebug} option.
+
+
+\subsection{MV2\_CM\_RECV\_BUFFERS}
+\label{def:mv2-cm-recv-buffers}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 1024
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This defines the number of buffers used by connection manager to
+establish new connections. These buffers are quite small and are
+shared for all connections, so this value may be increased to 8192
+for large clusters to avoid retries in case of packet drops.
+
+\subsection{MV2\_CM\_SPIN\_COUNT}
+\label{def:mv2-cm-spin-count}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 5000
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This is the number of the connection manager polls for new control
+messages from UD channel for each interrupt. This may be increased
+to reduce the interrupt overhead when many incoming control messages
+from UD channel at the same time.
+
+
+\subsection{MV2\_CM\_TIMEOUT}
+\label{def:mv2-cm-timeout}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 500
+    \item Unit: milliseconds
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This is the timeout value associated with connection management
+messages via UD channel. Decreasing this value may lead to faster
+retries but at the cost of generating duplicate messages.
+
+\subsection{MV2\_CPU\_MAPPING}
+\label{def:mv2-cpu-mapping}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: NA
+    \item Applicable interface(s):  OFA-IB-CH3, OFA-iWARP-CH3, PSM
+\end{itemize}
+
+This allows users to specify process to CPU (core) mapping. The detailed usage
+of this parameter is described in Section~\ref{usage:mv2_cpu_mapping}. This 
+parameter will not take effect if either \textit{MV2\_ENABLE\_AFFINITY} or \textit{MV2\_USE\_SHARED\_MEM}
+run-time parameters are set to 0, or
+if the library was configured with the ``--disable-hwloc'' option.
+MV2\_CPU\_MAPPING is currently not supported on Solaris.
+
+\subsection{MV2\_CPU\_BINDING\_POLICY}
+\label{def:mv2-cpu-binding-policy}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: hybrid 
+    \item Applicable interface(s):  OFA-IB-CH3, OFA-iWARP-CH3, PSM
+\end{itemize}
+
+We have changed the default value of MV2\_CPU\_BINDING\_POLICY to ``hybrid''
+along with MV2\_HYBRID\_BINDING\_POLICY=bunch. It is same as setting  
+MV2\_CPU\_BINDING\_POLICY to bunch. However, it also works well for 
+the systems with hyper-threading enabled or systems that have vendor specific 
+core mappings.
+This allows users to specify process to CPU (core) mapping with the CPU binding
+policy. The detailed usage of this parameter is described in 
+Section~\ref{usage:mv2_use_hwloc_cpu_binding}. This parameter will not take 
+effect: if \\
+\textit {MV2\_ENABLE\_AFFINITY} or \textit{MV2\_USE\_SHARED\_MEM} run-time parameters
+are set to 0; or \\
+\textit{MV2\_ENABLE\_AFFINITY} is set to 1 and \textit{MV2\_CPU\_MAPPING} is
+set, or if the library was configured with the ``--disable-hwloc'' option.
+The value of MV2\_CPU\_BINDING\_POLICY can be ``bunch'', ``scatter'', or
+``hybrid''.  When this parameter takes effect and its value isn't set, ``bunch''
+will be used as the default policy.
+
+
+\subsection{MV2\_HYBRID\_BINDING\_POLICY}
+\label{def:mv2-threads-binding-policy}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Linear 
+    \item Applicable interface(s):  OFA-IB-CH3, OFA-iWARP-CH3, PSM
+\end{itemize}
+
+This allows users to specify binding policies for application thread in
+MPI+Threads applications. The detailed usage of this parameter is described in 
+Section~\ref{sec:advanced_thread_binding_policies}. This parameter will not take 
+effect: if \\
+\textit {MV2\_ENABLE\_AFFINITY} or \textit{MV2\_USE\_SHARED\_MEM} run-time parameters
+are set to 0; or \\
+\textit{MV2\_CPU\_BINDING\_POLICY} is set to ``bunch" or ``scatter", or \\
+\textit{MV2\_ENABLE\_AFFINITY} is set to 1 and \textit{MV2\_CPU\_MAPPING} is
+set, or if the library was configured with the ``--disable-hwloc'' option.
+The value of MV2\_HYBRID\_BINDING\_POLICY can be ``linear'', ``compact'', ``bunch'', 
+``scatter'', ``spread'', or ``numa''. 
+When this parameter takes effect and its value isn't set, ``linear''
+will be used as the default policy.
+
+%This parameter is temporarily not exposed to the users.
+%\subsection{MV2\_ENABLE\_LEASTLOAD}
+%\label{def:mv2-enable-leastload}
+%\begin{itemize}
+%    \item Class: Run Time
+%    \item Default: 0
+%    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, uDAPL-CH3 (Linux)
+%\end{itemize}
+
+%This allows users to specify \texttt {MV2\_CPU\_BINDING\_POLICY} 
+%considering the 
+%load on CPU (core). The detailed usage of this parameter is described in 
+%Section~\ref{usage:mv2_use_hwloc_cpu_binding}. This parameter will not take 
+%effect if \texttt{MV2\_CPU\_BINDING\_POLICY} is not set, or 
+%\texttt {MV2\_CPU\_BINDING\_POLICY} is not set to 1, due 
+%to its default value is 0.
+
+\subsection{MV2\_CPU\_BINDING\_LEVEL}
+\label{def:mv2-cpu-binding-level}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Core
+    \item Applicable interface(s):  OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This allows users to specify process to CPU (core) mapping at different
+binding level. The detailed usage of this parameter is described in
+Section~\ref{usage:mv2_use_hwloc_cpu_binding}. This parameter will not take
+effect: if \textit {MV2\_ENABLE\_AFFINITY} or \textit{MV2\_USE\_SHARED\_MEM}
+run-time parameters
+are set to 0; or \texttt{MV2\_ENABLE\_AFFINITY} is set to 1 and
+\texttt{MV2\_CPU\_MAPPING} is
+set, or if the library was configured with the ``--disable-hwloc'' option.
+The value of MV2\_CPU\_BINDING\_LEVEL can be ``core'', ``socket'', or
+``numanode''. When this parameter takes effect and its value isn't set,
+``core'' will be used as the default binding level.
+
+\subsection{MV2\_SHOW\_HCA\_BINDING}
+\label{def:show-hca-binding}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 0 (disabled)
+    \item Applicable interface(s):  OFA-IB-CH3, OFA-iWARP-CH3
+    \item Possible values: 1 (Show only on node containing rank 0), 2 (Show on all nodes)
+\end{itemize}
+
+If set to 1, it shows the HCA binding of all processes on node where rank 0
+exists.  If set to 2, it shows the HCA binding of all processes on all nodes.
+
+\subsection{MV2\_DEFAULT\_MAX\_SEND\_WQE}
+\label{def:max-send-wqe}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 64
+    \item Applicable interface(s):  OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This specifies the maximum number of send WQEs on each QP. 
+Please note that for OFA-IB-CH3 and OFA-iWARP-CH3, the default value of this parameter
+will be 16 if the number of processes is larger than 256 for better
+memory scalability.
+
+\subsection{MV2\_DEFAULT\_MAX\_RECV\_WQE}
+\label{def:max-recv-wqe}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 128
+    \item Applicable interface(s):  OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This specifies the maximum number of receive WQEs on each QP (maximum
+number of receives that can be posted on a single QP). 
+
+\subsection{MV2\_DEFAULT\_MTU}
+\label{def:rdma-default-mtu}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: OFA-IB-CH3: IBV\_MTU\_1024 for IB SDR cards and IBV\_MTU\_2048 for IB DDR and
+		QDR cards.
+    \item Applicable interface(s):  OFA-IB-CH3
+\end{itemize}
+
+The internal MTU size. For OFA-IB-CH3, this parameter should be a string instead
+of an integer. Valid values are: \texttt{IBV\_MTU\_256}, \texttt{IBV\_MTU\_512},
+\texttt{IBV\_MTU\_1024}, \texttt{IBV\_MTU\_2048}, \texttt{IBV\_MTU\_4096}.
+
+\subsection{MV2\_DEFAULT\_PKEY}
+\label{def:mv2-default-pkey}
+\begin{itemize}
+		\item Class: Run Time
+		\item Applicable Interface(s): OFA-IB-CH3
+\end{itemize}
+
+Select the partition to be used for the job.
+
+\subsection{MV2\_ENABLE\_AFFINITY}
+\label{def:viadev_enable_affinity}
+
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 1
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+Enable CPU affinity by setting MV2\_ENABLE\_AFFINITY to 1 or disable it by
+setting \\
+MV2\_ENABLE\_AFFINITY to 0. MV2\_ENABLE\_AFFINITY is currently not supported
+on Solaris. CPU affinity is also not supported if MV2\_USE\_SHARED\_MEM is set to 0. 
+
+
+\subsection{MV2\_GET\_FALLBACK\_THRESHOLD}
+\begin{itemize}
+        \item Class: Run time
+        \item This threshold value needs to be set in bytes.
+        \item This option is effective if we define ONE\_SIDED flag.
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+
+\end{itemize}
+This defines the threshold beyond which the MPI\_Get implementation is based on direct one sided RDMA operations.
+
+
+\subsection{MV2\_IBA\_EAGER\_THRESHOLD}
+\label{def:rdma-iba-eager-threshold}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: Host Channel Adapter (HCA) dependent (12 KB for ConnectX HCA's)
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This specifies the switch point between eager and rendezvous
+protocol in MVAPICH2. For better performance, the value of 
+MV2\_IBA\_EAGER\_THRESHOLD should be
+set the same as MV2\_VBUF\_TOTAL\_SIZE.
+
+\subsection{MV2\_IBA\_HCA}
+\label{def:rdma-iba-hcas}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: Unset
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This specifies the HCA's to be used for performing network operations.
+
+\subsection{MV2\_INITIAL\_PREPOST\_DEPTH}
+\label{def:viadev-initial-prepost-depth}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: 10
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This defines the initial number of pre-posted receive buffers for each
+connection. If communication happen for a particular connection, the
+number of buffers will be increased to \\RDMA\_PREPOST\_DEPTH.
+
+\subsection{MV2\_IWARP\_MULTIPLE\_CQ\_THRESHOLD}
+\label{def:iwarp-multiple-cq-threshold}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: 32
+    \item Applicable interface(s): OFA-iWARP-CH3
+\end{itemize}
+
+This defines the process size beyond which we use multiple completion queues for
+iWARP interface.
+
+\subsection{MV2\_KNOMIAL\_INTRA\_NODE\_FACTOR}
+\label{def:mv2_knomial_intra_node_factor}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 4
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This defines the degree of the knomial operation during the intra-node
+knomial broadcast phase. 
+
+\subsection{MV2\_KNOMIAL\_INTER\_NODE\_FACTOR}
+\label{def:mv2_knomial_inter_node_factor}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 4
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This defines the degree of the knomial operation during the inter-node
+knomial broadcast phase. 
+
+\subsection{MV2\_MAX\_INLINE\_SIZE}
+\label{def:max-inline-size}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: Network card dependent (128 for most networks including InfiniBand)
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+This defines the maximum inline size for data transfer. Please note that the 
+default value of this parameter will be 0 when the number of processes is larger than
+256 to improve memory usage scalability.
+
+
+\subsection{MV2\_MAX\_NUM\_WIN}
+\label{def:max-num-win}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 64
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+
+Maximum number of RMA windows that can be created and active
+concurrently. Typically this value is sufficient for most
+applications. Increase this value to the number of windows your
+application uses
+
+
+\subsection{MV2\_NDREG\_ENTRIES}
+\label{def:ndreg-entries}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: Represented by RDMA\_NDREG\_ENTRIES (value is 1100). Depends 
+        on the number of processes.
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This defines the total number of buffers that can be stored in the
+registration cache. It has no effect if MV2\_USE\_LAZY\_MEM\_UNREGISTER is
+not set. A larger value will lead to less frequent lazy
+de-registration.
+
+\subsection{MV2\_NUM\_HCAS}
+\label{def:num-hcas}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 1
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter indicates number of InfiniBand adapters to be used for communication
+on an end node.
+
+\subsection{MV2\_NUM\_PORTS}
+\label{def:num-ports}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 1
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter indicates number of ports per InfiniBand adapter to be used for communication per adapter on an end node.
+
+\subsection{MV2\_DEFAULT\_PORT}
+\label{def:num-ports}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: none
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter is to select the specific HCA port on a active multi port InfiniBand adapter
+
+
+\subsection{MV2\_NUM\_SA\_QUERY\_RETRIES}
+\label{def:mv2_num_sa_query_retries}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 20
+	\item Applicable Interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+Number of times the MPI library will attempt to query the subnet to obtain
+the path record information before giving up.
+
+\subsection{MV2\_NUM\_QP\_PER\_PORT}
+\label{def:num-qp-per-port}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 1
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter indicates number of queue pairs
+per port to be used for communication on an end node.
+This is useful in the presence of multiple send/recv engines
+available per port for data transfer.
+
+\subsection{MV2\_RAIL\_SHARING\_POLICY}
+\label{def:rail-sharing-policy}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: Rail Binding in round-robin
+    \item Value Domain: USE\_FIRST, ROUND\_ROBIN, FIXED\_MAPPING
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This specifies the policy that will be used to assign HCAs to each of the processes. In the 
+previous versions of MVAPICH2 it was known as MV2\_SM\_SCHEDULING.
+
+\subsection{MV2\_RAIL\_SHARING\_LARGE\_MSG\_THRESHOLD}
+\label{def:rail-sharing-large-msg-threshold}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 16K
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This specifies the threshold for the message size beyond which striping will take place. 
+In the previous versions of MVAPICH2 it was known as MV2\_STRIPING\_THRESHOLD
+
+%\subsection{MV2\_PATH\_SL\_QUERY}
+%\label{def:path-sl-query}
+%\begin{itemize}
+%    \item Class: Run time
+%    \item Default: Disabled
+%    \item Value Domain: $<$0, 1$>$
+%    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+%\end{itemize}
+%When this environment variable is set, the MPI library will query the
+%Subnet Manager for the correct Service Level to be used for a given path
+%between a pair LIDs in the network.
+
+\subsection{MV2\_PROCESS\_TO\_RAIL\_MAPPING}
+\label{def:process-to-rail-mapping}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: NONE
+    \item Value Domain: BUNCH, SCATTER, $<$CUSTOM LIST$>$
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+When MV2\_RAIL\_SHARING\_POLICY is set to the value ``FIXED\_MAPPING'' this variable 
+decides the manner in which the HCAs will be mapped to the rails. The $<$CUSTOM LIST$>$ 
+is colon(:) separated list with the HCA ranks specified. e.g. 0:1:1:0. This list must 
+map equally to	the number of local processes on the nodes failing which, the default 
+policy will be used. Similarly the number of processes on each node must be the
+same. The detailed usage of this parameter is described in
+Section~\ref{subsec:mpi-mr}.
+
+
+\subsection{MV2\_RDMA\_FAST\_PATH\_BUF\_SIZE}
+\label{def:rdma-fast-path-buf-size}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: Architecture dependent
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+
+\end{itemize}
+
+The size of the buffer used in RDMA fast path communication. 
+This value will be ineffective if \\
+MV2\_USE\_RDMA\_FAST\_PATH is not set
+
+\subsection{MV2\_NUM\_RDMA\_BUFFER}
+\label{def:num-rdma-buffer}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: Architecture dependent (32 for EM64T)
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+The number of RDMA buffers used for the RDMA fast path. This \emph{fast
+path} is used to reduce latency and overhead of small data and control
+messages. This value will be ineffective if MV2\_USE\_RDMA\_FAST\_PATH is
+not set. 
+
+%\subsection{MV2\_NUM\_SLS}
+%\label{def:num-rdma-sls}
+%
+%\begin{itemize}
+%    \item Class: Run time
+%
+%    \item Default: 1
+%    \item Applicable interface(s): OFA-IB-CH3
+%\end{itemize}
+%
+%Specifies the number of Service Levels the user wants the MVAPICH2 library
+%to use. Please refer to Section~\ref{subsec:mpi-qos} for more information
+%on the QoS features supported by the MVAPICH2 library.
+
+\subsection{MV2\_ON\_DEMAND\_THRESHOLD}
+\label{def:mv2-on-demand-threshold}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 64 (OFA-IB-CH3), 16 (OFA-iWARP-CH3)
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This defines threshold for enabling on-demand connection management
+scheme. When the size of the job is larger than the threshold value,
+on-demand connection management will be used.
+
+\subsection{MV2\_HOMOGENEOUS\_CLUSTER}
+\label{def:mv2-homogeneous-cluster}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 0
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Set this parameter to 1 on homogeneous clusters to optimize the job start-up
+
+\subsection{MV2\_PREPOST\_DEPTH}
+\label{def:rdma-prepost-depth}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: 64
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This defines the number of buffers pre-posted for each connection to
+handle send/receive operations.
+
+\subsection{MV2\_PSM\_DEBUG}
+\label{def:psm-debug}
+
+\begin{itemize}
+        \item Class: Run time (Debug)
+        \item Default: 0
+    \item Applicable interface: PSM
+\end{itemize}
+
+This parameter enables the dumping of run-time debug counters from the
+MVAPICH2-PSM progress engine. Counters are dumped every PSM\_DUMP\_FREQUENCY
+seconds.
+
+\subsection{MV2\_PSM\_DUMP\_FREQUENCY}
+\label{def:psm-dump}
+
+\begin{itemize}
+        \item Class: Run time (Debug)
+        \item Default: 10 seconds
+    \item Applicable interface: PSM
+\end{itemize}
+
+This parameters sets the frequency for dumping MVAPICH2-PSM debug counters.
+Value takes effect only in PSM\_DEBUG is enabled.
+
+\subsection{MV2\_PUT\_FALLBACK\_THRESHOLD}
+\begin{itemize}
+        \item Class: Run time
+        \item This threshold value needs to be set in bytes.
+        \item This option is effective if we define ONE\_SIDED flag.
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+
+\end{itemize}
+This defines the threshold beyond which the MPI\_Put implementation is based on
+direct one sided RDMA operations.
+
+\subsection{MV2\_RAIL\_SHARING\_LARGE\_MSG\_THRESHOLD}
+\label{def:mv2-rail-sharing-large-msg-threshold}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 16 KB
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter specifies the message size above which we begin the stripe
+the message across multiple rails (if present).
+
+\subsection{MV2\_RDMA\_CM\_ARP\_TIMEOUT}
+\label{def:mv2-rdma-cm-arp-timeout}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 2000 ms
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3
+\end{itemize}
+This parameter specifies the ARP timeout to be used by RDMA CM module.
+
+\subsection{MV2\_RDMA\_CM\_MAX\_PORT}
+\label{def:mv2-rdma-cm-max-port}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Unset
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3
+\end{itemize}
+This parameter specifies the upper limit of the port range to be used 
+by the RDMA CM module when choosing the port on which it listens for 
+connections.
+
+\subsection{MV2\_RDMA\_CM\_MIN\_PORT}
+\label{def:mv2-rdma-cm-min-port}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Unset
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3
+\end{itemize}
+This parameter specifies the lower limit of the port range to be used 
+by the RDMA CM module when choosing the port on which it listens for 
+connections.
+
+\subsection{MV2\_REDUCE\_2LEVEL\_MSG} 
+\label{def:mv2_reduce_2level_msg}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 32K Bytes. 
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to determine the threshold for the 
+2-level reduce algorithm. We now use the shared-memory-based 
+algorithm for messages smaller than the MV2\_SHMEM\_REDUCE\_MSG
+(\ref{def:mv2-shmem-coll-reduce-threshold}), 
+the 2-level algorithm for medium sized messages up to the threshold 
+defined by this parameter. We use the default point-to-point algorithms messages
+larger than this threshold. 
+
+\subsection{MV2\_RNDV\_PROTOCOL}
+\label{def:mv2_rndv_protocol}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: RPUT
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+The value of this variable can be set to choose different Rendezvous
+protocols. RPUT (default RDMA-Write) RGET (RDMA Read based), R3
+(send/recv based).
+
+\subsection{MV2\_R3\_THRESHOLD}
+\label{def:mv2_r3_threshold}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: MV2\_IBA\_EAGER\_THRESHOLD
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+The value of this variable controls what message sizes go over the 
+R3 rendezvous protocol. Messages above this message size use
+MV2\_RNDV\_PROTOCOL. 
+
+\subsection{MV2\_R3\_NOCACHE\_THRESHOLD}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 32768
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+The value of this variable controls what message sizes go over the 
+R3 rendezvous protocol when the registration cache is disabled (MV2\_USE\_LAZY\_MEM\_UNREGISTER=0). Messages above this message size use
+MV2\_RNDV\_PROTOCOL. 
+
+\subsection{MV2\_SHMEM\_ALLREDUCE\_MSG}
+\label{def:mv2-shmem-coll-allreduce-threshold}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 1 $\ll$ 15
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+The SHMEM AllReduce is used for messages less than this threshold.
+
+\subsection{MV2\_SHMEM\_BCAST\_LEADERS}
+\label{def:mv2-shmem-bcast-leaders}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 4096
+\end{itemize}
+
+The number of leader processes that will take part in the SHMEM
+broadcast operation. Must be greater than the number of nodes in the
+job.
+
+\subsection{MV2\_SHMEM\_BCAST\_MSG}
+\label{def:mv2-shmem-coll-bcast-threshold}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 1 $\ll$ 20
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+The SHMEM bcast is used for messages less than this threshold.
+
+\subsection{MV2\_SHMEM\_COLL\_MAX\_MSG\_SIZE}
+\label{def:shmem-coll-max-msg-size}
+\begin{itemize}
+    \item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to select the max buffer size of message
+for shared memory collectives.
+
+\subsection{MV2\_SHMEM\_COLL\_NUM\_COMM}
+\label{def:shmem-coll-num-comm}
+\begin{itemize}
+    \item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to select the number of communicators
+using shared memory collectives.
+
+\subsection{MV2\_SHMEM\_DIR}
+\label{def:shmem-dir}
+\begin{itemize}
+    \item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+    \item Default: /dev/shm for Linux and /tmp for Solaris
+\end{itemize}
+This parameter can be used to specify the path to the shared memory
+files for intra-node communication.
+
+\subsection{MV2\_SHMEM\_REDUCE\_MSG}
+\label{def:mv2-shmem-coll-reduce-threshold}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 1 $\ll$ 13
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+The SHMEM reduce is used for messages less than this threshold.
+
+\subsection{MV2\_SM\_SCHEDULING}
+\label{def:mv2-sm-scheduling}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: USE\_FIRST (Options: ROUND\_ROBIN)
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+\subsection{MV2\_SMP\_USE\_LIMIC2}
+\label{def:mv2-smp-limic2}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: On if configured with --with-limic2
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This parameter enables/disables LiMIC2 at run time. It does
+not take effect if MVAPICH2 is not configured with --with-limic2.
+
+\subsection{MV2\_SMP\_USE\_CMA}
+\label{def:mv2-smp-cma}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: On unless configured with --without-cma
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This parameter enables/disables CMA based intra-node communication at run time. 
+It does not take effect if MVAPICH2 is configured with --without-cma.
+When --with-limic2 is included in the configure flags, LiMIC2 is used in
+preference over CMA. Please set MV2\_SMP\_USE\_LIMIC2 to 0 in order to choose
+CMA if MVAPICH2 is configured with --with-limic2.
+
+\subsection{MV2\_SRQ\_LIMIT}
+\label{def:viadev-srq-limit}
+
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 30
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+This is the low water-mark limit for the
+Shared Receive Queue. If the
+number of available work entries on the
+SRQ drops below this limit, the
+flow control will be activated.
+
+
+\subsection{MV2\_SRQ\_MAX\_SIZE}
+\label{def:viadev-srq-max-size}
+
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 4096
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+This is the maximum number of work requests allowed on the Shared Receive Queue. 
+Upon receiving a SRQ limit event, the current value of MV2\_SRQ\_SIZE will be doubled 
+or moved to the maximum of MV2\_SRQ\_MAX\_SIZE, whichever is smaller
+
+\subsection{MV2\_SRQ\_SIZE}
+\label{def:viadev-srq-size}
+
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 256
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+This is the initial number of work
+requests posted to the Shared
+Receive Queue. 
+
+\subsection{MV2\_STRIPING\_THRESHOLD}
+\label{def:viadev-striping-threshold}
+
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 8192
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+This parameter specifies the message size above which we begin the stripe the
+message across multiple rails (if present).
+
+\subsection{MV2\_SUPPORT\_DPM}
+\label{def:support-dpm}
+
+\begin{itemize}
+	\item Class: Run time
+	\item Default: 0 (disabled)
+	\item Applicable interface: OFA-IB-CH3
+\end{itemize}
+
+This option enables the dynamic process management interface and on-demand connection
+management.
+
+\subsection{MV2\_USE\_APM}
+\label{def:mv2-use-apm}
+\begin{itemize}
+	\item Class: Run Time
+	\item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+
+This parameter is used for recovery from network faults using Automatic
+Path Migration. This functionality is beneficial in the presence of
+multiple paths in the network, which can be enabled by using lmc
+mechanism. 
+
+\subsection{MV2\_USE\_APM\_TEST}
+\label{def:mv2-use-apm-test}
+\begin{itemize}
+	\item Class: Run Time
+	\item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+
+This parameter is used for testing the Automatic Path Migration
+functionality. It periodically moves the alternate path as the primary
+path of communication and re-loads another alternate path.
+
+
+\subsection{MV2\_USE\_BLOCKING}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 0
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Setting this parameter enables MVAPICH2 to use blocking mode progress.
+MPI applications do not take up any CPU when they are waiting for
+incoming messages.
+
+
+\subsection{MV2\_USE\_COALESCE}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: unset
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+Setting this parameter enables message coalescing to increase small
+message throughput 
+
+\subsection{MV2\_USE\_DIRECT\_GATHER}
+\label{def:mv2_use_direct_gather}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Use the ``Direct'' algorithm for the MPI\_Gather operation. If this parameter is 
+set to 0 at run-time, the ``Direct'' algorithm will not be invoked. 
+
+
+\subsection{MV2\_USE\_DIRECT\_SCATTER}
+\label{def:mv2_use_direct_scatter}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Use the ``Direct'' algorithm for the MPI\_Scatter operation. If this parameter is 
+set to 0 at run-time, the ``Direct'' algorithm will not be invoked. 
+
+\subsection{MV2\_USE\_HSAM}
+\label{def:mv2-use-hsam}
+\begin{itemize}
+	\item Class: Run Time
+	\item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+
+This parameter is used for utilizing hot-spot avoidance with InfiniBand
+clusters. To leverage this functionality, the subnet should be
+configured with lmc greater than zero. Please refer to
+section~\ref{def:mv2-hsam} for detailed information.
+
+\subsection{MV2\_USE\_IWARP\_MODE}
+\label{def:mv2-enable-iwarp-mode}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: unset
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter enables the library to run in iWARP mode. 
+
+\subsection{MV2\_USE\_LAZY\_MEM\_UNREGISTER}
+\label{def:mv2_use_lazy_mem_unregister}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Setting this parameter enables MVAPICH2 to use memory registration cache.
+
+%\subsection{MV2\_USE\_QOS}
+%\label{def:mv2_use_qos}
+%\begin{itemize}
+%    \item Class: Run time
+%    \item Default: Un set
+%    \item Applicable interface(s): OFA-IB-CH3
+%\end{itemize}
+%
+%Setting this parameter enables MVAPICH2 to use InfiniBand's Quality of
+%Service features. Please refer to Section~\ref{subsec:mpi-qos} for more
+%information on the QoS features supported by the MVAPICH2 library.
+
+\subsection{MV2\_USE\_RoCE}
+\label{def:mv2-use-roce}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Un Set
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This parameter enables the use of RDMA over Ethernet for MPI communication.
+The underlying HCA and network must support this feature.
+
+\subsection{MV2\_DEFAULT\_GID\_INDEX}
+\label{def:mv2-gid-index}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: 0
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+In RoCE mode, this parameter allows to choose non-default GID index in loss-less
+ethernet setup using VLANs
+
+\subsection{MV2\_USE\_RDMA\_CM}
+\label{def:mv2-use-rdma-cm}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Network Dependent (set for OFA-iWARP-CH3 and unset for OFA-IB-CH3/OFA-RoCE-CH3)
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3
+\end{itemize}
+This parameter enables the use of RDMA CM for establishing the
+connections. 
+
+\subsection{MV2\_RDMA\_CM\_MULTI\_SUBNET\_SUPPORT}
+\label{def:mv2-rdma-cm-multi-subnet-support}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Unset
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter allows MPI jobs to be run across multiple subnets interconnected
+by InfiniBand routers. Note that this requires RDMA\_CM support to be enabled at
+configure time and runtime. Note that, RDMA\_CM support is enabled by default at
+configure time. At runtime, the MV2\_USE\_RDMA\_CM environment variable
+described in Section~\ref{def:mv2-use-rdma-cm} must be set to 1.
+
+\subsection{MV2\_RDMA\_CM\_CONF\_FILE\_PATH}
+\label{def:mv2-rdma-cm-conf-file-path}
+\begin{itemize}
+    \item Class: Run Time
+    \item Default: Network Dependent (set for OFA-iWARP-CH3 and unset for OFA-IB-CH3/OFA-RoCE-CH3)
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3
+\end{itemize}
+This parameter is to specify the path to mv2.conf file. If this is not given, then it searches
+in the default location /etc/mv2.conf
+
+
+\subsection{MV2\_USE\_RDMA\_FAST\_PATH}
+\label{def:disable-rfp}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Setting this parameter enables MVAPICH2 to use adaptive RDMA fast path features
+for OFA-IB-CH3 interface.
+
+
+
+\subsection{MV2\_USE\_RDMA\_ONE\_SIDED}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Setting this parameter allows MVAPICH2 to use optimized one sided implementation
+based RDMA operations.
+
+
+\subsection{MV2\_USE\_RING\_STARTUP}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Setting this parameter enables MVAPICH2 to use ring based start up. 
+
+
+
+\subsection{MV2\_USE\_SHARED\_MEM}
+\label{def:use-shared-mem}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set 
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+Use shared memory for intra-node communication.
+
+\subsection{MV2\_USE\_SHMEM\_ALLREDUCE}
+\label{def:mv2-use-shmem-allreduce}
+\begin{itemize}
+		\item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to turn off shared memory based
+MPI\_Allreduce for OFA-IB-CH3 over IBA by setting this to 0.
+
+
+\subsection{MV2\_USE\_SHMEM\_BARRIER}
+\label{def:mv2-use-shmem-barrier}
+\begin{itemize}
+		\item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to turn off shared memory based
+MPI\_Barrier for OFA-IB-CH3 over IBA by setting this to 0.
+
+\subsection{MV2\_USE\_SHMEM\_BCAST}
+\label{def:mv2-use-shmem-bcast}
+\begin{itemize}
+                \item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to turn off shared memory based
+MPI\_Bcast for OFA-IB-CH3 over IBA by setting this to 0.
+
+\subsection{MV2\_USE\_SHMEM\_COLL}
+\label{def:mv2-use-shmem-coll}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set 
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+Use shared memory for collective communication. Set this to 0 for
+disabling shared memory collectives.
+
+
+\subsection{MV2\_USE\_SHMEM\_REDUCE}
+\label{def:mv2-use-shmem-reduce}
+\begin{itemize}
+		\item Class: Run Time
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+This parameter can be used to turn off shared memory based
+MPI\_Reduce for OFA-IB-CH3 over IBA by setting this to 0.
+
+
+\subsection{MV2\_USE\_SRQ}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+Setting this parameter enables MVAPICH2 to use shared receive queue.
+
+\subsection{MV2\_GATHER\_SWITCH\_PT}
+\label{def:mv2_gather_switch_pt}
+\begin{itemize}
+    \item Class: Run time 
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+We use different algorithms depending on the system size. For small system sizes (up to 386 cores), we use 
+the ``2-level'' algorithm following by the ``Direct'' algorithm. 
+For medium system sizes (up to 1k), we use ``Binomial'' algorithm following by the ``Direct'' algorithm. 
+Users can set the switching point between algorithms using the run-time parameter MV2\_GATHER\_SWITCH\_PT.
+
+\subsection{MV2\_SCATTER\_SMALL\_MSG}
+\label{def:mv2_scatter_small_msg}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+When the system size is lower than 512 cores, we use the ``Binomial'' algorithm for small message sizes.
+MV2\_SCATTER\_SMALL\_MSG allows the users to set the threshold for small messages.
+                                                           
+\subsection{MV2\_SCATTER\_MEDIUM\_MSG}
+\label{def:mv2_scatter_medium_msg}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+When the system size is lower than 512 cores, we use the ``2-level'' algorithm for medium message sizes.
+MV2\_SCATTER\_MEDIUM\_MSG allows the users to set the threshold for medium messages.
+
+\subsection{MV2\_USE\_TWO\_LEVEL\_GATHER}
+\label{def:mv2_use_two_level_gather}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Use the two-level multi-core-aware algorithm for the MPI\_Gather operation. 
+If this parameter is set to 0 at run-time, the two-level algorithm will not be invoked. 
+
+
+\subsection{MV2\_USE\_TWO\_LEVEL\_SCATTER}
+\label{def:mv2_use_two_level_scatter}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: set
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+Use the two-level multi-core-aware algorithm for the MPI\_Scatter operation. 
+If this parameter is set to 0 at run-time, the two-level algorithm will not be invoked. 
+
+\subsection{MV2\_USE\_XRC}
+\label{def:mv2_use_xrc}
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 0
+	\item Applicable Interface(s): OFA-IB-CH3
+\end{itemize}
+
+Use the XRC InfiniBand transport available since Mellanox ConnectX adapters.
+This features requires OFED version later than 1.3. It also automatically
+enables SRQ and ON-DEMAND connection management. Note that the MVAPICH2
+library needs to have been configured with --enable-xrc=yes to use this 
+feature.
+
+\subsection{MV2\_VBUF\_POOL\_SIZE}
+\label{def:rdma-vbuf-pool-size}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: 512
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+The number of vbufs in the initial pool. This pool is shared among all
+the connections.
+
+
+\subsection{MV2\_VBUF\_SECONDARY\_POOL\_SIZE}
+\label{def:rdma-vbuf-secondary-pool-size}
+
+\begin{itemize}
+    \item Class: Run time
+    \item Default: 256
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+The number of vbufs allocated each time when the global pool is running
+out in the initial pool. This is also shared among all the connections.
+
+\subsection{MV2\_VBUF\_TOTAL\_SIZE}
+\label{def:vbuf-total-size}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: Host Channel Adapter (HCA) dependent (12 KB for ConnectX HCA's)
+    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+
+The size of each \texttt{vbuf}, the basic communication buffer of MVAPICH2.
+For better performance, the value of MV2\_IBA\_EAGER\_THRESHOLD should be
+set the same as MV2\_VBUF\_TOTAL\_SIZE.
+
+%\subsection{\_AFFINITY\_}
+%\label{def:_affinity_}
+%
+%\begin{itemize}
+%    \item Class: Compile time
+%    \item Default: Defined by default on Opteron machines when \_SMP\_
+%    is defined. Not defined by default on other platforms or when
+%    \_SMP\_ is not defined.
+%    \item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, uDAPL-CH3
+%\end{itemize}
+
+%Use CPU affinity to improve data locality on NUMA based platforms.
+%CPU affinity can be enabled/disabled by the run time parameter
+%MV2\_ENABLE\_AFFINITY when \_AFFINITY\_ is defined.
+
+
+\subsection{MV2\_SMP\_EAGERSIZE}
+\label{def:smp-eagersize}
+
+\begin{itemize}
+    \item Class: Run time
+    \item Default: Architecture dependent
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This parameter defines the
+switch point from Eager protocol to Rendezvous protocol for intra-node
+communication. Note that this variable can be set with suffixes such as `K'/`k', `M'/`m' or `G'/`g' 
+to denote Kilobyte, Megabyte or Gigabyte respectively.
+
+
+\subsection{MV2\_SMP\_QUEUE\_LENGTH}
+\label{def:smp-queue-length}
+
+\begin{itemize}
+    \item Class: Run time
+
+    \item Default: Architecture dependent
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This parameter defines the size
+of shared buffer between every two processes on the same node for transferring
+messages smaller than or equal to MV2\_SMP\_EAGERSIZE. 
+Note that this variable can be set with suffixes such as `K'/`k', `M'/`m' or `G'/`g'
+to denote Kilobyte, Megabyte or Gigabyte respectively.
+
+\subsection{MV2\_SMP\_NUM\_SEND\_BUFFER}
+\label{def:smp-num-send-buffer}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: Architecture dependent
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This parameter defines the
+number of internal send buffers for sending intra-node messages larger
+than MV2\_SMP\_EAGERSIZE.
+
+
+\subsection{MV2\_SMP\_SEND\_BUF\_SIZE}
+\label{def:smp-send-buf-size}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: Architecture dependent
+    \item Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3
+\end{itemize}
+
+This parameter defines the
+packet size when sending intra-node messages larger than \\
+MV2\_SMP\_EAGERSIZE.
+
+
+\subsection{MV2\_USE\_HUGEPAGES}
+\label{def:use-hugepage}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Set this to 0, to not use any HugePages.
+
+\subsection{MV2\_HYBRID\_ENABLE\_THRESHOLD}
+\label{def:ud-hybrid-threshold}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 512
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This defines the threshold for enabling Hybrid communication
+using UD and RC/XRC. When the size of the job is greater 
+than or equal to the threshold value, Hybrid mode will be
+enabled. Otherwise, it uses default RC/XRC connections for
+communication.
+
+\subsection{MV2\_HYBRID\_MAX\_RC\_CONN}
+\label{def:max-rc-conn}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 64
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Maximum number of RC or XRC connections created per process. This limits the 
+amount of connection memory and prevents HCA QP cache thrashing.
+
+\subsection{MV2\_UD\_PROGRESS\_TIMEOUT}
+\label{def:ud-progress-timeout}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: System size dependent.
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+
+Time (usec) until ACK status is checked (and ACKs are sent if needed). 
+To avoid unnecessary retries, set this value less than MV2\_UD\_RETRY\_TIMEOUT.
+It is recommended to set this to 1/10 of \\
+MV2\_UD\_RETRY\_TIMEOUT.
+
+
+\subsection{MV2\_UD\_RETRY\_TIMEOUT}
+\label{def:ud-rettry-timeout}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: System size dependent.
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+
+Time (usec) after which an unacknowledged message will be retried 
+
+\subsection{MV2\_UD\_RETRY\_COUNT}
+\label{def:ud-retry-count}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: System size dependent.
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Number of retries of a message before the job is aborted. This is needed in case of HCA fails. 
+
+\subsection{MV2\_USE\_UD\_HYBRID}
+\label{def:use-ud-hybrid}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Set this to Zero, to disable UD transport in hybrid configuration mode.
+
+\subsection{MV2\_USE\_ONLY\_UD}
+\label{def:use-only-ud}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 0
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Set this to 1, to enable only UD transport in hybrid configuration mode.
+It will not use any RC/XRC connections in this mode.
+
+\subsection{MV2\_USE\_UD\_ZCOPY}
+\label{def:ud-zcopy}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Whether or not to use the zero-copy transfer mechanism to transfer large messages on UD transport.
+
+\subsection{MV2\_USE\_LIMIC\_GATHER}
+\label{def:use-limic-gather}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 0
+    \item Applicable interface(s): OFA-IB-CH3, PSM
+\end{itemize}
+If this flag is set to 1, we will use intra-node Zero-Copy MPI\_Gather designs, when 
+the library has been configured to use LiMIC2. 
+
+
+\subsection{MV2\_USE\_MCAST}
+\label{def:use-mcast}
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 0
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Set this to 1, to enable hardware multicast support in collective communication
+
+\subsection{MV2\_MCAST\_NUM\_NODES\_THRESHOLD}
+\label{def:mcast-num-nodes-thrshold}
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 8
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This defines the threshold for enabling multicast support in collective communication. 
+When MV2\_USE\_MCAST is set to 1 and the number of nodes in the job is greater than or 
+equal to the threshold value, it uses multicast support in collective communication
+
+\subsection{MV2\_USE\_CUDA}
+\label{def:use-cuda}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 0
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+set this to One. to enable support for communication with GPU device buffers.
+
+\subsection{MV2\_CUDA\_BLOCK\_SIZE}
+\label{def:cuda-block-size}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 262144
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+The chunk size used in large message transfer from device memory to host memory.
+The other suggested values for this parameter are 131072 and 524288.
+
+%\subsection{MV2\_CUDA\_EVENT\_SYNC}
+%\label{def:cuda-event-sync}
+%
+%\begin{itemize}
+%        \item Class: Run time
+%        \item Default: 1
+%        \item Applicable interface(s): OFA-IB-CH3
+%\end{itemize}
+%MVAPICH2 uses cuda events to synchronization in pipelined communication from device.
+%Disabling this parameter enables use of cuda streams for synchronization instead of cuda events.
+
+\subsection{MV2\_CUDA\_KERNEL\_VECTOR\_TIDBLK\_SIZE}
+\label{def:cuda-kernel-vector-threadblock}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1024
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This controls the number of CUDA threads per block in pack/unpack kernels for MPI vector datatype in communication 
+involving GPU device buffers.
+
+\subsection{MV2\_CUDA\_KERNEL\_VECTOR\_YSIZE}
+\label{def:cuda-kernel-vector-ysize}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: tuned based on dimensions of the vector
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This controls the y-dimension of a thread block in pack/unpack kernels for MPI vector datatype in communication
+involving GPU device buffers. It controls the number of threads operating on each block of data in a vector.
+
+\subsection{MV2\_CUDA\_NONBLOCKING\_STREAMS}
+\label{def:cuda-nonblocking-streams}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1 (Enabled)
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This controls the use of non-blocking streams for asynchronous CUDA memory copies in communication involving GPU memory.
+
+\subsection{MV2\_CUDA\_IPC}
+\label{def:cuda-ipc}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This enables intra-node GPU-GPU communication using IPC feature available from CUDA 4.1
+
+%\subsection{MV2\_CUDA\_IPC\_THRESHOLD}
+%\label{def:cuda-ipc-threshold}
+%
+%\begin{itemize}
+%        \item Class: Run time
+%        \item Default: 0 bytes
+%        \item Applicable interface(s): OFA-IB-CH3
+%\end{itemize}
+%This specifies the threshold for the message size beyond which uses CUDA IPC feature for
+%GPU-GPU communication within a node. Default, it uses IPC for all size of the message sizes.
+
+\subsection{MV2\_CUDA\_SMP\_IPC}
+\label{def:cuda-ipc}
+
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 0
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This enables an optimization for short message GPU device-to-device communication using IPC feature available from CUDA 4.1
+
+\subsection{MV2\_ENABLE\_SHARP}
+\label{def:enable-sharp}
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 0
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+Set this to 1, to enable hardware SHArP support in collective communication
+
+\subsection{MV2\_SHARP\_HCA\_NAME}
+\label{def:sharp-hca-name}
+\begin{itemize}
+        \item Class: Run time
+        \item Default: unset
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+By default, this is set by the MVAPICH2 library. However, you can explicitly
+set the HCA name which is realized by the SHArP library. 
+
+\subsection{MV2\_SHARP\_PORT}
+\label{def:sharp-port}
+\begin{itemize}
+        \item Class: Run time
+        \item Default: 1
+        \item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+By default, this is set by the MVAPICH2 library. However, you can explicitly
+set the HCA port which is realized by the SHArP library. 
+
+\subsection{MV2\_ENABLE\_SOCKET\_AWARE\_COLLECTIVES}
+\label{def:mv2-enable-socket-aware-collectives}
+\begin{itemize}
+\item Class : Run time
+\item Default : Enabled (1)
+\item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter enables/disables support for socket-aware collective communication. 
+The parameter MV2\_USE\_SHMEM\_COLL must be set to 1 for this to work.
+
+\subsection{MV2\_USE\_TOPO\_AWARE\_ALLREDUCE}
+\label{def:mv2-use-topo-aware-allreduce}
+\begin{itemize}
+\item Class : Run time
+\item Default : Enabled (1)
+\item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter determines whether a topology-aware algorithm should be used or not for 
+allreduce collective operations. It takes effect only if 
+MV2\_ENABLE\_TOPO\_AWARE\_COLLECTIVES is set to 1.
+
+\subsection{MV2\_USE\_TOPO\_AWARE\_BARRIER}
+\label{def:mv2-use-topo-aware-barrier}
+\begin{itemize}
+\item Class : Run time
+\item Default : Enabled (1)
+\item Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3
+\end{itemize}
+This parameter determines whether a topology-aware algorithm should be used or not for 
+barrier collective operations. It takes effect only if 
+MV2\_ENABLE\_TOPO\_AWARE\_COLLECTIVES is set to 1.
+
+\subsection{MV2\_USE\_RDMA\_CM\_MCAST}
+\label{def:mv2-use-rdma-cm-mcast}
+\begin{itemize}
+\item Class : Run time
+\item Default : Enabled (1)
+\item Applicable interface(s): OFA-IB-CH3
+\end{itemize}
+This parameter enables support for RDMA\_CM based multicast group setup. Requires 
+the parameter MV2\_USE\_MCAST to be set to 1.
