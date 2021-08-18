@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://example.com/benchmarks/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Benchmarks - MVAPICH</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../extra.css" rel="stylesheet">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">MVAPICH</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Benchmarks</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../install/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../perf-tuning/" class="nav-link">Tunning</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Parameters <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../parameters/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-general/" class="dropdown-item">General</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-mpirun_rsh/" class="dropdown-item">MPIrun</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-nem/" class="dropdown-item">Nem</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../scalable/" class="nav-link">Scalability</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../troubleshooting/" class="nav-link">Troubleshooting</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../install/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#osu-benchmarks" class="nav-link">OSU Benchmarks</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#download-and-build-stand-alone-osu-benchmarks-package" class="nav-link">Download and Build Stand-alone OSU Benchmarks Package</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#running" class="nav-link">Running</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="osu-benchmarks">OSU Benchmarks</h1>
+<p>If you have arrived at this point, you have successfully installed
+MVAPICH2. Congratulations!! The OSU benchmarks should already be built
+and installed along with MVAPICH2. Look for them under
+\$prefix/libexec/mvapich2. Sample performance numbers for these
+benchmarks on representative platforms with InfiniBand, iWARP and RoCE
+adapters are also included on our projects' web page. You are welcome to
+compare your performance numbers with our numbers. If you see any big
+discrepancy, please let us know by sending an email to
+<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#118;&#97;&#112;&#105;&#99;&#104;&#45;&#100;&#105;&#115;&#99;&#117;&#115;&#115;&#64;&#99;&#115;&#101;&#46;&#111;&#104;&#105;&#111;&#45;&#115;&#116;&#97;&#116;&#101;&#46;&#101;&#100;&#117;">&#109;&#118;&#97;&#112;&#105;&#99;&#104;&#45;&#100;&#105;&#115;&#99;&#117;&#115;&#115;&#64;&#99;&#115;&#101;&#46;&#111;&#104;&#105;&#111;&#45;&#115;&#116;&#97;&#116;&#101;&#46;&#101;&#100;&#117;</a>.</p>
+<p>The benchmarks provided are:</p>
+<pre><code>    MPI-1, MPI-2 and MPI-3   
+            ------------------------ -----------------------------------------------------------------------------
+    osu_bibw                 Bidirectional Bandwidth Test
+    osu_bw                   Bandwidth Test
+    osu_latency              Latency Test
+    osu_latency_mt           Multi-threaded Latency Test
+    osu_mbw_mr               Multiple Bandwidth / Message Rate Test
+    osu_multi_lat            Multi-pair Latency Test
+    osu_allgather            MPI_Allgather Latency Test
+    osu_allgatherv           MPI_Allgatherv Latency Test
+    osu_allreduce            MPI_Allreduce Latency Test
+    osu_alltoall             MPI_Alltoall Latency Test
+    osu_alltoallv            MPI_Alltoallv Latency Test
+    osu_barrier              MPI_Barrier Latency Test
+    osu_bcast                MPI_Bcast Latency Test
+    osu_gather               MPI_Gather Latency Test
+    osu_gatherv              MPI_Gatherv Latency Test
+    osu_reduce               MPI_Reduce Latency Test
+    osu_reduce_scatter       MPI_Reduce_scatter Latency Test
+    osu_scatter              MPI_Scatter Latency Test
+    osu_scatterv             MPI_Scatterv Latency Test
+
+    MPI-2 and MPI-3 only     
+    osu_acc_latency          Accumulate Latency Test with Active/Passive Synchronization
+    osu_get_bw               One-Sided Get Bandwidth Test with Active/Passive Synchronization
+    osu_get_latency          One-Sided Get Latency Test with Active/Passive Synchronization
+    osu_latency_mt           Multi-threaded Latency Test
+    osu_put_bibw             One-Sided Put Bidirectional Test with Active Synchronization
+    osu_put_bw               One-Sided Put Bandwidth Test with Active/Passive Synchronization
+    osu_put_latency          One-Sided Put Latency Test with Active/Passive Synchronization
+
+    MPI-3 only               
+    osu_cas_latency          One-Sided Compare_and_swap Latency Test with Active/Passive Synchronization
+    osu_fop_latency          One-Sided Fetch_and_op Latency Test with Active/Passive Synchronization
+    osu_get_acc_latency      One-Sided Get_accumulate Latency Test with Active/Passive Synchronization
+    osu_iallgather           MPI_Iallgather Latency Test
+    osu_iallgatherv          MPI_Iallgatherv Latency Test
+    osu_iallreduce           MPI_Iallreduce Latency Test
+    osu_ialltoall            MPI_Ialltoall Latency Test
+    osu_ialltoallv           MPI_Ialltoallv Latency Test
+    osu_ialltoallw           MPI_Ialltoallw Latency Test
+    osu_ibarrier             MPI_Ibarrier Latency Test
+    osu_ibcast               MPI_Ibcast Latency Test
+    osu_igather              MPI_Igather Latency Test
+    osu_igatherv             MPI_Igatherv Latency Test
+    osu_ireduce              MPI_Ireduce Latency Test
+    osu_iscatter             MPI_Iscatter Latency Test
+    osu_iscatterv            MPI_Iscatterv Latency Test
+</code></pre>
+<p>More information about the benchmarks can be found at
+<a href="http://mvapich.cse.ohio-state.edu/benchmarks/">http://mvapich.cse.ohio-state.edu/benchmarks/</a>. You can also check this
+link for updates to the benchmarks.</p>
+<h2 id="download-and-build-stand-alone-osu-benchmarks-package">Download and Build Stand-alone OSU Benchmarks Package</h2>
+<p>The OSU Benchmarks can also be downloaded as a separate package from
+<a href="http://mvapich.cse.ohio-state.edu/benchmarks/">here</a>. You can build the
+benchmarks using the following steps if mpicc is in your PATH. For
+example:</p>
+<p>If mpicc is not in your path or you would like to use another particular
+version you can explicitly tell configure by setting CC. For example:</p>
+<p>Configure will detect whether your library supports MPI-2, MPI-3 and
+compile the corresponding benchmarks. The benchmarks will be installed
+under \$prefix/libexec/osu-micro-benchmarks.</p>
+<p>CUDA Extensions to OMB can be enabled by configuring the benchmark suite
+with --enable-cuda option as shown below. Similarly, OpenACC Extensions
+can be enabled by specifying the --enable-openacc option. The MPI
+library used should be able to support MPI communication from buffers in
+GPU Device memory.</p>
+<h2 id="running">Running</h2>
+<p>The OSU Benchmarks are run in the same manner as other MPI Applications.
+The following examples will use mpirun_rsh as the process manager.
+Please see
+section <a href="#running">run-applications</a> for more information on running with
+other process managers.</p>
+<h3 id="running-osu-latency-and-bandwidth">Running OSU Latency and Bandwidth</h3>
+<p><strong>Inter-node latency and bandwidth:</strong> The following example will measure
+the latency and bandwidth of communication between node1 and node2.</p>
+<p><strong>Intra-node latency and bandwidth:</strong> The following example will measure
+the latency and bandwidth of communication inside node1 on different
+cores. This assumes that you have at least two cores (or processors) in
+your node.</p>
+<h3 id="running-osu-message-rate-benchmark">Running OSU Message Rate Benchmark</h3>
+<p>The OSU message rate benchmark reports the rate at which messages can be
+sent between two nodes. It is advised that it should be run in a
+configuration that utilizes multiple pairs of communicating processes on
+two nodes. The following example measures the message rate on a system
+with two nodes, each with four processor cores.</p>
+<p>Where hostfile "mf" has the following contains:</p>
+<p>node1\
+node1\
+node1\
+node1\
+node2\
+node2\
+node2\
+node2\</p>
+<h3 id="running-osu-collective-benchmarks">Running OSU Collective Benchmarks</h3>
+<p>By default, the OSU collective benchmarks report the average
+communication latencies for a given collective operation, across various
+message lengths. Additionally, the benchmarks offer the following
+options:</p>
+<ol>
+<li>
+<p>\"-f\" can be used to report additional statistics, such as min and
+    max latencies and the number of iterations.</p>
+</li>
+<li>
+<p>\"-m\" option can be used to set the maximum message length to be
+    used in a benchmark. In the default version, the benchmarks report
+    the latencies for up to 1MB message lengths.</p>
+</li>
+<li>
+<p>\"-i\" can be used to set the number of iterations to run for each
+    message length.</p>
+</li>
+<li>
+<p>\"-h\" can be used to list all the options and their descriptions.</p>
+</li>
+<li>
+<p>\"-v\" reports the benchmark version.</p>
+</li>
+</ol>
+<p>If a user wishes to measure the communication latency of a specific
+collective operation, say, MPI_Alltoall, with 16 processes, we recommend
+running the osu_alltoall benchmark in the following manner:</p>
+<p>Where hostfile "mf" has the following contains:</p>
+<p>node1\
+node1\
+node1\
+node1\
+node1\
+node1\
+node1\
+node1\
+node1\
+node2\
+node2\
+node2\
+node2\
+node2\
+node2\
+node2\
+node2\</p>
+<h3 id="running-benchmarks-with-cudaopenaccrocm-extensions">Running Benchmarks with CUDA/OpenACC/ROCm Extensions</h3>
+<p>The following benchmarks have been extended to evaluate performance of
+MPI communication from and to buffers on NVIDIA GPU devices.</p>
+<pre><code>    -------------------- ----------------------------------------
+    osu_bibw             Bidirectional Bandwidth Test
+    osu_bw               Bandwidth Test
+    osu_latency          Latency Test
+    osu_latency_mt       Multi-threaded Latency Test
+    osu_mbw_mr           Multiple Bandwidth / Message Rate Test
+    osu_multi_lat        Multi-pair Letency Test
+    osu_put_latency      Latency Test for Put
+    osu_get_latency      Latency Test for Get
+    osu_put_bw           Bandwidth Test for Put
+    osu_get_bw           Bandwidth Test for Get
+    osu_put_bibw         Bidirectional Bandwidth Test for Put
+    osu_acc_latency      Latency Test for Accumulate
+    osu_cas_latency      Latency Test for Compare and Swap
+    osu_fop_latency      Latency Test for Fetch and Op
+    osu_allgather        MPI_Allgather Latency Test
+    osu_allgatherv       MPI_Allgatherv Latency Test
+    osu_allreduce        MPI_Allreduce Latency Test
+    osu_alltoall         MPI_Alltoall Latency Test
+    osu_alltoallv        MPI_Alltoallv Latency Test
+    osu_bcast            MPI_Bcast Latency Test
+    osu_gather           MPI_Gather Latency Test
+    osu_gatherv          MPI_Gatherv Latency Test
+    osu_reduce           MPI_Reduce Latency Test
+    osu_reduce_scatter   MPI_Reduce_scatter Latency Test
+    osu_scatter          MPI_Scatter Latency Test
+    osu_scatterv         MPI_Scatterv Latency Test
+    osu_iallgather       MPI_Iallgather Latency Test
+    osu_iallreduce       MPI_Iallreduce Latency Test
+    osu_ialltoall        MPI_Ialltoall Latency Test
+    osu_ibcast           MPI_Ibcast Latency Test
+    osu_igather          MPI_Igather Latency Test
+    osu_ireduce          MPI_Ireduce Latency Test
+    osu_iscatter         MPI_Iscatter Latency Test
+    -------------------- ----------------------------------------
+</code></pre>
+<p>Each of the pt2pt benchmarks takes two input parameters. The first
+parameter indicates the location of the buffers at rank 0 and the second
+parameter indicates the location of the buffers at rank 1. The value of
+each of these parameters can be either 'H' or 'D' to indicate if the
+buffers are to be on the host or on the device, respectively. When no
+parameters are specified, the buffers are allocated on the host.</p>
+<p>The collective benchmarks will use buffers allocated on the device if
+the -d option is used otherwise the buffers will be allocated on the
+host.</p>
+<p>If both CUDA and OpenACC support is enabled, you can switch between
+using CUDA and OpenACC to allocate your device buffers by specifying the
+'-d cuda' or '-d openacc' option to the benchmark. Please use the '-h'
+option for more info.</p>
+<p>GPU affinity for processes is set before MPI_Init is called. The process
+rank on a node is normally used to do this and different MPI launchers
+expose this information through different environment variables. The
+benchmarks use an environment variable called LOCAL_RANK to get this
+information. The script like get_local_rank provided alongside the
+benchmarks can be used to export this environment variable when using
+mpirun_rsh. This can be adapted to work with other MPI launchers and
+libraries.</p>
+<p><strong>Examples:</strong></p>
+<p>In this run, assuming host0 has two GPU devices, the latency test
+allocates buffers on GPU device 0 at rank 0 and on GPU device 1 at rank
+1.</p>
+<p>In this run, the bandwidth test allocates buffers on the GPU device at
+rank 0 (host0) and on the host at rank 1 (host1).</p>
+<h3 id="running-benchmarks-with-cuda-managed-memory">Running Benchmarks with CUDA Managed Memory</h3>
+<p>The following benchmarks have been extended to evaluate performance of
+MPI communication from and to buffers allocated using CUDA Managed
+Memory.</p>
+<pre><code>    -------------------- ----------------------------------------
+    osu_bibw             Bidirectional Bandwidth Test
+    osu_bw               Bandwidth Test
+    osu_latency          Latency Test
+    osu_mbw_mr           Multiple Bandwidth / Message Rate Test
+    osu_multi_lat        Multi-pair Letency Test
+    osu_allgather        MPI_Allgather Latency Test
+    osu_allgatherv       MPI_Allgatherv Latency Test
+    osu_allreduce        MPI_Allreduce Latency Test
+    osu_alltoall         MPI_Alltoall Latency Test
+    osu_alltoallv        MPI_Alltoallv Latency Test
+    osu_bcast            MPI_Bcast Latency Test
+    osu_gather           MPI_Gather Latency Test
+    osu_gatherv          MPI_Gatherv Latency Test
+    osu_reduce           MPI_Reduce Latency Test
+    osu_reduce_scatter   MPI_Reduce_scatter Latency Test
+    osu_scatter          MPI_Scatter Latency Test
+    osu_scatterv         MPI_Scatterv Latency Test
+    -------------------- ----------------------------------------
+</code></pre>
+<p>In addition to support for communications to and from GPU memories
+allocated using CUDA or OpenACC, we now provide additional capability of
+performing communications to and from buffers allocated using the CUDA
+Managed Memory concept. CUDA Managed (or Unified) Memory allows
+applications to allocate memory on either CPU or GPU memories using the
+cudaMallocManaged() call. This allows user oblivious transfer of the
+memory buffer between the CPU or GPU. Currently, we offer benchmarking
+with CUDA Managed Memory using the tests mentioned above. These
+benchmarks have additional options: \"M\" allocates a send or receive
+buffer as managed for point to point communication. \"-d managed\" uses
+managed memory buffers to perform collective communications</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

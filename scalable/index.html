@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://example.com/scalable/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Scalability - MVAPICH</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../extra.css" rel="stylesheet">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">MVAPICH</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../benchmarks/" class="nav-link">Benchmarks</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../install/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../perf-tuning/" class="nav-link">Tunning</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Parameters <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../parameters/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-general/" class="dropdown-item">General</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-mpirun_rsh/" class="dropdown-item">MPIrun</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-nem/" class="dropdown-item">Nem</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Scalability</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../troubleshooting/" class="nav-link">Troubleshooting</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../parameters-nem/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../troubleshooting/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#scalability-features-and-performance-tuning-for-large-scale-clusters" class="nav-link">Scalability features and Performance Tuning for Large Scale Clusters</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#optimizations-for-homogeneous-clusters" class="nav-link">Optimizations for homogeneous clusters</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#improving-job-startup-performance" class="nav-link">Improving Job startup performance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#basic-qp-resource-tuning" class="nav-link">Basic QP Resource Tuning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#rdma-based-point-to-point-tuning" class="nav-link">RDMA Based Point-to-Point Tuning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#shared-receive-queue-srq-tuning" class="nav-link">Shared Receive Queue (SRQ) Tuning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#extended-reliable-connection-xrc" class="nav-link">eXtended Reliable Connection (XRC)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#shared-memory-tuning" class="nav-link">Shared Memory Tuning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#on-demand-connection-management-tuning" class="nav-link">On-demand Connection Management Tuning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#scalable-collectives-tuning" class="nav-link">Scalable Collectives Tuning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#process-placement-on-multi-core-platforms" class="nav-link">Process Placement on Multi-core platforms</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#hugepage-support" class="nav-link">HugePage Support</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="scalability-features-and-performance-tuning-for-large-scale-clusters">Scalability features and Performance Tuning for Large Scale Clusters</h1>
+<p>MVAPICH2 provides many different parameters for tuning performance for a
+wide variety of platforms and applications. This section deals with
+tuning CH3-based interfaces. These parameters can be either compile time
+parameters or runtime parameters. Please refer to
+Section <a href="#sec:performance-tuning">1</a>{reference-type="ref"
+reference="sec:performance-tuning"} for a complete description of all
+these parameters. In this section we classify these parameters depending
+on what you are tuning for and provide guidelines on how to use them.</p>
+<h2 id="optimizations-for-homogeneous-clusters">Optimizations for homogeneous clusters</h2>
+<p>MVAPICH2 internally detects the heterogeneity of the cluster in terms of
+processor and network interface type. Set parameter
+MV2_HOMOGENEOUS_CLUSTER to 1 to skip this detection, if the user already
+knows that cluster is homogeneous.</p>
+<h2 id="improving-job-startup-performance">Improving Job startup performance</h2>
+<p>MVAPICH2 has several advanced features to speed up launching jobs on HPC
+clusters. There are several launcher-agnostic and launcher-specific
+parameters that can be used to get the best job startup performance.
+More details about these designs can be obtained from:
+<a href="http://mvapich.cse.ohio-state.edu/performance/job-startup/">http://mvapich.cse.ohio-state.edu/performance/job-startup/</a></p>
+<h3 id="configuration-options-launcher-agnostic">Configuration Options (Launcher-Agnostic)</h3>
+<ul>
+<li>
+<p>Disabling RDMA_CM</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Disable: <code>–disable-rdma-cm</code></p>
+</li>
+<li>
+<p>Disabling RDMA_CM will improve job-startup performance,
+    particularly on nodes with large number of cores.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="runtime-parameters-launcher-agnostic">Runtime Parameters (Launcher-Agnostic)</h3>
+<ul>
+<li>
+<p>MV2_HOMOGENEOUS_CLUSTER</p>
+<ul>
+<li>
+<p>Default: 0 (Disabled)</p>
+</li>
+<li>
+<p>Setting MV2_HOMOGENEOUS_CLUSTER to 1 on homogeneous clusters
+    will improve startup performance.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>MV2_ON_DEMAND_THRESHOLD</p>
+<ul>
+<li>
+<p>Default: 64 (OFA-IB-CH3), 16 (OFA-iWARP-CH3)</p>
+</li>
+<li>
+<p>Should be enabled for fast startup. See
+    Section <a href="/parameters/#mv2_on_demand_threshold">mv2-on-demand-threshold</a> for details.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>MV2_ON_DEMAND_UD_INFO_EXCHANGE</p>
+<ul>
+<li>
+<p>Default: 1 (Enabled)</p>
+</li>
+<li>
+<p>Setting MV2_ON_DEMAND_UD_INFO_EXCHANGE to 1 will enable
+    on-demand Address Handle creation for hybrid mode.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="enabling-optimizations-specific-to-mpirun_rsh">Enabling Optimizations Specific to mpirun_rsh</h3>
+<ul>
+<li>
+<p><strong>MV2_MT_DEGREE</strong>: MVAPICH2 has a scalable job launcher --
+    mpirun_rsh which uses a tree based mechanism to spawn processes. The
+    degree of this tree is determined dynamically to keep the depth low.
+    For large clusters, it might be beneficial to further flatten the
+    tree by specifying a higher degree. The degree can be overridden
+    with the environment variable MV2_MT_DEGREE
+    (see <a href="/parameters-mpirun_rsh/#mv2_mt_degree">mt-degree</a>).</p>
+</li>
+<li>
+<p><strong>MV2_FASTSSH_THRESHOLD</strong>: MVAPICH2 can use a faster, hierarchical
+    launching mechanism on large clusters. This is enabled manually
+    using MV2_FASTSSH_THRESHOLD
+    (see <a href="/parameters-mpirun_rsh/#mv2_fastssh_threshold">mv2_fastssh_threshold</a>).</p>
+</li>
+<li>
+<p><strong>MV2_NPROCS_THRESHOLD</strong>: When the number of processes involved is
+    beyond 8k, the mpirun_rsh uses a file-based communication scheme to
+    create the hierarchical tree. The default value can be overridden
+    with the environment variable MV2_NPROCS_THRESHOLD
+    (see <a href="/parameters-mpirun_rsh/#mv2_nprocs_threshold">mv2_nprocs_threshold</a>).</p>
+</li>
+</ul>
+<h3 id="enabling-optimizations-specific-to-slurm">Enabling Optimizations Specific to SLURM</h3>
+<ul>
+<li>
+<p><strong>Using OSU optimized SLURM</strong>: For best performance with SLURM, the
+    OSU-optimized PMI2 plugin should be used. This requires applying the
+    appropriate patch to SLURM. Please refer to
+    Section <a href="/install/#using-slurm-with-support-for-pmi-extensions">config-slurm-pmix</a> for more details.</p>
+</li>
+<li>
+<p><strong>Using Default SLURM</strong>: If the SLURM installation cannot be
+    modified, the default PMI2 plugin provided by SLURM should be used.
+    Please see
+    section <a href="/install/#using-slurm">config-slurm</a> for more details.</p>
+</li>
+</ul>
+<h2 id="basic-qp-resource-tuning">Basic QP Resource Tuning</h2>
+<p>The following parameters affect memory requirements for each QP.</p>
+<ul>
+<li>
+<p>MV2_DEFAULT_MAX_SEND_WQE</p>
+</li>
+<li>
+<p>MV2_DEFAULT_MAX_RECV_WQE</p>
+</li>
+<li>
+<p>MV2_MAX_INLINE_SIZE</p>
+</li>
+</ul>
+<p>MV2_DEFAULT_MAX_SEND_WQE and MV2_DEFAULT_MAX_RECV_WQE control the
+maximum number of WQEs per QP and MV2_MAX_INLINE_SIZE controls the
+maximum inline size. Reducing the values of these two parameters leads
+to less memory consumption. They are especially important for large
+scale clusters with a large amount of connections and multiple rails.</p>
+<p>These two parameters are run-time adjustable. Please refer to
+Sections <a href="/parameters-nem/#mv2_default_max_send_wqe">max-send-wqe</a>
+and <a href="/parameters-nem/#mv2_max_inline_size">max-inline-size</a> for details.</p>
+<h2 id="rdma-based-point-to-point-tuning">RDMA Based Point-to-Point Tuning</h2>
+<p>The following parameters are important in tuning the memory requirements
+for adaptive rdma fast path feature.</p>
+<ul>
+<li>
+<p>MV2_RDMA_FAST_PATH_BUF_SIZE
+    (<a href="/parameters/#mv2_rdma_fast_path_buf_size">rdma-fast-path-buf-size</a>)</p>
+</li>
+<li>
+<p>MV2_NUM_RDMA_BUFFER
+    (<a href="/parameters-nem/#mv2_num_rdma_buffer">num-rdma-buffer</a>)</p>
+</li>
+</ul>
+<p>MV2_RDMA_FAST_PATH_BUF_SIZE is the size of each buffer used in RDMA fast
+path communication.</p>
+<p>MV2_NUM_RDMA_BUFFER is number of buffers used for the RDMA fast path
+communication.</p>
+<p>On the other hand, the product of MV2_RDMA_FAST_PATH_BUF_SIZE and\
+MV2_NUM_RDMA_BUFFER generally is a measure of the amount of memory
+registered for eager message passing. These buffers are not shared
+across connections.</p>
+<h2 id="shared-receive-queue-srq-tuning">Shared Receive Queue (SRQ) Tuning</h2>
+<p>The main environmental parameters controlling the behavior of the Shared
+Receive Queue design are:</p>
+<ul>
+<li>
+<p>MV2_SRQ_MAX_SIZE
+    (<a href="/parameters/#mv2_srq_max_size">viadev-srq-max-size</a>)</p>
+</li>
+<li>
+<p>MV2_SRQ_SIZE
+    (<a href="/parameters-nem/#mv2_srq_size">viadev-srq-size</a>)</p>
+</li>
+<li>
+<p>MV2_SRQ_LIMIT
+    (<a href="/parameters-nem/#mv2_srq_limit">viadev-srq-limit</a>)</p>
+</li>
+</ul>
+<p>MV2_SRQ_MAX_SIZE is the maximum size of the Shared Receive Queue
+(default 4096). You may increase this to value 8192 if the application
+requires very large number of processors. The application will start by
+only using MV2_SRQ_SIZE buffers (default 256) and will double this value
+on every SRQ limit event(upto MV2_SRQ_MAX_SIZE). For long running
+applications this re-size should show little effect. If needed, the
+MV2_SRQ_SIZE can be increased to 1024 or higher as needed for
+applications.\
+MV2_SRQ_LIMIT defines the low water-mark for the flow control handler.
+This can be reduced if your aim is to reduce the number of interrupts.</p>
+<h2 id="extended-reliable-connection-xrc">eXtended Reliable Connection (XRC)</h2>
+<p>MVAPICH2 now supports the eXtended Reliable Connection (XRC) transport
+available in recent Mellanox HCAs. This transport helps reduce the
+number of QPs needed on multi-core systems. Set MV2_USE_XRC
+(<a href="/parameters/#mv2_use_xrc">mv2_use_xrc</a>) to use XRC with MVAPICH2.</p>
+<h2 id="shared-memory-tuning">Shared Memory Tuning</h2>
+<p>MVAPICH2 uses shared memory communication channel to achieve
+high-performance message passing among processes that are on the same
+physical node. The two main parameters which are used for tuning shared
+memory performance for small messages are SMP_QUEUE_LENGTH
+(Section <a href="/parameters/#mv2_smp_queue_length">smp-queue-length</a>), and SMP_EAGER_SIZE
+(Section <a href="/parameters/#mv2_smp_eagersize">smp-eagersize</a>). The two main parameters which are used
+for tuning shared memory performance for large messages are
+SMP_SEND_BUF_SIZE
+(Section <a href="/parameters/#mv2_smp_send_buf_size">smp-send-buf-size</a>) and\
+SMP_NUM_SEND_BUFFER
+(Section <a href="/parameters/#mv2_smp_num_send_buffer">smp-num-send-buffer</a>).</p>
+<p>SMP_QUEUE_LENGTH is the size of the shared memory buffer which is used
+to store outstanding small and control messages. SMP_EAGER_SIZE defines
+the switch point from Eager protocol to Rendezvous protocol.</p>
+<p>Messages larger than SMP_EAGER_SIZE are packetized and sent out in a
+pipelined manner.\
+SMP_SEND_BUF_SIZE is the packet size, i.e. the send buffer size.
+SMP_NUM_SEND_BUFFER is the number of send buffers.</p>
+<h2 id="on-demand-connection-management-tuning">On-demand Connection Management Tuning</h2>
+<p>MVAPICH2 uses on-demand connection management to reduce the memory usage
+of MPI library. There are 4 parameters to tune connection manager:
+MV2_ON_DEMAND_THRESHOLD
+(Section <a href="/parameters/#mv2_on_demand_threshold">mv2-on-demand-threshold</a>),\
+MV2_CM_RECV_BUFFERS
+(Section <a href="/parameters/#mv2_cm_recv_buffers">mv2-cm-recv-buffers</a>), MV2_CM_TIMEOUT
+(Section <a href="/parameters/#mv2_cm_timeout">mv2-cm-timeout</a>), and\
+MV2_CM_SPIN_COUNT
+(Section <a href="/parameters/#mv2_cm_spin_count">mv2-cm-spin-count</a>). The first one applies to OFA-IB-CH3
+and OFA-iWARP-CH3 interfaces and the other three only apply to
+OFA-IB-CH3 interface.</p>
+<p>MV2_ON_DEMAND_THRESHOLD defines threshold for enabling on-demand
+connection management scheme. When the size of the job is larger than
+the threshold value, on-demand connection management will be used.</p>
+<p>MV2_CM_RECV_BUFFERS defines the number of buffers used by connection
+manager to establish new connections. These buffers are quite small and
+are shared for all connections, so this value may be increased to 8192
+for large clusters to avoid retries in case of packet drops.</p>
+<p>MV2_CM_TIMEOUT is the timeout value associated with connection
+management messages via UD channel. Decreasing this value may lead to
+faster retries but at the cost of generating duplicate messages.</p>
+<p>MV2_CM_SPIN_COUNT is the number of the connection manager polls for new
+control messages from UD channel for each interrupt. This may be
+increased to reduce the interrupt overhead when many incoming control
+messages from UD channel at the same time.</p>
+<h2 id="scalable-collectives-tuning">Scalable Collectives Tuning</h2>
+<p>MVAPICH2 uses shared memory to optimize the performance for many
+collective operations: MPI_Allreduce, MPI_Reduce, MPI_Barrier, and
+MPI_Bcast.</p>
+<p>We use shared-memory based collective for most small and medium sized
+messages and fall back to the default point-to-point based algorithms
+for very large messages. The upper-limits for shared-memory based
+collectives are tunable parameters that are specific to each collective
+operation. We have variables such as MV2_SHMEM_ALLREDUCE_MSG
+(<a href="/parameters/#mv2_shmem_allreduce_msg">mv2-shmem-coll-allreduce-threshold</a>),
+MV2_SHMEM_REDUCE_MSG
+(<a href="/parameters/#mv2_shmem_reduce_msg">mv2-shmem-coll-reduce-threshold</a>) and\
+MV2_SHMEM_BCAST_MSG
+(<a href="/parameters/#mv2_shmem_bcast_msg">mv2-shmem-coll-bcast-threshold</a>), for MPI_Allreduce,
+MPI_Reduce and MPI_Bcast collective operations.) The default values for
+these variables have been set through experimental analysis on some of
+our clusters and a few large scale clusters, such as the TACC Ranger.
+Users can choose to set these variables at job-launch time to tune the
+collective algorithms on different platforms.</p>
+<h3 id="optimizations-for-mpi_bcast">Optimizations for MPI_Bcast</h3>
+<p>MVAPICH2 supports a 2-level point-to-point tree-based "Knomial"
+algorithm for small messages for the MPI_Bcast operation. MVAPICH2 also
+offers improved designs that deliver better performance for medium and
+large message lengths.</p>
+<h3 id="optimizations-for-mpi_reduce-and-mpi_allreduce">Optimizations for MPI_Reduce and MPI_Allreduce</h3>
+<p>In this release, we have introduced new 2-level algorithms for
+MPI_Reduce and MPI_Allreduce operations, along the same lines as
+MPI_Bcast. Pure Shared-memory based algorithms cannot be used for larger
+messages for reduction operations, because the node-leader processes
+become the bottleneck, as they have to perform the reduction operation
+on the entire data block. We now rely on shared-memory algorithms for
+MPI_Reduce and MPI_Allreduce for message sizes set by the thresholds
+MV2_SHMEM_ALLREDUCE_MSG
+(<a href="/parameters/#mv2_shmem_allreduce_msg">mv2-shmem-coll-allreduce-threshold</a>),
+MV2_SHMEM_REDUCE_MSG
+(<a href="/parameters/#mv2_shmem_reduce_msg">mv2-shmem-coll-reduce-threshold</a>), the new 2-level
+algorithms for medium sized messages and the default point-to-point
+based algorithms for large messages. We have introduced two new run-time
+variables MV2_ALLREDUCE_2LEVEL_MSG
+(<a href="/parameters/#mv2_allreduce_2level_msg">mv2_allreduce_2level_msg</a>) and MV2_REDUCE_2LEVEL_MSG
+(<a href="/parameters/#mv2_reduce_2level_msg">mv2_reduce_2level_msg</a>) to determine when to fall back
+to the default point-to-point based algorithms.</p>
+<h3 id="optimizations-for-mpi_gather-and-mpi_scatter">Optimizations for MPI_Gather and MPI_Scatter</h3>
+<p>MVAPICH2 supports two new optimized algorithms for MPI_Gather and
+MPI_Scatter operations -- the "Direct" and the multi-core aware
+"2-level" algorithms. Both these algorithms perform significantly better
+than the default binomial-tree pattern. The "Direct" algorithm is
+however inherently not very scalable and can be used when the
+communicator size is less than 1K processes. We switch over to the
+2-level algorithms for larger system sizes. For MPI_Gather, we use
+different algorithms depending of the system size. For small system
+sizes (up to 386 cores), we use the "2-level" algorithm following by the
+"Direct\" algorithm. For medium system sizes (up to 1k), we use
+"Binomial" algorithm following by the "Direct" algorithm. It's possible
+to set the switching point between algorithms using the run-time
+parameter MV2_GATHER_SWITCH_PT
+(<a href="/parameters/#mv2_gather_switch_pt">mv2_gather_switch_pt</a>). For MPI_Scatter, when the system
+size is lower than 512 cores, we use the "Binomial" algorithm for small
+message sizes following by the "2-level" algorithm for medium message
+sizes and the "Direct" algorithm for large message sizes. Users can
+define the threshold for small and medium message sizes using the
+run-time parameters MV2_SCATTER_SMALL_MSG
+(<a href="/parameters/#mv2_scatter_small_msg">mv2_scatter_small_msg</a>) and MV2_SCATTER_MEDIUM_MSG
+(<a href="/parameters/#mv2_scatter_medium_msg">mv2_scatter_medium_msg</a>). Users can also choose to use
+only one of these algorithms by toggling the run-time parameters
+ <a href="/parameters/#mv2_use_direct_gather">mv2_use_direct_gather</a> and
+ <a href="/parameters/#mv2_use_two_level_gather">mv2_use_two_level_gather</a> for MPI_Gather and
+ <a href="/parameters/#mv2_use_direct_scatter">mv2_use_direct_scatter</a> and
+ <a href="/parameters/#mv2_use_two_level_scatter">mv2_use_two_level_scatter</a> for MPI_Scatter.</p>
+<h2 id="process-placement-on-multi-core-platforms">Process Placement on Multi-core platforms</h2>
+<p>Process placement has a significant impact on performance of
+applications. Depending on your application communication patterns,
+various process placements can result in performance gains. In
+Section <a href="/usage/#running-with-efficient-cpu-core-mapping">usage:mv2-cpu-mapping</a>, we have described the usage of
+"bunch" and "scatter" placement modes provided by MVAPICH2. Using these
+modes, one can control the placement of processes within a particular
+node. Placement of processes across nodes can be controlled by adjusting
+the order of MPI ranks. For example, the following command launches jobs
+in block fashion.</p>
+<p>The following command launches jobs in a cyclic fashion.</p>
+<p>We have noted that the HPL (High-Performance Linpack) benchmark performs
+better when using block distribution.</p>
+<h2 id="hugepage-support">HugePage Support</h2>
+<p>MVAPICH2 uses HugePages(2MB) by default for communication buffers if
+they are configured on the system. The run-time variable,
+MV2_USE_HUGEPAGES( <a href="/parameters/#mv2_use_hugepages">use-hugepage</a>) can be used to control the behavior of
+this feature.</p>
+<p>In order to use HugePages, Make sure HugePages are configured on all
+nodes. The number of HugePages can be configured by setting
+vm.nr_hugepages kernel parameter to a suitable value. For example, to
+allocate a 1GB HugePage pool, execute(as root):\
+\
+\
+or\
+\</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

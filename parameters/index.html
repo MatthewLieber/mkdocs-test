@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://example.com/parameters/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Overview - MVAPICH</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../extra.css" rel="stylesheet">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">MVAPICH</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../benchmarks/" class="nav-link">Benchmarks</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../install/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../perf-tuning/" class="nav-link">Tunning</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Parameters <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-general/" class="dropdown-item">General</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-mpirun_rsh/" class="dropdown-item">MPIrun</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-nem/" class="dropdown-item">Nem</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../scalable/" class="nav-link">Scalability</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../troubleshooting/" class="nav-link">Troubleshooting</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../perf-tuning/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../parameters-general/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#mvapich2-parameters-ch3-based-interfaces" class="nav-link">MVAPICH2 Parameters (CH3-Based Interfaces)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#mv2_allreduce_2level_msg" class="nav-link">MV2_ALLREDUCE_2LEVEL_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_aggregation_bufpool_size" class="nav-link">MV2_CKPT_AGGREGATION_BUFPOOL_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_aggregation_chunk_size" class="nav-link">MV2_CKPT_AGGREGATION_CHUNK_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_file" class="nav-link">MV2_CKPT_FILE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_interval" class="nav-link">MV2_CKPT_INTERVAL</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_max_save_ckpts" class="nav-link">MV2_CKPT_MAX_SAVE_CKPTS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_no_sync" class="nav-link">MV2_CKPT_NO_SYNC</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ckpt_use_aggregation" class="nav-link">MV2_CKPT_USE_AGGREGATION</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_debug_ft_verbose" class="nav-link">MV2_DEBUG_FT_VERBOSE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cm_recv_buffers" class="nav-link">MV2_CM_RECV_BUFFERS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cm_spin_count" class="nav-link">MV2_CM_SPIN_COUNT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cm_timeout" class="nav-link">MV2_CM_TIMEOUT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cpu_mapping" class="nav-link">MV2_CPU_MAPPING</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cpu_binding_policy" class="nav-link">MV2_CPU_BINDING_POLICY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_hybrid_binding_policy" class="nav-link">MV2_HYBRID_BINDING_POLICY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cpu_binding_level" class="nav-link">MV2_CPU_BINDING_LEVEL</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_show_hca_binding" class="nav-link">MV2_SHOW_HCA_BINDING</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_default_max_send_wqe" class="nav-link">MV2_DEFAULT_MAX_SEND_WQE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_default_max_recv_wqe" class="nav-link">MV2_DEFAULT_MAX_RECV_WQE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_default_mtu" class="nav-link">MV2_DEFAULT_MTU</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_default_pkey" class="nav-link">MV2_DEFAULT_PKEY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_enable_affinity" class="nav-link">MV2_ENABLE_AFFINITY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_get_fallback_threshold" class="nav-link">MV2_GET_FALLBACK_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_iba_eager_threshold" class="nav-link">MV2_IBA_EAGER_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_iba_hca" class="nav-link">MV2_IBA_HCA</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_initial_prepost_depth" class="nav-link">MV2_INITIAL_PREPOST_DEPTH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_iwarp_multiple_cq_threshold" class="nav-link">MV2_IWARP_MULTIPLE_CQ_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_knomial_intra_node_factor" class="nav-link">MV2_KNOMIAL_INTRA_NODE_FACTOR</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_knomial_inter_node_factor" class="nav-link">MV2_KNOMIAL_INTER_NODE_FACTOR</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_max_inline_size" class="nav-link">MV2_MAX_INLINE_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_max_num_win" class="nav-link">MV2_MAX_NUM_WIN</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ndreg_entries" class="nav-link">MV2_NDREG_ENTRIES</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_num_hcas" class="nav-link">MV2_NUM_HCAS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_num_ports" class="nav-link">MV2_NUM_PORTS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_default_port" class="nav-link">MV2_DEFAULT_PORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_num_sa_query_retries" class="nav-link">MV2_NUM_SA_QUERY_RETRIES</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_num_qp_per_port" class="nav-link">MV2_NUM_QP_PER_PORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rail_sharing_policy" class="nav-link">MV2_RAIL_SHARING_POLICY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rail_sharing_large_msg_threshold" class="nav-link">MV2_RAIL_SHARING_LARGE_MSG_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_process_to_rail_mapping" class="nav-link">MV2_PROCESS_TO_RAIL_MAPPING</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rdma_fast_path_buf_size" class="nav-link">MV2_RDMA_FAST_PATH_BUF_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_num_rdma_buffer" class="nav-link">MV2_NUM_RDMA_BUFFER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_on_demand_threshold" class="nav-link">MV2_ON_DEMAND_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_homogeneous_cluster" class="nav-link">MV2_HOMOGENEOUS_CLUSTER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_prepost_depth" class="nav-link">MV2_PREPOST_DEPTH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_psm_debug" class="nav-link">MV2_PSM_DEBUG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_psm_dump_frequency" class="nav-link">MV2_PSM_DUMP_FREQUENCY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_put_fallback_threshold" class="nav-link">MV2_PUT_FALLBACK_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rail_sharing_large_msg_threshold_1" class="nav-link">MV2_RAIL_SHARING_LARGE_MSG_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rdma_cm_arp_timeout" class="nav-link">MV2_RDMA_CM_ARP_TIMEOUT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rdma_cm_max_port" class="nav-link">MV2_RDMA_CM_MAX_PORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rdma_cm_min_port" class="nav-link">MV2_RDMA_CM_MIN_PORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_reduce_2level_msg" class="nav-link">MV2_REDUCE_2LEVEL_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rndv_protocol" class="nav-link">MV2_RNDV_PROTOCOL</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_r3_threshold" class="nav-link">MV2_R3_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_r3_nocache_threshold" class="nav-link">MV2_R3_NOCACHE_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_allreduce_msg" class="nav-link">MV2_SHMEM_ALLREDUCE_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_bcast_leaders" class="nav-link">MV2_SHMEM_BCAST_LEADERS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_bcast_msg" class="nav-link">MV2_SHMEM_BCAST_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_coll_max_msg_size" class="nav-link">MV2_SHMEM_COLL_MAX_MSG_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_coll_num_comm" class="nav-link">MV2_SHMEM_COLL_NUM_COMM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_dir" class="nav-link">MV2_SHMEM_DIR</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_shmem_reduce_msg" class="nav-link">MV2_SHMEM_REDUCE_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_sm_scheduling" class="nav-link">MV2_SM_SCHEDULING</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_smp_use_limic2" class="nav-link">MV2_SMP_USE_LIMIC2</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_smp_use_cma" class="nav-link">MV2_SMP_USE_CMA</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_srq_limit" class="nav-link">MV2_SRQ_LIMIT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_srq_max_size" class="nav-link">MV2_SRQ_MAX_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_srq_size" class="nav-link">MV2_SRQ_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_striping_threshold" class="nav-link">MV2_STRIPING_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_support_dpm" class="nav-link">MV2_SUPPORT_DPM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_apm" class="nav-link">MV2_USE_APM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_apm_test" class="nav-link">MV2_USE_APM_TEST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_blocking" class="nav-link">MV2_USE_BLOCKING</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_coalesce" class="nav-link">MV2_USE_COALESCE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_direct_gather" class="nav-link">MV2_USE_DIRECT_GATHER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_direct_scatter" class="nav-link">MV2_USE_DIRECT_SCATTER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_hsam" class="nav-link">MV2_USE_HSAM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_iwarp_mode" class="nav-link">MV2_USE_IWARP_MODE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_lazy_mem_unregister" class="nav-link">MV2_USE_LAZY_MEM_UNREGISTER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_roce" class="nav-link">MV2_USE_RoCE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_default_gid_index" class="nav-link">MV2_DEFAULT_GID_INDEX</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_rdma_cm" class="nav-link">MV2_USE_RDMA_CM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rdma_cm_multi_subnet_support" class="nav-link">MV2_RDMA_CM_MULTI_SUBNET_SUPPORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_rdma_cm_conf_file_path" class="nav-link">MV2_RDMA_CM_CONF_FILE_PATH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_rdma_fast_path" class="nav-link">MV2_USE_RDMA_FAST_PATH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_rdma_one_sided" class="nav-link">MV2_USE_RDMA_ONE_SIDED</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_ring_startup" class="nav-link">MV2_USE_RING_STARTUP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_shared_mem" class="nav-link">MV2_USE_SHARED_MEM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_shmem_allreduce" class="nav-link">MV2_USE_SHMEM_ALLREDUCE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_shmem_barrier" class="nav-link">MV2_USE_SHMEM_BARRIER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_shmem_bcast" class="nav-link">MV2_USE_SHMEM_BCAST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_shmem_coll" class="nav-link">MV2_USE_SHMEM_COLL</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_shmem_reduce" class="nav-link">MV2_USE_SHMEM_REDUCE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_srq" class="nav-link">MV2_USE_SRQ</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_gather_switch_pt" class="nav-link">MV2_GATHER_SWITCH_PT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_scatter_small_msg" class="nav-link">MV2_SCATTER_SMALL_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_scatter_medium_msg" class="nav-link">MV2_SCATTER_MEDIUM_MSG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_two_level_gather" class="nav-link">MV2_USE_TWO_LEVEL_GATHER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_two_level_scatter" class="nav-link">MV2_USE_TWO_LEVEL_SCATTER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_xrc" class="nav-link">MV2_USE_XRC</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_vbuf_pool_size" class="nav-link">MV2_VBUF_POOL_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_vbuf_secondary_pool_size" class="nav-link">MV2_VBUF_SECONDARY_POOL_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_vbuf_total_size" class="nav-link">MV2_VBUF_TOTAL_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_smp_eagersize" class="nav-link">MV2_SMP_EAGERSIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_smp_queue_length" class="nav-link">MV2_SMP_QUEUE_LENGTH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_smp_num_send_buffer" class="nav-link">MV2_SMP_NUM_SEND_BUFFER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_smp_send_buf_size" class="nav-link">MV2_SMP_SEND_BUF_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_hugepages" class="nav-link">MV2_USE_HUGEPAGES</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_hybrid_enable_threshold" class="nav-link">MV2_HYBRID_ENABLE_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_hybrid_max_rc_conn" class="nav-link">MV2_HYBRID_MAX_RC_CONN</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ud_progress_timeout" class="nav-link">MV2_UD_PROGRESS_TIMEOUT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ud_retry_timeout" class="nav-link">MV2_UD_RETRY_TIMEOUT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ud_retry_count" class="nav-link">MV2_UD_RETRY_COUNT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_ud_hybrid" class="nav-link">MV2_USE_UD_HYBRID</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_only_ud" class="nav-link">MV2_USE_ONLY_UD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_ud_zcopy" class="nav-link">MV2_USE_UD_ZCOPY</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_limic_gather" class="nav-link">MV2_USE_LIMIC_GATHER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_mcast" class="nav-link">MV2_USE_MCAST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_mcast_num_nodes_threshold" class="nav-link">MV2_MCAST_NUM_NODES_THRESHOLD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_cuda" class="nav-link">MV2_USE_CUDA</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cuda_block_size" class="nav-link">MV2_CUDA_BLOCK_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cuda_kernel_vector_tidblk_size" class="nav-link">MV2_CUDA_KERNEL_VECTOR_TIDBLK_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cuda_kernel_vector_ysize" class="nav-link">MV2_CUDA_KERNEL_VECTOR_YSIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cuda_nonblocking_streams" class="nav-link">MV2_CUDA_NONBLOCKING_STREAMS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cuda_ipc" class="nav-link">MV2_CUDA_IPC</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_cuda_smp_ipc" class="nav-link">MV2_CUDA_SMP_IPC</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_enable_sharp" class="nav-link">MV2_ENABLE_SHARP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_sharp_hca_name" class="nav-link">MV2_SHARP_HCA_NAME</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_sharp_port" class="nav-link">MV2_SHARP_PORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_enable_socket_aware_collectives" class="nav-link">MV2_ENABLE_SOCKET_AWARE_COLLECTIVES</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_topo_aware_allreduce" class="nav-link">MV2_USE_TOPO_AWARE_ALLREDUCE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_topo_aware_barrier" class="nav-link">MV2_USE_TOPO_AWARE_BARRIER</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_use_rdma_cm_mcast" class="nav-link">MV2_USE_RDMA_CM_MCAST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="mvapich2-parameters-ch3-based-interfaces">MVAPICH2 Parameters (CH3-Based Interfaces)</h1>
+<h2 id="mv2_allreduce_2level_msg">MV2_ALLREDUCE_2LEVEL_MSG</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 256K Bytes</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to determine the threshold for the 2-level
+Allreduce algorithm. We now use the shared-memory-based algorithm for
+messages smaller than the\
+MV2_SHMEM_ALLREDUCE_MSG threshold
+(<a href="#mv2_shmem_allreduce_msg">1.57</a>), the 2-level
+algorithm for medium sized messages up to the threshold defined by this
+parameter. We use the default point-to-point algorithms messages larger
+than this threshold.</p>
+<h2 id="mv2_ckpt_aggregation_bufpool_size">MV2_CKPT_AGGREGATION_BUFPOOL_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 8M</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter determines the size of the buffer pool reserved for use
+in checkpoint aggregation. Note that this variable can be set with
+suffixes such as 'K'/'k', 'M'/'m' or 'G'/'g' to denote Kilobyte,
+Megabyte or Gigabyte respectively.</p>
+<h2 id="mv2_ckpt_aggregation_chunk_size">MV2_CKPT_AGGREGATION_CHUNK_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 1M</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>The checkpoint data that has been coalesced into the buffer pool, is
+written to the back-end file system, with the value of this parameter as
+the chunk size. Note that this variable can be set with suffixes such as
+'K'/'k', 'M'/'m' or 'G'/'g' to denote Kilobyte, Megabyte or Gigabyte
+respectively.</p>
+<h2 id="mv2_ckpt_file">MV2_CKPT_FILE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: /tmp/ckpt</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter specifies the path and the base file name for checkpoint
+files of MPI processes. The checkpoint files will be named as
+\$MV2_CKPT_FILE.$&lt;$number of checkpoint$&gt;$.$&lt;$process rank$&gt;$, for
+example, /tmp/ckpt.1.0 is the checkpoint file for process 0's first
+checkpoint. To checkpoint on network-based file systems, user just need
+to specify the path to it, such as /mnt/pvfs2/my_ckpt_file.</p>
+<h2 id="mv2_ckpt_interval">MV2_CKPT_INTERVAL</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Unit: minutes</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to enable automatic checkpointing. To let MPI
+job console automatically take checkpoints, this value needs to be set
+to the desired checkpointing interval. A zero will disable automatic
+checkpointing. Using automatic checkpointing, the checkpoint file for
+the MPI job console will be named as \$MV2_CKPT_FILE.$&lt;$number of
+checkpoint$&gt;$.auto. Users need to use this file for restart.</p>
+<h2 id="mv2_ckpt_max_save_ckpts">MV2_CKPT_MAX_SAVE_CKPTS</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter is used to limit the number of checkpoints saved on file
+system to save the file system space. When set to a positive value N,
+only the last N checkpoints will be saved.</p>
+<h2 id="mv2_ckpt_no_sync">MV2_CKPT_NO_SYNC</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>When this parameter is set to any value, the checkpoints will not be
+required to sync to disk. It can reduce the checkpointing delay in many
+cases. But if users are using local file system, or any parallel file
+system with local cache, to store the checkpoints, it is recommended not
+to set this parameter because otherwise the checkpoint files will be
+cached in local memory and will likely be lost upon failure.</p>
+<h2 id="mv2_ckpt_use_aggregation">MV2_CKPT_USE_AGGREGATION</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 1 (if configured with Checkpoint Aggregation support)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter enables/disables Checkpoint aggregation scheme at run
+time. It is set to '1'(enabled) by default, when the user enables
+Checkpoint/Restart functionality at configure time, or when the user
+explicitly configures MVAPICH2 with aggregation support. Please note
+that, to use aggregation support, each node needs to be properly
+configured with FUSE library (cf
+section <a href="/usage/#fault-tolerance-backplane-ftb-support">mpi-cr-aggr</a>).</p>
+<h2 id="mv2_debug_ft_verbose">MV2_DEBUG_FT_VERBOSE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Type: Null or positive integer</p>
+</li>
+<li>
+<p>Default: 0 (disabled)</p>
+</li>
+</ul>
+<p>This parameter enables/disables the debug output for Fault Tolerance
+features (Checkpoint/Restart and Migration).</p>
+<p>Note: All debug output is disabled when MVAPICH2 is configured with the
+<code>–enable-fast=ndebug</code> option.</p>
+<h2 id="mv2_cm_recv_buffers">MV2_CM_RECV_BUFFERS</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 1024</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This defines the number of buffers used by connection manager to
+establish new connections. These buffers are quite small and are shared
+for all connections, so this value may be increased to 8192 for large
+clusters to avoid retries in case of packet drops.</p>
+<h2 id="mv2_cm_spin_count">MV2_CM_SPIN_COUNT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 5000</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This is the number of the connection manager polls for new control
+messages from UD channel for each interrupt. This may be increased to
+reduce the interrupt overhead when many incoming control messages from
+UD channel at the same time.</p>
+<h2 id="mv2_cm_timeout">MV2_CM_TIMEOUT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 500</p>
+</li>
+<li>
+<p>Unit: milliseconds</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This is the timeout value associated with connection management messages
+via UD channel. Decreasing this value may lead to faster retries but at
+the cost of generating duplicate messages.</p>
+<h2 id="mv2_cpu_mapping">MV2_CPU_MAPPING</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: NA</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, PSM</p>
+</li>
+</ul>
+<p>This allows users to specify process to CPU (core) mapping. The detailed
+usage of this parameter is described in
+Section <a href="/usage/#running-with-efficient-cpu-core-mapping">mv2_cpu_mapping</a>. This parameter will not take effect
+if either <em>MV2_ENABLE_AFFINITY</em> or <em>MV2_USE_SHARED_MEM</em> run-time
+parameters are set to 0, or if the library was configured with the
+"--disable-hwloc" option. MV2_CPU_MAPPING is currently not supported on
+Solaris.</p>
+<h2 id="mv2_cpu_binding_policy">MV2_CPU_BINDING_POLICY</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: hybrid</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, PSM</p>
+</li>
+</ul>
+<p>We have changed the default value of MV2_CPU_BINDING_POLICY to "hybrid"
+along with MV2_HYBRID_BINDING_POLICY=bunch. It is same as setting
+MV2_CPU_BINDING_POLICY to bunch. However, it also works well for the
+systems with hyper-threading enabled or systems that have vendor
+specific core mappings. This allows users to specify process to CPU
+(core) mapping with the CPU binding policy. The detailed usage of this
+parameter is described in
+Section <a href="/usage/#using-hwloc-for-cpu-mapping">mv2_use_hwloc_cpu_binding</a>. This parameter will not
+take effect: if\
+<em>MV2_ENABLE_AFFINITY</em> or <em>MV2_USE_SHARED_MEM</em> run-time parameters are
+set to 0; or\
+<em>MV2_ENABLE_AFFINITY</em> is set to 1 and <em>MV2_CPU_MAPPING</em> is set, or if
+the library was configured with the "--disable-hwloc" option. The value
+of MV2_CPU_BINDING_POLICY can be "bunch", "scatter", or "hybrid". When
+this parameter takes effect and its value isn't set, "bunch" will be
+used as the default policy.</p>
+<h2 id="mv2_hybrid_binding_policy">MV2_HYBRID_BINDING_POLICY</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Linear</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, PSM</p>
+</li>
+</ul>
+<p>This allows users to specify binding policies for application thread in
+MPI+Threads applications. The detailed usage of this parameter is
+described in
+Section <a href="/usage/#hybrid-and-thread-specific-binding-policies-for-mpi-and-mpithreads-applications">advanced_thread_binding_policies</a>. This parameter will
+not take effect: if\
+<em>MV2_ENABLE_AFFINITY</em> or <em>MV2_USE_SHARED_MEM</em> run-time parameters are
+set to 0; or\
+<em>MV2_CPU_BINDING_POLICY</em> is set to "bunch\" or "scatter\", or\
+<em>MV2_ENABLE_AFFINITY</em> is set to 1 and <em>MV2_CPU_MAPPING</em> is set, or if
+the library was configured with the "--disable-hwloc" option. The value
+of MV2_HYBRID_BINDING_POLICY can be "linear", "compact", "bunch",
+"scatter", "spread", or "numa". When this parameter takes effect and its
+value isn't set, "linear" will be used as the default policy.</p>
+<h2 id="mv2_cpu_binding_level">MV2_CPU_BINDING_LEVEL</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Core</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This allows users to specify process to CPU (core) mapping at different
+binding level. The detailed usage of this parameter is described in
+Section <a href="/usage/#using-hwloc-for-cpu-mapping">mv2_use_hwloc_cpu_binding</a>. This parameter will not
+take effect: if <em>MV2_ENABLE_AFFINITY</em> or <em>MV2_USE_SHARED_MEM</em> run-time
+parameters are set to 0; or <code>MV2_ENABLE_AFFINITY</code> is set to 1 and
+<code>MV2_CPU_MAPPING</code> is set, or if the library was configured with the
+"--disable-hwloc" option. The value of MV2_CPU_BINDING_LEVEL can be
+"core", "socket", or "numanode". When this parameter takes effect and
+its value isn't set, "core" will be used as the default binding level.</p>
+<h2 id="mv2_show_hca_binding">MV2_SHOW_HCA_BINDING</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0 (disabled)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+<li>
+<p>Possible values: 1 (Show only on node containing rank 0), 2 (Show on
+    all nodes)</p>
+</li>
+</ul>
+<p>If set to 1, it shows the HCA binding of all processes on node where
+rank 0 exists. If set to 2, it shows the HCA binding of all processes on
+all nodes.</p>
+<h2 id="mv2_default_max_send_wqe">MV2_DEFAULT_MAX_SEND_WQE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 64</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This specifies the maximum number of send WQEs on each QP. Please note
+that for OFA-IB-CH3 and OFA-iWARP-CH3, the default value of this
+parameter will be 16 if the number of processes is larger than 256 for
+better memory scalability.</p>
+<h2 id="mv2_default_max_recv_wqe">MV2_DEFAULT_MAX_RECV_WQE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 128</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This specifies the maximum number of receive WQEs on each QP (maximum
+number of receives that can be posted on a single QP).</p>
+<h2 id="mv2_default_mtu">MV2_DEFAULT_MTU</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: OFA-IB-CH3: IBV_MTU_1024 for IB SDR cards and IBV_MTU_2048
+    for IB DDR and QDR cards.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>The internal MTU size. For OFA-IB-CH3, this parameter should be a string
+instead of an integer. Valid values are: <code>IBV_MTU_256</code>, <code>IBV_MTU_512</code>,
+<code>IBV_MTU_1024</code>, <code>IBV_MTU_2048</code>, <code>IBV_MTU_4096</code>.</p>
+<h2 id="mv2_default_pkey">MV2_DEFAULT_PKEY</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable Interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Select the partition to be used for the job.</p>
+<h2 id="mv2_enable_affinity">MV2_ENABLE_AFFINITY</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Enable CPU affinity by setting MV2_ENABLE_AFFINITY to 1 or disable it by
+setting\
+MV2_ENABLE_AFFINITY to 0. MV2_ENABLE_AFFINITY is currently not supported
+on Solaris. CPU affinity is also not supported if MV2_USE_SHARED_MEM is
+set to 0.</p>
+<h2 id="mv2_get_fallback_threshold">MV2_GET_FALLBACK_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>This threshold value needs to be set in bytes.</p>
+</li>
+<li>
+<p>This option is effective if we define ONE_SIDED flag.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the threshold beyond which the MPI_Get implementation is
+based on direct one sided RDMA operations.</p>
+<h2 id="mv2_iba_eager_threshold">MV2_IBA_EAGER_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Host Channel Adapter (HCA) dependent (12 KB for ConnectX
+    HCA's)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This specifies the switch point between eager and rendezvous protocol in
+MVAPICH2. For better performance, the value of MV2_IBA_EAGER_THRESHOLD
+should be set the same as MV2_VBUF_TOTAL_SIZE.</p>
+<h2 id="mv2_iba_hca">MV2_IBA_HCA</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This specifies the HCA's to be used for performing network operations.</p>
+<h2 id="mv2_initial_prepost_depth">MV2_INITIAL_PREPOST_DEPTH</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 10</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the initial number of pre-posted receive buffers for each
+connection. If communication happen for a particular connection, the
+number of buffers will be increased to\
+RDMA_PREPOST_DEPTH.</p>
+<h2 id="mv2_iwarp_multiple_cq_threshold">MV2_IWARP_MULTIPLE_CQ_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 32</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the process size beyond which we use multiple completion
+queues for iWARP interface.</p>
+<h2 id="mv2_knomial_intra_node_factor">MV2_KNOMIAL_INTRA_NODE_FACTOR</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 4</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the degree of the knomial operation during the intra-node
+knomial broadcast phase.</p>
+<h2 id="mv2_knomial_inter_node_factor">MV2_KNOMIAL_INTER_NODE_FACTOR</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 4</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the degree of the knomial operation during the inter-node
+knomial broadcast phase.</p>
+<h2 id="mv2_max_inline_size">MV2_MAX_INLINE_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Network card dependent (128 for most networks including
+    InfiniBand)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the maximum inline size for data transfer. Please note that
+the default value of this parameter will be 0 when the number of
+processes is larger than 256 to improve memory usage scalability.</p>
+<h2 id="mv2_max_num_win">MV2_MAX_NUM_WIN</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 64</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Maximum number of RMA windows that can be created and active
+concurrently. Typically this value is sufficient for most applications.
+Increase this value to the number of windows your application uses</p>
+<h2 id="mv2_ndreg_entries">MV2_NDREG_ENTRIES</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Represented by RDMA_NDREG_ENTRIES (value is 1100). Depends
+    on the number of processes.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the total number of buffers that can be stored in the
+registration cache. It has no effect if MV2_USE_LAZY_MEM_UNREGISTER is
+not set. A larger value will lead to less frequent lazy de-registration.</p>
+<h2 id="mv2_num_hcas">MV2_NUM_HCAS</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter indicates number of InfiniBand adapters to be used for
+communication on an end node.</p>
+<h2 id="mv2_num_ports">MV2_NUM_PORTS</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter indicates number of ports per InfiniBand adapter to be
+used for communication per adapter on an end node.</p>
+<h2 id="mv2_default_port">MV2_DEFAULT_PORT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: none</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter is to select the specific HCA port on a active multi port
+InfiniBand adapter</p>
+<h2 id="mv2_num_sa_query_retries">MV2_NUM_SA_QUERY_RETRIES</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 20</p>
+</li>
+<li>
+<p>Applicable Interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Number of times the MPI library will attempt to query the subnet to
+obtain the path record information before giving up.</p>
+<h2 id="mv2_num_qp_per_port">MV2_NUM_QP_PER_PORT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter indicates number of queue pairs per port to be used for
+communication on an end node. This is useful in the presence of multiple
+send/recv engines available per port for data transfer.</p>
+<h2 id="mv2_rail_sharing_policy">MV2_RAIL_SHARING_POLICY</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Rail Binding in round-robin</p>
+</li>
+<li>
+<p>Value Domain: USE_FIRST, ROUND_ROBIN, FIXED_MAPPING</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This specifies the policy that will be used to assign HCAs to each of
+the processes. In the previous versions of MVAPICH2 it was known as
+MV2_SM_SCHEDULING.</p>
+<h2 id="mv2_rail_sharing_large_msg_threshold">MV2_RAIL_SHARING_LARGE_MSG_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 16K</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This specifies the threshold for the message size beyond which striping
+will take place. In the previous versions of MVAPICH2 it was known as
+MV2_STRIPING_THRESHOLD</p>
+<h2 id="mv2_process_to_rail_mapping">MV2_PROCESS_TO_RAIL_MAPPING</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: NONE</p>
+</li>
+<li>
+<p>Value Domain: BUNCH, SCATTER, $&lt;$CUSTOM LIST$&gt;$</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>When MV2_RAIL_SHARING_POLICY is set to the value "FIXED_MAPPING" this
+variable decides the manner in which the HCAs will be mapped to the
+rails. The $&lt;$CUSTOM LIST$&gt;$ is colon(:) separated list with the HCA
+ranks specified. e.g. 0:1:1:0. This list must map equally to the number
+of local processes on the nodes failing which, the default policy will
+be used. Similarly the number of processes on each node must be the
+same. The detailed usage of this parameter is described in
+Section <a href="/usage/#running-with-multiple-rail-configurations">mpi-mr</a>.</p>
+<h2 id="mv2_rdma_fast_path_buf_size">MV2_RDMA_FAST_PATH_BUF_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Architecture dependent</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The size of the buffer used in RDMA fast path communication. This value
+will be ineffective if\
+MV2_USE_RDMA_FAST_PATH is not set</p>
+<h2 id="mv2_num_rdma_buffer">MV2_NUM_RDMA_BUFFER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Architecture dependent (32 for EM64T)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The number of RDMA buffers used for the RDMA fast path. This <em>fast path</em>
+is used to reduce latency and overhead of small data and control
+messages. This value will be ineffective if MV2_USE_RDMA_FAST_PATH is
+not set.</p>
+<h2 id="mv2_on_demand_threshold">MV2_ON_DEMAND_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 64 (OFA-IB-CH3), 16 (OFA-iWARP-CH3)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines threshold for enabling on-demand connection management
+scheme. When the size of the job is larger than the threshold value,
+on-demand connection management will be used.</p>
+<h2 id="mv2_homogeneous_cluster">MV2_HOMOGENEOUS_CLUSTER</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Set this parameter to 1 on homogeneous clusters to optimize the job
+start-up</p>
+<h2 id="mv2_prepost_depth">MV2_PREPOST_DEPTH</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 64</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the number of buffers pre-posted for each connection to
+handle send/receive operations.</p>
+<h2 id="mv2_psm_debug">MV2_PSM_DEBUG</h2>
+<ul>
+<li>
+<p>Class: Run time (Debug)</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface: PSM</p>
+</li>
+</ul>
+<p>This parameter enables the dumping of run-time debug counters from the
+MVAPICH2-PSM progress engine. Counters are dumped every
+PSM_DUMP_FREQUENCY seconds.</p>
+<h2 id="mv2_psm_dump_frequency">MV2_PSM_DUMP_FREQUENCY</h2>
+<ul>
+<li>
+<p>Class: Run time (Debug)</p>
+</li>
+<li>
+<p>Default: 10 seconds</p>
+</li>
+<li>
+<p>Applicable interface: PSM</p>
+</li>
+</ul>
+<p>This parameters sets the frequency for dumping MVAPICH2-PSM debug
+counters. Value takes effect only in PSM_DEBUG is enabled.</p>
+<h2 id="mv2_put_fallback_threshold">MV2_PUT_FALLBACK_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>This threshold value needs to be set in bytes.</p>
+</li>
+<li>
+<p>This option is effective if we define ONE_SIDED flag.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This defines the threshold beyond which the MPI_Put implementation is
+based on direct one sided RDMA operations.</p>
+<h2 id="mv2_rail_sharing_large_msg_threshold_1">MV2_RAIL_SHARING_LARGE_MSG_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 16 KB</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter specifies the message size above which we begin the
+stripe the message across multiple rails (if present).</p>
+<h2 id="mv2_rdma_cm_arp_timeout">MV2_RDMA_CM_ARP_TIMEOUT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 2000 ms</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3</p>
+</li>
+</ul>
+<p>This parameter specifies the ARP timeout to be used by RDMA CM module.</p>
+<h2 id="mv2_rdma_cm_max_port">MV2_RDMA_CM_MAX_PORT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3</p>
+</li>
+</ul>
+<p>This parameter specifies the upper limit of the port range to be used by
+the RDMA CM module when choosing the port on which it listens for
+connections.</p>
+<h2 id="mv2_rdma_cm_min_port">MV2_RDMA_CM_MIN_PORT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3</p>
+</li>
+</ul>
+<p>This parameter specifies the lower limit of the port range to be used by
+the RDMA CM module when choosing the port on which it listens for
+connections.</p>
+<h2 id="mv2_reduce_2level_msg">MV2_REDUCE_2LEVEL_MSG</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 32K Bytes.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to determine the threshold for the 2-level
+reduce algorithm. We now use the shared-memory-based algorithm for
+messages smaller than the MV2_SHMEM_REDUCE_MSG
+(<a href="#mv2_shmem_reduce_msg">1.63</a>), the 2-level algorithm
+for medium sized messages up to the threshold defined by this parameter.
+We use the default point-to-point algorithms messages larger than this
+threshold.</p>
+<h2 id="mv2_rndv_protocol">MV2_RNDV_PROTOCOL</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: RPUT</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The value of this variable can be set to choose different Rendezvous
+protocols. RPUT (default RDMA-Write) RGET (RDMA Read based), R3
+(send/recv based).</p>
+<h2 id="mv2_r3_threshold">MV2_R3_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: MV2_IBA_EAGER_THRESHOLD</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The value of this variable controls what message sizes go over the R3
+rendezvous protocol. Messages above this message size use
+MV2_RNDV_PROTOCOL.</p>
+<h2 id="mv2_r3_nocache_threshold">MV2_R3_NOCACHE_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 32768</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The value of this variable controls what message sizes go over the R3
+rendezvous protocol when the registration cache is disabled
+(MV2_USE_LAZY_MEM_UNREGISTER=0). Messages above this message size use
+MV2_RNDV_PROTOCOL.</p>
+<h2 id="mv2_shmem_allreduce_msg">MV2_SHMEM_ALLREDUCE_MSG</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 1 $\ll$ 15</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The SHMEM AllReduce is used for messages less than this threshold.</p>
+<h2 id="mv2_shmem_bcast_leaders">MV2_SHMEM_BCAST_LEADERS</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 4096</p>
+</li>
+</ul>
+<p>The number of leader processes that will take part in the SHMEM
+broadcast operation. Must be greater than the number of nodes in the
+job.</p>
+<h2 id="mv2_shmem_bcast_msg">MV2_SHMEM_BCAST_MSG</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 1 $\ll$ 20</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The SHMEM bcast is used for messages less than this threshold.</p>
+<h2 id="mv2_shmem_coll_max_msg_size">MV2_SHMEM_COLL_MAX_MSG_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to select the max buffer size of message for
+shared memory collectives.</p>
+<h2 id="mv2_shmem_coll_num_comm">MV2_SHMEM_COLL_NUM_COMM</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to select the number of communicators using
+shared memory collectives.</p>
+<h2 id="mv2_shmem_dir">MV2_SHMEM_DIR</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+<li>
+<p>Default: /dev/shm for Linux and /tmp for Solaris</p>
+</li>
+</ul>
+<p>This parameter can be used to specify the path to the shared memory
+files for intra-node communication.</p>
+<h2 id="mv2_shmem_reduce_msg">MV2_SHMEM_REDUCE_MSG</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 1 $\ll$ 13</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The SHMEM reduce is used for messages less than this threshold.</p>
+<h2 id="mv2_sm_scheduling">MV2_SM_SCHEDULING</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: USE_FIRST (Options: ROUND_ROBIN)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<h2 id="mv2_smp_use_limic2">MV2_SMP_USE_LIMIC2</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: On if configured with --with-limic2</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter enables/disables LiMIC2 at run time. It does not take
+effect if MVAPICH2 is not configured with --with-limic2.</p>
+<h2 id="mv2_smp_use_cma">MV2_SMP_USE_CMA</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: On unless configured with --without-cma</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter enables/disables CMA based intra-node communication at
+run time. It does not take effect if MVAPICH2 is configured with
+--without-cma. When --with-limic2 is included in the configure flags,
+LiMIC2 is used in preference over CMA. Please set MV2_SMP_USE_LIMIC2 to
+0 in order to choose CMA if MVAPICH2 is configured with --with-limic2.</p>
+<h2 id="mv2_srq_limit">MV2_SRQ_LIMIT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 30</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This is the low water-mark limit for the Shared Receive Queue. If the
+number of available work entries on the SRQ drops below this limit, the
+flow control will be activated.</p>
+<h2 id="mv2_srq_max_size">MV2_SRQ_MAX_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 4096</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This is the maximum number of work requests allowed on the Shared
+Receive Queue. Upon receiving a SRQ limit event, the current value of
+MV2_SRQ_SIZE will be doubled or moved to the maximum of
+MV2_SRQ_MAX_SIZE, whichever is smaller</p>
+<h2 id="mv2_srq_size">MV2_SRQ_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 256</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This is the initial number of work requests posted to the Shared Receive
+Queue.</p>
+<h2 id="mv2_striping_threshold">MV2_STRIPING_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 8192</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter specifies the message size above which we begin the
+stripe the message across multiple rails (if present).</p>
+<h2 id="mv2_support_dpm">MV2_SUPPORT_DPM</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0 (disabled)</p>
+</li>
+<li>
+<p>Applicable interface: OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This option enables the dynamic process management interface and
+on-demand connection management.</p>
+<h2 id="mv2_use_apm">MV2_USE_APM</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter is used for recovery from network faults using Automatic
+Path Migration. This functionality is beneficial in the presence of
+multiple paths in the network, which can be enabled by using lmc
+mechanism.</p>
+<h2 id="mv2_use_apm_test">MV2_USE_APM_TEST</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter is used for testing the Automatic Path Migration
+functionality. It periodically moves the alternate path as the primary
+path of communication and re-loads another alternate path.</p>
+<h2 id="mv2_use_blocking">MV2_USE_BLOCKING</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter enables MVAPICH2 to use blocking mode progress.
+MPI applications do not take up any CPU when they are waiting for
+incoming messages.</p>
+<h2 id="mv2_use_coalesce">MV2_USE_COALESCE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter enables message coalescing to increase small
+message throughput</p>
+<h2 id="mv2_use_direct_gather">MV2_USE_DIRECT_GATHER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Use the "Direct" algorithm for the MPI_Gather operation. If this
+parameter is set to 0 at run-time, the "Direct" algorithm will not be
+invoked.</p>
+<h2 id="mv2_use_direct_scatter">MV2_USE_DIRECT_SCATTER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Use the "Direct" algorithm for the MPI_Scatter operation. If this
+parameter is set to 0 at run-time, the "Direct" algorithm will not be
+invoked.</p>
+<h2 id="mv2_use_hsam">MV2_USE_HSAM</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter is used for utilizing hot-spot avoidance with InfiniBand
+clusters. To leverage this functionality, the subnet should be
+configured with lmc greater than zero. Please refer to
+section <a href="/usage/#running-with-hot-spot-and-congestion-avoidance">mv2-hsam</a> for detailed information.</p>
+<h2 id="mv2_use_iwarp_mode">MV2_USE_IWARP_MODE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter enables the library to run in iWARP mode.</p>
+<h2 id="mv2_use_lazy_mem_unregister">MV2_USE_LAZY_MEM_UNREGISTER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter enables MVAPICH2 to use memory registration
+cache.</p>
+<h2 id="mv2_use_roce">MV2_USE_RoCE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Un Set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter enables the use of RDMA over Ethernet for MPI
+communication. The underlying HCA and network must support this feature.</p>
+<h2 id="mv2_default_gid_index">MV2_DEFAULT_GID_INDEX</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>In RoCE mode, this parameter allows to choose non-default GID index in
+loss-less ethernet setup using VLANs</p>
+<h2 id="mv2_use_rdma_cm">MV2_USE_RDMA_CM</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Network Dependent (set for OFA-iWARP-CH3 and unset for
+    OFA-IB-CH3/OFA-RoCE-CH3)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3</p>
+</li>
+</ul>
+<p>This parameter enables the use of RDMA CM for establishing the
+connections.</p>
+<h2 id="mv2_rdma_cm_multi_subnet_support">MV2_RDMA_CM_MULTI_SUBNET_SUPPORT</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter allows MPI jobs to be run across multiple subnets
+interconnected by InfiniBand routers. Note that this requires RDMA_CM
+support to be enabled at configure time and runtime. Note that, RDMA_CM
+support is enabled by default at configure time. At runtime, the
+MV2_USE_RDMA_CM environment variable described in
+Section <a href="#def:mv2-use-rdma-cm">1.83</a>{reference-type="ref"
+reference="def:mv2-use-rdma-cm"} must be set to 1.</p>
+<h2 id="mv2_rdma_cm_conf_file_path">MV2_RDMA_CM_CONF_FILE_PATH</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Default: Network Dependent (set for OFA-iWARP-CH3 and unset for
+    OFA-IB-CH3/OFA-RoCE-CH3)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3</p>
+</li>
+</ul>
+<p>This parameter is to specify the path to mv2.conf file. If this is not
+given, then it searches in the default location /etc/mv2.conf</p>
+<h2 id="mv2_use_rdma_fast_path">MV2_USE_RDMA_FAST_PATH</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter enables MVAPICH2 to use adaptive RDMA fast path
+features for OFA-IB-CH3 interface.</p>
+<h2 id="mv2_use_rdma_one_sided">MV2_USE_RDMA_ONE_SIDED</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter allows MVAPICH2 to use optimized one sided
+implementation based RDMA operations.</p>
+<h2 id="mv2_use_ring_startup">MV2_USE_RING_STARTUP</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter enables MVAPICH2 to use ring based start up.</p>
+<h2 id="mv2_use_shared_mem">MV2_USE_SHARED_MEM</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Use shared memory for intra-node communication.</p>
+<h2 id="mv2_use_shmem_allreduce">MV2_USE_SHMEM_ALLREDUCE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to turn off shared memory based MPI_Allreduce
+for OFA-IB-CH3 over IBA by setting this to 0.</p>
+<h2 id="mv2_use_shmem_barrier">MV2_USE_SHMEM_BARRIER</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to turn off shared memory based MPI_Barrier
+for OFA-IB-CH3 over IBA by setting this to 0.</p>
+<h2 id="mv2_use_shmem_bcast">MV2_USE_SHMEM_BCAST</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to turn off shared memory based MPI_Bcast for
+OFA-IB-CH3 over IBA by setting this to 0.</p>
+<h2 id="mv2_use_shmem_coll">MV2_USE_SHMEM_COLL</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Use shared memory for collective communication. Set this to 0 for
+disabling shared memory collectives.</p>
+<h2 id="mv2_use_shmem_reduce">MV2_USE_SHMEM_REDUCE</h2>
+<ul>
+<li>
+<p>Class: Run Time</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter can be used to turn off shared memory based MPI_Reduce
+for OFA-IB-CH3 over IBA by setting this to 0.</p>
+<h2 id="mv2_use_srq">MV2_USE_SRQ</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Setting this parameter enables MVAPICH2 to use shared receive queue.</p>
+<h2 id="mv2_gather_switch_pt">MV2_GATHER_SWITCH_PT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>We use different algorithms depending on the system size. For small
+system sizes (up to 386 cores), we use the "2-level" algorithm following
+by the "Direct" algorithm. For medium system sizes (up to 1k), we use
+"Binomial" algorithm following by the "Direct" algorithm. Users can set
+the switching point between algorithms using the run-time parameter
+MV2_GATHER_SWITCH_PT.</p>
+<h2 id="mv2_scatter_small_msg">MV2_SCATTER_SMALL_MSG</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>When the system size is lower than 512 cores, we use the "Binomial"
+algorithm for small message sizes. MV2_SCATTER_SMALL_MSG allows the
+users to set the threshold for small messages.</p>
+<h2 id="mv2_scatter_medium_msg">MV2_SCATTER_MEDIUM_MSG</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>When the system size is lower than 512 cores, we use the "2-level"
+algorithm for medium message sizes. MV2_SCATTER_MEDIUM_MSG allows the
+users to set the threshold for medium messages.</p>
+<h2 id="mv2_use_two_level_gather">MV2_USE_TWO_LEVEL_GATHER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Use the two-level multi-core-aware algorithm for the MPI_Gather
+operation. If this parameter is set to 0 at run-time, the two-level
+algorithm will not be invoked.</p>
+<h2 id="mv2_use_two_level_scatter">MV2_USE_TWO_LEVEL_SCATTER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: set</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>Use the two-level multi-core-aware algorithm for the MPI_Scatter
+operation. If this parameter is set to 0 at run-time, the two-level
+algorithm will not be invoked.</p>
+<h2 id="mv2_use_xrc">MV2_USE_XRC</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable Interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Use the XRC InfiniBand transport available since Mellanox ConnectX
+adapters. This features requires OFED version later than 1.3. It also
+automatically enables SRQ and ON-DEMAND connection management. Note that
+the MVAPICH2 library needs to have been configured with --enable-xrc=yes
+to use this feature.</p>
+<h2 id="mv2_vbuf_pool_size">MV2_VBUF_POOL_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 512</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The number of vbufs in the initial pool. This pool is shared among all
+the connections.</p>
+<h2 id="mv2_vbuf_secondary_pool_size">MV2_VBUF_SECONDARY_POOL_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 256</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The number of vbufs allocated each time when the global pool is running
+out in the initial pool. This is also shared among all the connections.</p>
+<h2 id="mv2_vbuf_total_size">MV2_VBUF_TOTAL_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Host Channel Adapter (HCA) dependent (12 KB for ConnectX
+    HCA's)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>The size of each <code>vbuf</code>, the basic communication buffer of MVAPICH2. For
+better performance, the value of MV2_IBA_EAGER_THRESHOLD should be set
+the same as MV2_VBUF_TOTAL_SIZE.</p>
+<h2 id="mv2_smp_eagersize">MV2_SMP_EAGERSIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Architecture dependent</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter defines the switch point from Eager protocol to
+Rendezvous protocol for intra-node communication. Note that this
+variable can be set with suffixes such as 'K'/'k', 'M'/'m' or 'G'/'g' to
+denote Kilobyte, Megabyte or Gigabyte respectively.</p>
+<h2 id="mv2_smp_queue_length">MV2_SMP_QUEUE_LENGTH</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Architecture dependent</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter defines the size of shared buffer between every two
+processes on the same node for transferring messages smaller than or
+equal to MV2_SMP_EAGERSIZE. Note that this variable can be set with
+suffixes such as 'K'/'k', 'M'/'m' or 'G'/'g' to denote Kilobyte,
+Megabyte or Gigabyte respectively.</p>
+<h2 id="mv2_smp_num_send_buffer">MV2_SMP_NUM_SEND_BUFFER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Architecture dependent</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter defines the number of internal send buffers for sending
+intra-node messages larger than MV2_SMP_EAGERSIZE.</p>
+<h2 id="mv2_smp_send_buf_size">MV2_SMP_SEND_BUF_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Architecture dependent</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3 and OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter defines the packet size when sending intra-node messages
+larger than\
+MV2_SMP_EAGERSIZE.</p>
+<h2 id="mv2_use_hugepages">MV2_USE_HUGEPAGES</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Set this to 0, to not use any HugePages.</p>
+<h2 id="mv2_hybrid_enable_threshold">MV2_HYBRID_ENABLE_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 512</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This defines the threshold for enabling Hybrid communication using UD
+and RC/XRC. When the size of the job is greater than or equal to the
+threshold value, Hybrid mode will be enabled. Otherwise, it uses default
+RC/XRC connections for communication.</p>
+<h2 id="mv2_hybrid_max_rc_conn">MV2_HYBRID_MAX_RC_CONN</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 64</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Maximum number of RC or XRC connections created per process. This limits
+the amount of connection memory and prevents HCA QP cache thrashing.</p>
+<h2 id="mv2_ud_progress_timeout">MV2_UD_PROGRESS_TIMEOUT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: System size dependent.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Time (usec) until ACK status is checked (and ACKs are sent if needed).
+To avoid unnecessary retries, set this value less than
+MV2_UD_RETRY_TIMEOUT. It is recommended to set this to 1/10 of\
+MV2_UD_RETRY_TIMEOUT.</p>
+<h2 id="mv2_ud_retry_timeout">MV2_UD_RETRY_TIMEOUT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: System size dependent.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Time (usec) after which an unacknowledged message will be retried</p>
+<h2 id="mv2_ud_retry_count">MV2_UD_RETRY_COUNT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: System size dependent.</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Number of retries of a message before the job is aborted. This is needed
+in case of HCA fails.</p>
+<h2 id="mv2_use_ud_hybrid">MV2_USE_UD_HYBRID</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Set this to Zero, to disable UD transport in hybrid configuration mode.</p>
+<h2 id="mv2_use_only_ud">MV2_USE_ONLY_UD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Set this to 1, to enable only UD transport in hybrid configuration mode.
+It will not use any RC/XRC connections in this mode.</p>
+<h2 id="mv2_use_ud_zcopy">MV2_USE_UD_ZCOPY</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Whether or not to use the zero-copy transfer mechanism to transfer large
+messages on UD transport.</p>
+<h2 id="mv2_use_limic_gather">MV2_USE_LIMIC_GATHER</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, PSM</p>
+</li>
+</ul>
+<p>If this flag is set to 1, we will use intra-node Zero-Copy MPI_Gather
+designs, when the library has been configured to use LiMIC2.</p>
+<h2 id="mv2_use_mcast">MV2_USE_MCAST</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Set this to 1, to enable hardware multicast support in collective
+communication</p>
+<h2 id="mv2_mcast_num_nodes_threshold">MV2_MCAST_NUM_NODES_THRESHOLD</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 8</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This defines the threshold for enabling multicast support in collective
+communication. When MV2_USE_MCAST is set to 1 and the number of nodes in
+the job is greater than or equal to the threshold value, it uses
+multicast support in collective communication</p>
+<h2 id="mv2_use_cuda">MV2_USE_CUDA</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>set this to One. to enable support for communication with GPU device
+buffers.</p>
+<h2 id="mv2_cuda_block_size">MV2_CUDA_BLOCK_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 262144</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>The chunk size used in large message transfer from device memory to host
+memory. The other suggested values for this parameter are 131072 and
+524288.</p>
+<h2 id="mv2_cuda_kernel_vector_tidblk_size">MV2_CUDA_KERNEL_VECTOR_TIDBLK_SIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1024</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This controls the number of CUDA threads per block in pack/unpack
+kernels for MPI vector datatype in communication involving GPU device
+buffers.</p>
+<h2 id="mv2_cuda_kernel_vector_ysize">MV2_CUDA_KERNEL_VECTOR_YSIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: tuned based on dimensions of the vector</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This controls the y-dimension of a thread block in pack/unpack kernels
+for MPI vector datatype in communication involving GPU device buffers.
+It controls the number of threads operating on each block of data in a
+vector.</p>
+<h2 id="mv2_cuda_nonblocking_streams">MV2_CUDA_NONBLOCKING_STREAMS</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1 (Enabled)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This controls the use of non-blocking streams for asynchronous CUDA
+memory copies in communication involving GPU memory.</p>
+<h2 id="mv2_cuda_ipc">MV2_CUDA_IPC</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This enables intra-node GPU-GPU communication using IPC feature
+available from CUDA 4.1</p>
+<h2 id="mv2_cuda_smp_ipc">MV2_CUDA_SMP_IPC</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This enables an optimization for short message GPU device-to-device
+communication using IPC feature available from CUDA 4.1</p>
+<h2 id="mv2_enable_sharp">MV2_ENABLE_SHARP</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>Set this to 1, to enable hardware SHArP support in collective
+communication</p>
+<h2 id="mv2_sharp_hca_name">MV2_SHARP_HCA_NAME</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: unset</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>By default, this is set by the MVAPICH2 library. However, you can
+explicitly set the HCA name which is realized by the SHArP library.</p>
+<h2 id="mv2_sharp_port">MV2_SHARP_PORT</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 1</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>By default, this is set by the MVAPICH2 library. However, you can
+explicitly set the HCA port which is realized by the SHArP library.</p>
+<h2 id="mv2_enable_socket_aware_collectives">MV2_ENABLE_SOCKET_AWARE_COLLECTIVES</h2>
+<ul>
+<li>
+<p>Class : Run time</p>
+</li>
+<li>
+<p>Default : Enabled (1)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter enables/disables support for socket-aware collective
+communication. The parameter MV2_USE_SHMEM_COLL must be set to 1 for
+this to work.</p>
+<h2 id="mv2_use_topo_aware_allreduce">MV2_USE_TOPO_AWARE_ALLREDUCE</h2>
+<ul>
+<li>
+<p>Class : Run time</p>
+</li>
+<li>
+<p>Default : Enabled (1)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter determines whether a topology-aware algorithm should be
+used or not for allreduce collective operations. It takes effect only if
+MV2_ENABLE_TOPO_AWARE_COLLECTIVES is set to 1.</p>
+<h2 id="mv2_use_topo_aware_barrier">MV2_USE_TOPO_AWARE_BARRIER</h2>
+<ul>
+<li>
+<p>Class : Run time</p>
+</li>
+<li>
+<p>Default : Enabled (1)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3, OFA-iWARP-CH3</p>
+</li>
+</ul>
+<p>This parameter determines whether a topology-aware algorithm should be
+used or not for barrier collective operations. It takes effect only if
+MV2_ENABLE_TOPO_AWARE_COLLECTIVES is set to 1.</p>
+<h2 id="mv2_use_rdma_cm_mcast">MV2_USE_RDMA_CM_MCAST</h2>
+<ul>
+<li>
+<p>Class : Run time</p>
+</li>
+<li>
+<p>Default : Enabled (1)</p>
+</li>
+<li>
+<p>Applicable interface(s): OFA-IB-CH3</p>
+</li>
+</ul>
+<p>This parameter enables support for RDMA_CM based multicast group setup.
+Requires the parameter MV2_USE_MCAST to be set to 1.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
