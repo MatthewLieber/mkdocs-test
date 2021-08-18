@@ -44,8 +44,7 @@ that you try the following work arounds:
 -   Increase the size of the internal communication buffer being used by
     MVAPICH2 and the switch point between eager and rendezvous protocol
     in MVAPICH2 to a larger value. Please refer to
-    Section [1.1.4](#sec:impact-disable-dereg){reference-type="ref"
-    reference="sec:impact-disable-dereg"} for more details.
+    Section [1.1.4](#impact-of-disabling-memory-registration-cache-on-application-performance) for more details.
 
 ### Issues with MVAPICH2 and Google TCMalloc
 
@@ -62,20 +61,17 @@ If the issue you are facing is at compile time, then you need to
 re-configure the MVAPICH2 library to disable memory registration cache
 at configure time using the "--disable-registration-cache" option.
 Please refer to
-Section [\[subsec:config-gen2\]](#subsec:config-gen2){reference-type="ref"
-reference="subsec:config-gen2"} of the MVAPICH2 userguide for more
+Section [config-gen2](install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3) of the MVAPICH2 userguide for more
 details on how to disable registration cache at build time.
 
 If the issue you are facing is at run time, then please re-run your
 application after setting\
 "MV2_USE_LAZY_MEM_UNREGISTER=0". Please refer to
-Section [\[def:mv2_use_lazy_mem_unregister\]](#def:mv2_use_lazy_mem_unregister){reference-type="ref"
-reference="def:mv2_use_lazy_mem_unregister"} of the MVAPICH2 userguide
+Section [mv2_use_lazy_mem_unregister](/parameters-nem/#mv2_use_lazy_mem_unregister) of the MVAPICH2 userguide
 for more details on how to disable registration cache at run time.
 
 Please refer to
-Section [1.1.4](#sec:impact-disable-dereg){reference-type="ref"
-reference="sec:impact-disable-dereg"} for more details on the impact of
+Section [1.1.4](#impact-of-disabling-memory-registration-cache-on-application-performance) for more details on the impact of
 disabling memory registration cache on application performance.
 
 ### Impact of disabling memory registration cache on application performance 
@@ -96,10 +92,8 @@ eager and rendezvous protocol in MVAPICH2 (using the
 recommend that you set both to the same value (possibly slightly greater
 than the median message size being used by your application). Please
 refer to
-Sections [\[def:rdma-iba-eager-threshold\]](#def:rdma-iba-eager-threshold){reference-type="ref"
-reference="def:rdma-iba-eager-threshold"}
-and [\[def:vbuf-total-size\]](#def:vbuf-total-size){reference-type="ref"
-reference="def:vbuf-total-size"} of the userguide for more information
+Sections [rdma-iba-eager-threshold](/parameters-nem/#mv2_iba_eager_threshold)
+and [vbuf-total-size](/parameters-nem/#mv2_vbuf_total_size) of the userguide for more information
 about these two parameters.
 
 ### MVAPICH2 failed to register memory with InfiniBand HCA
@@ -146,13 +140,11 @@ single-threaded programs. For multi-threaded programs, e.g. MPI+OpenMP,
 it may schedule all the threads of a process to run on the same CPU. CPU
 affinity should be disabled in this case to solve the problem, i.e. set
 `MV2_ENABLE_AFFINITY` to 0. In addition, please read Section
- [\[sec:advanced_multi_thread\]](#sec:advanced_multi_thread){reference-type="ref"
-reference="sec:advanced_multi_thread"} on using MVAPICH2 in
+ [advanced_multi_thread](/usage/#running-mvapich2-in-multi-threaded-environments) on using MVAPICH2 in
 multi-threaded environments. We also recommend using the
 compiler/platform specific run-time options to bind the OpenMP threads
 to processors. Please refer to Section
-( [\[sec:advanced_omp_thread_binding\]](#sec:advanced_omp_thread_binding){reference-type="ref"
-reference="sec:advanced_omp_thread_binding"}) for more information.
+( [advanced_omp_thread_binding](/usage/#compiler-specific-flags-to-enable-openmp-thread-binding)) for more information.
 
 ### Error message "No such file or directory\" when using Lustre file system
 
@@ -232,12 +224,10 @@ following configure options to enable debugging:
 Additionally:
 
 -   See parameter `MV2_DEBUG_CORESIZE`
-    (section [\[def:debug-coresize\]](#def:debug-coresize){reference-type="ref"
-    reference="def:debug-coresize"}) to enable core dumps.
+    (section [debug-coresize](/parameters-general/#mv2_debug_coresize)) to enable core dumps.
 
 -   See parameter `MV2_DEBUG_SHOW_BACKTRACE`
-    (section [\[def:debug-backtrace\]](#def:debug-backtrace){reference-type="ref"
-    reference="def:debug-backtrace"}) to show a basic backtrace in case
+    (section [debug-backtrace](/parameters-general/#mv2_debug_show_backtrace)) to show a basic backtrace in case
     of error.
 
 ### How can I run my application with a different group ID? 
@@ -259,8 +249,7 @@ mentioned, then invoke mpirun_rsh with a path prefix. For example:
 
 Ensure that the MVAPICH2 job launcher mpirun_rsh is compiled with debug
 symbols. Details are available in Section
-[\[subsec:mpi-tv\]](#subsec:mpi-tv){reference-type="ref"
-reference="subsec:mpi-tv"}.
+[mpi-tv](/usage/#run-using-totalview-debugger-support).
 
 ## Problems Building MVAPICH2
 
@@ -368,8 +357,7 @@ steps work for our RHEL5 systems.
 If your system has multiple HCAs per node, ensure that the number of
 HCAs per node is the same across all nodes. Otherwise, specify the
 correct number of HCAs using the parameter
- [\[def:num-hcas\]](#def:num-hcas){reference-type="ref"
-reference="def:num-hcas"}.
+ [num-hcas](/parameters/#mv2_num_hcas).
 
 If you configure MVAPICH2 with `RDMA_CM` and see this issue, ensure that
 the different HCAs on the same node are on different subnets.
@@ -389,10 +377,8 @@ MVAPICH2 (OFA-IB-CH3) provides network fault tolerance with Automatic
 Path Migration (APM). However, APM is supported only with OFED 1.2
 onwards. With OFED 1.1 and prior versions of OpenFabrics drivers, APM
 functionality is not completely supported. Please refer to
-Section [\[def:mv2-use-apm\]](#def:mv2-use-apm){reference-type="ref"
-reference="def:mv2-use-apm"} and
-section [\[def:mv2-use-apm-test\]](#def:mv2-use-apm-test){reference-type="ref"
-reference="def:mv2-use-apm-test"}
+Section [mv2-use-apm](/parameters/#mv2_use_apm) and
+section [mv2-use-apm-test](/parameters/#mv2_use_apm_test)
 
 ### Error opening file
 
@@ -400,8 +386,7 @@ If you configure MVAPICH2 with `RDMA_CM` and see this error, you need to
 verify if you have setup up the local IP address to be used by RDMA_CM
 in the file `/etc/mv2.conf`. Further, you need to make sure that this
 file has the appropriate file read permissions. Please follow
-Section [\[subsec:mpi-rdma-cm\]](#subsec:mpi-rdma-cm){reference-type="ref"
-reference="subsec:mpi-rdma-cm"} for more details on this.
+Section [mpi-rdma-cm](/usage/#running-with-rdma-cm-support) for more details on this.
 
 ### RDMA CM Address error
 
@@ -422,8 +407,7 @@ If you configure MVAPICH2 with RDMA_CM and see this error, you need to
 verify if you have setup up the local IP address to be used by RDMA_CM
 in the file `/etc/mv2.conf`. Further, you need to make sure that this
 file has the appropriate file read permissions. Please follow
-Section [\[subsec:mpi-iwarp\]](#subsec:mpi-iwarp){reference-type="ref"
-reference="subsec:mpi-iwarp"} for more details on this.
+Section [mpi-iwarp](/usage/#run-with-mpirun_rsh-using-ofa-iwarp-interface) for more details on this.
 
 ### RDMA CM Address error
 

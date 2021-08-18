@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://example.com/parameters-general/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>General - MVAPICH</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../extra.css" rel="stylesheet">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">MVAPICH</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../benchmarks/" class="nav-link">Benchmarks</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../install/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../perf-tuning/" class="nav-link">Tunning</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Parameters <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../parameters/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">General</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-mpirun_rsh/" class="dropdown-item">MPIrun</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-nem/" class="dropdown-item">Nem</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../scalable/" class="nav-link">Scalability</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../troubleshooting/" class="nav-link">Troubleshooting</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../parameters/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../parameters-mpirun_rsh/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#mvapich2-general-parameters" class="nav-link">MVAPICH2 General Parameters</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#mv2_ignore_system_config" class="nav-link">MV2_IGNORE_SYSTEM_CONFIG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_ignore_user_config" class="nav-link">MV2_IGNORE_USER_CONFIG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_user_config" class="nav-link">MV2_USER_CONFIG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_debug_coresize" class="nav-link">MV2_DEBUG_CORESIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_debug_show_backtrace" class="nav-link">MV2_DEBUG_SHOW_BACKTRACE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_show_env_info" class="nav-link">MV2_SHOW_ENV_INFO</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mv2_show_cpu_binding" class="nav-link">MV2_SHOW_CPU_BINDING</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="mvapich2-general-parameters">MVAPICH2 General Parameters</h1>
+<h2 id="mv2_ignore_system_config">MV2_IGNORE_SYSTEM_CONFIG</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+</ul>
+<p>If set, the system configuration file is not processed.</p>
+<h2 id="mv2_ignore_user_config">MV2_IGNORE_USER_CONFIG</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0</p>
+</li>
+</ul>
+<p>If set, the user configuration file is not processed.</p>
+<h2 id="mv2_user_config">MV2_USER_CONFIG</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Unset</p>
+</li>
+</ul>
+<p>Specify the path of a user configuration file for mvapich2. If this is
+not set the default path of " /.mvapich2.conf" is used.</p>
+<h2 id="mv2_debug_coresize">MV2_DEBUG_CORESIZE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: Unset</p>
+</li>
+<li>
+<p>Possible values: Positive integer or \"unlimited\"</p>
+</li>
+</ul>
+<p>Set the limit for the core size resource. It allows to specify the
+maximum size for a core dump to be generated. It only set the soft limit
+and it has the respect the hard value set on the nodes.</p>
+<p>It is similar to the <code>ulimit -c &lt;coresize&gt;</code> that can be run in the
+shell, but this will only apply to the MVAPICH2 processes (MPI
+processes, mpirun_rsh, mpispawn).</p>
+<p>Examples:</p>
+<ul>
+<li>
+<p>'<code>MV2_DEBUG_CORESIZE=0</code>' will disable core dumps for MVAPICH2
+    processes.</p>
+</li>
+<li>
+<p>'<code>MV2_DEBUG_CORESIZE=unlimited</code>' will enable core dumps for MVAPICH2
+    processes.</p>
+</li>
+</ul>
+<h2 id="mv2_debug_show_backtrace">MV2_DEBUG_SHOW_BACKTRACE</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0 (disabled)</p>
+</li>
+<li>
+<p>Possible values: 1 to enable, 0 to disable</p>
+</li>
+</ul>
+<p>Show a backtrace when a process fails on errors like \"Segmentation
+faults\", \"Bus error\", \"Illegal Instruction\", \"Abort\" or
+\"Floating point exception\".</p>
+<p>If your application uses the static version of the MVAPICH2 library, you
+have to link your application with the <code>-rdynamic</code> flag in order to see
+the function names in the backtrace. For more information, see the
+backtrace manpage.</p>
+<h2 id="mv2_show_env_info">MV2_SHOW_ENV_INFO</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0 (disabled)</p>
+</li>
+<li>
+<p>Possible values: 1 (short list), 2(full list)</p>
+</li>
+</ul>
+<p>Show the values assigned to the run time environment parameters</p>
+<h2 id="mv2_show_cpu_binding">MV2_SHOW_CPU_BINDING</h2>
+<ul>
+<li>
+<p>Class: Run time</p>
+</li>
+<li>
+<p>Default: 0 (disabled)</p>
+</li>
+<li>
+<p>Possible values: 1 (Show only on node containing rank 0), 2 (Show on
+    all nodes)</p>
+</li>
+</ul>
+<p>If set to 1, it shows the CPU mapping of all processes on node where
+rank 0 exists. If set to 2, it shows the CPU mapping of all processes on
+all nodes.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

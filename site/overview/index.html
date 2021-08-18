@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://example.com/overview/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Overview of the MVAPICH Project - MVAPICH</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../extra.css" rel="stylesheet">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">MVAPICH</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../benchmarks/" class="nav-link">Benchmarks</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../install/" class="nav-link">Installation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../perf-tuning/" class="nav-link">Tunning</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Parameters <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../parameters/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-general/" class="dropdown-item">General</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-mpirun_rsh/" class="dropdown-item">MPIrun</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-nem/" class="dropdown-item">Nem</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../scalable/" class="nav-link">Scalability</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../troubleshooting/" class="nav-link">Troubleshooting</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#overview-of-the-mvapich-project" class="nav-link">Overview of the MVAPICH Project</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#how-to-use-this-user-guide" class="nav-link">How to use this User Guide?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#mvapich2-features" class="nav-link">MVAPICH2 Features</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="overview-of-the-mvapich-project">Overview of the MVAPICH Project</h1>
+<p>InfiniBand, Omni-Path, Ethernet/iWARP and RDMA over Converged Ethernet
+(RoCE) are emerging as high-performance networking technologies to
+deliver low latency and high bandwidth. They are also achieving
+widespread acceptance due to their <em>open standards</em>.</p>
+<p>MVAPICH (pronounced as "em-vah-pich") is an <em>open-source</em> MPI software
+to exploit the novel features and mechanisms of these networking
+technologies and deliver best performance and scalability to MPI
+applications. This software is developed in the <a href="http://nowlab.cse.ohio-state.edu">Network-Based Computing
+Laboratory (NBCL)</a>, headed by <a href="http://www.cse.ohio-state.edu/~panda">Prof.
+Dhabaleswar K. (DK) Panda</a>.</p>
+<p>The MVAPICH2 MPI library supports MPI-3 semantics. This <em>open-source</em>
+MPI software project started in 2001 and a first high-performance
+implementation was demonstrated at SuperComputing '02 conference. After
+that, this software has been steadily gaining acceptance in the HPC,
+InfiniBand, Omni-Path, Ethernet/iWARP and RoCE communities. As of May
+2021, more than 3,150 organizations (National Labs, Universities and
+Industry) world-wide (in 89 countries) have registered as MVAPICH users
+at MVAPICH project web site. There have also been more than 1.36 million
+downloads of this software from the MVAPICH project site directly. In
+addition, many InfiniBand, Omni-Path, Ethernet/iWARP and RoCE vendors,
+server vendors, systems integrators and Linux distributors have been
+incorporating MVAPICH2 into their software stacks and distributing it.
+MVAPICH2 distribution is available under BSD licensing.</p>
+<p>Several InfiniBand systems using MVAPICH2 have obtained positions in the
+TOP 500 ranking. The Nov '20 list includes the following systems: 4th,
+10,649,600-core (Sunway TaihuLight) at National Supercomputing Center in
+Wuxi, China 9th, 448, 448 cores (Frontera) at TACC 14th, 391,680 cores
+(ABCI) in Japan 21st, 570,020 cores (Neurion) in South Korea 22nd,
+556,104 cores (Oakforest-PACS) in Japan 25th, 367,024 cores (Stampede2)
+at TACC and 46th, 241,108-core (Pleiades) at NASA. %90, 76,032-core
+(Tsubame 2.5) at Tokyo Institute of Technology</p>
+<p>More details on MVAPICH software, users list, mailing lists, sample
+performance numbers on a wide range of platforms and interconnects, a
+set of OSU benchmarks, related publications, and other InfiniBand-,
+RoCE, Omni-Path, and iWARP-related projects (High-Performance Big Data
+and High-Performance Deep Learning) can be obtained from our
+website:<a href="http://mvapich.cse.ohio-state.edu">http://mvapich.cse.ohio-state.edu</a>.</p>
+<p>This document contains necessary information for MVAPICH2 users to
+download, install, test, use, tune and troubleshoot MVAPICH2 . We
+continuously fix bugs and update update this document as per user
+feedback. Therefore, we strongly encourage you to refer to our web page
+for updates.</p>
+<h1 id="how-to-use-this-user-guide">How to use this User Guide?</h1>
+<p>This guide is designed to take the user through all the steps involved
+in configuring, installing, running and tuning MPI applications over
+InfiniBand using MVAPICH2 .</p>
+<p>In Section <a href="#mvapich2-features">3</a> we describe all the features in MVAPICH2 . As
+you read through this section, please note our new features (highlighted
+as [NEW]) compared to version . Some of these
+features are designed in order to optimize specific type of MPI
+applications and achieve greater scalability.
+Section <a href="#sec:install">[sec:install]</a>{reference-type="ref"
+reference="sec:install"} describes in detail the configuration and
+installation steps. This section enables the user to identify specific
+compilation flags which can be used to turn some of the features on or
+off. Basic usage of MVAPICH2 is explained in
+Section <a href="#sec:usage">[sec:usage]</a>{reference-type="ref"
+reference="sec:usage"}.
+Section <a href="#sec:advanced_usage">[sec:advanced_usage]</a>{reference-type="ref"
+reference="sec:advanced_usage"} provides instructions for running
+MVAPICH2 with some of the advanced features.
+Section <a href="#sec:osubenchmarks">[sec:osubenchmarks]</a>{reference-type="ref"
+reference="sec:osubenchmarks"} describes the usage of the OSU
+Benchmarks. In
+Section <a href="#sec:performance-tuning">[sec:performance-tuning]</a>{reference-type="ref"
+reference="sec:performance-tuning"} we suggest some tuning techniques
+for multi-thousand node clusters using some of our new features. If you
+have any problems using MVAPICH2, please check
+Section <a href="#sec:troubleshooting">[sec:troubleshooting]</a>{reference-type="ref"
+reference="sec:troubleshooting"} where we list some of the common
+problems people face. Finally, in Sections
+<a href="#def:mvapich-parameters">[def:mvapich-parameters]</a>{reference-type="ref"
+reference="def:mvapich-parameters"} and
+<a href="#def:mvapich-parameters-nem">[def:mvapich-parameters-nem]</a>{reference-type="ref"
+reference="def:mvapich-parameters-nem"}, we list all important run time
+parameters, their default values and a short description.</p>
+<h1 id="mvapich2-features">MVAPICH2 Features</h1>
+<p>MVAPICH2 (MPI-3 over InfiniBand) is an MPI-3 implementation based on
+<a href="http://www.mpich.org/">MPICH</a> ADI3 layer. MVAPICH2 is available as a
+single integrated package (with MPICH ). The current release supports
+ten different underlying transport interfaces, as shown in
+Figure <a href="#fig:modules">1</a>.</p>
+<p><img alt="Overview of different available interfaces of the MVAPICH2
+library" src="../Img/mv2-interfaces.png" /></p>
+<ul>
+<li>
+<p>OFA-IB-CH3: This interface supports all InfiniBand compliant devices
+    based on the <a href="http://www.openfabrics.org">OpenFabrics</a> layer. This
+    interface has the most features and is most widely used. For
+    example, this interface can be used over all Mellanox InfiniBand
+    adapters, IBM eHCA adapters and TrueScale adapters.</p>
+</li>
+<li>
+<p>OFA-iWARP-CH3: This interface supports all iWARP compliant devices
+    supported by OpenFabrics. For example, this layer supports Chelsio
+    T3 adapters with the native iWARP mode.</p>
+</li>
+<li>
+<p>OFA-RoCE-CH3: This interface supports the emerging RoCE (RDMA over
+    Converged Ethernet) interface for Mellanox ConnectX-EN adapters with
+    10/40GigE switches. It provides support for RoCE v1 and v2.</p>
+</li>
+<li>
+<p>TrueScale (PSM-CH3): This interface provides native support for
+    TrueScale adapters from Intel over PSM interface. It provides
+    high-performance point-to-point communication for both one-sided and
+    two-sided operations.</p>
+</li>
+<li>
+<p>Omni-Path (PSM2-CH3): This interface provides native support for
+    Omni-Path adapters from Intel over PSM2 interface. It provides
+    high-performance point-to-point communication for both one-sided and
+    two-sided operations.</p>
+</li>
+<li>
+<p>Shared-Memory-CH3: This interface provides native shared memory
+    support on multi-core platforms where communication is required only
+    within a node. Such as SMP-only systems, laptops, etc.</p>
+</li>
+<li>
+<p>TCP/IP-CH3: The standard TCP/IP interface (provided by MPICH) to
+    work with a range of network adapters supporting TCP/IP interface.
+    This interface can be used with IPoIB (TCP/IP over InfiniBand
+    network) support of InfiniBand also. However, it will not deliver
+    good performance/scalability as compared to the other interfaces.</p>
+</li>
+<li>
+<p>TCP/IP-Nemesis: The standard TCP/IP interface (provided by MPICH
+    Nemesis channel) to work with a range of network adapters supporting
+    TCP/IP interface. This interface can be used with IPoIB (TCP/IP over
+    InfiniBand network) support of InfiniBand also. However, it will not
+    deliver good performance/scalability as compared to the other
+    interfaces.</p>
+</li>
+<li>
+<p>Shared-Memory-Nemesis: This interface provides native shared memory
+    support on multi-core platforms where communication is required only
+    within a node. Such as SMP-only systems, laptops, etc.</p>
+</li>
+<li>
+<p>[(DEPRECATED)] OFA-IB-Nemesis: This interface
+    supports all InfiniBand compliant devices based on the OpenFabrics
+    layer with the emerging Nemesis channel of the MPICH stack. This
+    interface can be used by all Mellanox InfiniBand adapters.</p>
+</li>
+</ul>
+<p>MVAPICH2 is compliant with MPI 3 standard. In addition, MVAPICH2
+provides support and optimizations for NVIDIA GPU, multi-threading and
+fault-tolerance (Checkpoint-restart, Job-pause-migration-resume). A
+complete set of features of MVAPICH2 are indicated below. New features
+compared to v2.2 are indicated as [NEW].</p>
+<ul>
+<li>
+<p>[NEW] Based on and ABI compatible with MPICH-</p>
+</li>
+<li>
+<p>MPI-3 standard compliance</p>
+<ul>
+<li>
+<p>Nonblocking collectives</p>
+</li>
+<li>
+<p>Neighborhood collectives</p>
+</li>
+<li>
+<p>MPI_Comm_split_type support</p>
+</li>
+<li>
+<p>Support for MPI_Type_create_hindexed_block</p>
+</li>
+<li>
+<p>[NEW] Enhanced support for MPI_T PVARs and
+    CVARs</p>
+</li>
+<li>
+<p>[NEW] Enhanced performance for Allreduce,
+    Reduce_scatter_block, Allgather, Allgatherv through new
+    algorithms</p>
+</li>
+<li>
+<p>[NEW] Improved performance for small message
+    collective operations</p>
+</li>
+<li>
+<p>[NEW] Improved performance of data transfers
+    from/to non-contiguous buffers used by user-defined datatypes</p>
+</li>
+<li>
+<p>Nonblocking communicator duplication routine MPI_Comm_idup (will
+    only work for single-threaded programs)</p>
+</li>
+<li>
+<p>MPI_Comm_create_group support</p>
+</li>
+<li>
+<p>Support for matched probe functionality</p>
+</li>
+<li>
+<p>Support for \"Const\" (disabled by default)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>CH3-level design for scaling to multi-thousand cores with highest
+    performance and reduced memory usage.</p>
+<ul>
+<li>
+<p>Support for MPI-3 RMA in OFA-IB-CH3, OFA-IWARP-CH3,
+    OFA-RoCE-CH3, TrueScale (PSM-CH3) and Omni-Path (PSM2-CH3)</p>
+</li>
+<li>
+<p>Support for Omni-Path architecture</p>
+<ul>
+<li>Introduction of a new PSM2-CH3 channel for Omni-Path</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Support for Marvel QEDR RoCE adapters</p>
+</li>
+<li>
+<p>[NEW] Support for PMIx protocol for SLURM
+    and JSM</p>
+</li>
+<li>
+<p>[NEW] Support for RDMA_CM based multicast
+    group creation</p>
+</li>
+<li>
+<p>Support for OpenPOWER architecture</p>
+</li>
+<li>
+<p>[NEW] Support IBM POWER9 and POWER8
+    architecture</p>
+</li>
+<li>
+<p>[NEW] Support Microsoft Azure HPC cloud
+    platform</p>
+</li>
+<li>
+<p>[NEW] Support Cavium ARM (ThunderX2) systems</p>
+</li>
+<li>
+<p>[NEW] Support Intel Skylake architecture</p>
+</li>
+<li>
+<p>[NEW] Support Intel Cascade Lake
+    architecture</p>
+</li>
+<li>
+<p>[NEW] Support AMD EPYC Rome architecture</p>
+<ul>
+<li>[NEW] Enhanced point-to-point and
+    collective tuning for AMD ROME processor</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Support for Broadcom NetXtreme RoCE
+    HCA</p>
+<ul>
+<li>[NEW] Enhanced inter-node point-to-point
+    for Broadcom NetXtreme RoCE HCA</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Support architecture detection for
+    Fujitsu A64fx processor</p>
+<ul>
+<li>[NEW] Enhanced point-to-point and
+    collective tuning for Fujitsu A64fx processor</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Support architecture detection for
+    Oracle BM.HPC2 cloud shape</p>
+<ul>
+<li>[NEW]Enhanced point-to-point tuning for
+    Oracle BM.HPC2 cloud shape</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Support for Intel Knights Landing
+    architecture</p>
+<ul>
+<li>
+<p>[NEW] Efficient support for different
+    Intel Knight's Landing (KNL) models</p>
+</li>
+<li>
+<p>Optimized inter-node and intra-node communication</p>
+</li>
+<li>
+<p>[NEW] Enhance large message intra-node
+    performance with CH3-IB-Gen2 channel on Intel Knight's
+    Landing</p>
+</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Support for executing MPI jobs in
+    Singularity</p>
+</li>
+<li>
+<p>Exposing several performance and control variables to MPI-3
+    Tools information interface (MPIT)</p>
+<ul>
+<li>
+<p>Enhanced PVAR support</p>
+</li>
+<li>
+<p>[NEW] Add multiple MPI_T PVARs and CVARs
+    for point-to-point and collective operations</p>
+</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Enhance performance of point-to-point
+    operations for CH3-Gen2 (InfiniBand), CH3-PSM, and CH3-PSM2
+    (Omni- Path) channels</p>
+</li>
+<li>
+<p>Enable support for multiple MPI initializations</p>
+</li>
+<li>
+<p>Enhanced performance for small messages</p>
+</li>
+<li>
+<p>Flexibility to use internal communication buffers of different
+    size</p>
+</li>
+<li>
+<p>Enhanced performance for MPI_Comm_split through new bitonic
+    algorithm</p>
+</li>
+<li>
+<p>Tuning internal communication buffer size for performance</p>
+</li>
+<li>
+<p>Improve communication performance by removing locks from
+    critical path</p>
+</li>
+<li>
+<p>Enhanced communication performance for small/medium message
+    sizes</p>
+</li>
+<li>
+<p>Reduced memory footprint</p>
+</li>
+<li>
+<p>[NEW] Multi-rail support for UD-Hybrid
+    channel</p>
+</li>
+<li>
+<p>[NEW] Enhanced performance for UD-Hybrid
+    code</p>
+</li>
+<li>
+<p>Support for InfiniBand hardware UD-Multicast based collectives</p>
+</li>
+<li>
+<p>[NEW] Gracefully handle any number of HCAs</p>
+</li>
+<li>
+<p>HugePage support</p>
+</li>
+<li>
+<p>Integrated Hybrid (UD-RC/XRC) design to get best performance on
+    large-scale systems with reduced/constant memory footprint</p>
+</li>
+<li>
+<p>Support for running with UD only mode</p>
+</li>
+<li>
+<p>Support for MPI-2 Dynamic Process Management on InfiniBand
+    Clusters</p>
+</li>
+<li>
+<p>eXtended Reliable Connection (XRC) support</p>
+<ul>
+<li>Enable XRC by default at configure time</li>
+</ul>
+</li>
+<li>
+<p>Multiple CQ-based design for Chelsio 10GigE/iWARP</p>
+</li>
+<li>
+<p>Multi-port support for Chelsio 10GigE/iWARP</p>
+</li>
+<li>
+<p>Enhanced iWARP design for scalability to higher process count</p>
+</li>
+<li>
+<p>Support iWARP interoperability between Intel NE020 and Chelsio
+    T4 adapters</p>
+</li>
+<li>
+<p>Support for 3D torus topology with appropriate SL settings</p>
+</li>
+<li>
+<p>Quality of Service (QoS) support with multiple InfiniBand SL</p>
+</li>
+<li>
+<p>[NEW] Capability to run MPI jobs across
+    multiple InfiniBand subnets</p>
+</li>
+<li>
+<p>Enabling support for intra-node communications in RoCE mode
+    without shared memory</p>
+</li>
+<li>
+<p>On-demand Connection Management: This feature enables InfiniBand
+    connections to be setup dynamically, enhancing the scalability
+    of MVAPICH2 on clusters of thousands of nodes.</p>
+<ul>
+<li>
+<p>Support for backing on-demand UD CM information with shared
+    memory for minimizing memory footprint</p>
+</li>
+<li>
+<p>Improved on-demand InfiniBand connection setup</p>
+</li>
+<li>
+<p>On-demand connection management support with IB CM (RoCE
+    Interface)</p>
+</li>
+<li>
+<p>Native InfiniBand Unreliable Datagram (UD) based
+    asynchronous connection management for OpenFabrics-IB
+    interface.</p>
+</li>
+<li>
+<p>RDMA CM based on-demand connection management for
+    OpenFabrics-IB and\
+    OpenFabrics-iWARP interfaces.</p>
+</li>
+<li>
+<p>[NEW] Support to automatically detect IP
+    address of IB/RoCE interfaces when RDMA CM is enabled
+    without relying on mv2.conf file</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Message coalescing support to enable reduction of per Queue-pair
+    send queues for reduction in memory requirement on large scale
+    clusters. This design also increases the small message messaging
+    rate significantly. Available for OFA-IB-CH3 interface.</p>
+</li>
+<li>
+<p>RDMA Read utilized for increased overlap of computation and
+    communication for OpenFabrics device. Available for OFA-IB-CH3
+    and OFA-IB-iWARP-CH3 interfaces.</p>
+</li>
+<li>
+<p>Shared Receive Queue (SRQ) with flow control. This design uses
+    significantly less memory for MPI library. Available for
+    OFA-IB-CH3 interface.</p>
+</li>
+<li>
+<p>Adaptive RDMA Fast Path with Polling Set for low-latency
+    messaging. Available for OFA-IB-CH3 and OFA-iWARP-CH3
+    interfaces.</p>
+</li>
+<li>
+<p>Header caching for low-latency</p>
+</li>
+<li>
+<p>CH3 shared memory channel for standalone hosts (including
+    SMP-only systems and laptops) without any InfiniBand adapters</p>
+</li>
+<li>
+<p>Unify process affinity support in OFA-IB-CH3, PSM-CH3 and
+    PSM2-CH3 channels</p>
+</li>
+<li>
+<p>Support to enable affinity with asynchronous progress thread</p>
+</li>
+<li>
+<p>Allow processes to request MPI_THREAD_MULTIPLE when socket or
+    NUMA node level affinity is specified</p>
+</li>
+<li>
+<p>Reorganized HCA-aware process mapping</p>
+</li>
+<li>
+<p>Dynamic identification of maximum read/atomic operations
+    supported by HCA</p>
+</li>
+<li>
+<p>Enhanced scalability for RDMA-based direct one-sided
+    communication with less communication resource. Available for
+    OFA-IB-CH3 and OFA-iWARP-CH3 interfaces.</p>
+</li>
+<li>
+<p>Removed libibumad dependency for building the library</p>
+</li>
+<li>
+<p>Option to disable signal handler setup</p>
+</li>
+<li>
+<p>Tuned thresholds for various architectures</p>
+</li>
+<li>
+<p>Option for selecting non-default gid-index in a loss-less fabric
+    setup in RoCE mode</p>
+</li>
+<li>
+<p>Option to use IP address as a fallback if hostname cannot be
+    resolved</p>
+</li>
+<li>
+<p>[NEW] Improved job-startup performance</p>
+</li>
+<li>
+<p>[NEW] Gracefully handle RDMA_CM failures
+    during job-startup</p>
+</li>
+<li>
+<p>Enhanced startup time for UD-Hybrid channel</p>
+</li>
+<li>
+<p>Provided a new runtime variable MV2_HOMOGENEOUS_CLUSTER for
+    optimized startup on homogeneous clusters</p>
+</li>
+<li>
+<p>Improved debug messages and error reporting</p>
+</li>
+<li>
+<p>Supporting large data transfers ($&gt;$<code>&lt;!-- --&gt;</code>2GB)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for MPI communication from NVIDIA GPU device memory</p>
+<ul>
+<li>
+<p>[NEW] Improved performance for Host buffers
+    when CUDA is enabled</p>
+</li>
+<li>
+<p>[NEW] Add custom API to identify if MVAPICH2
+    has in-built CUDA support</p>
+</li>
+<li>
+<p>Support for MPI_Scan and MPI_Exscan collective operations from
+    GPU buffers</p>
+</li>
+<li>
+<p>Multi-rail support for GPU communication</p>
+</li>
+<li>
+<p>Support for non-blocking streams in asynchronous CUDA transfers
+    for better overlap</p>
+</li>
+<li>
+<p>Dynamic CUDA initialization. Support GPU device selection after
+    MPI_Init</p>
+</li>
+<li>
+<p>Support for running on heterogeneous clusters with GPU and
+    non-GPU nodes</p>
+</li>
+<li>
+<p>Tunable CUDA kernels for vector datatype processing for GPU
+    communication</p>
+</li>
+<li>
+<p>Optimized sub-array data-type processing for GPU-to-GPU
+    communication</p>
+</li>
+<li>
+<p>Added options to specify CUDA library paths</p>
+</li>
+<li>
+<p>Efficient vector, hindexed datatype processing on GPU buffers</p>
+</li>
+<li>
+<p>Tuned MPI performance on Kepler GPUs</p>
+</li>
+<li>
+<p>Improved intra-node communication with GPU buffers using
+    pipelined design</p>
+</li>
+<li>
+<p>Improved inter-node communication with GPU buffers with
+    non-blocking CUDA copies</p>
+</li>
+<li>
+<p>Improved small message communication performance with CUDA IPC
+    design</p>
+</li>
+<li>
+<p>Improved automatic GPU device selection and CUDA context
+    management</p>
+</li>
+<li>
+<p>Optimal communication channel selection for different GPU
+    communication modes (DD, HH and HD) in different configurations
+    (intra-IOH a and inter-IOH)</p>
+</li>
+<li>
+<p>Provided option to use CUDA library call instead of CUDA driver
+    to check buffer pointer type</p>
+</li>
+<li>
+<p>High performance RDMA-based inter-node point-to-point
+    communication (GPU-GPU, GPU-Host and Host-GPU)</p>
+</li>
+<li>
+<p>High performance intra-node point-to-point communication for
+    multi-GPU adapters/node (GPU-GPU, GPU-Host and Host-GPU)</p>
+</li>
+<li>
+<p>Enhanced designs for Alltoall and Allgather collective
+    communication from GPU device buffers</p>
+</li>
+<li>
+<p>Optimized and tuned support for collective communication from
+    GPU buffers</p>
+</li>
+<li>
+<p>Non-contiguous datatype support in point-to-point and collective
+    communication from GPU buffers</p>
+</li>
+<li>
+<p>Updated to sm_20 kernel optimizations for MPI Datatypes</p>
+</li>
+<li>
+<p>Taking advantage of CUDA IPC (available in CUDA 4.1) in
+    intra-node communication for multiple GPU adapters/node</p>
+</li>
+<li>
+<p>Efficient synchronization mechanism using CUDA Events for
+    pipelined device data transfers</p>
+</li>
+</ul>
+</li>
+<li>
+<p>OFA-IB-Nemesis interface design [(Deprecated)]</p>
+<ul>
+<li>
+<p>OpenFabrics InfiniBand network module support for MPICH Nemesis
+    modular design</p>
+</li>
+<li>
+<p>Optimized adaptive RDMA fast path with Polling Set for
+    high-performance inter-node communication</p>
+</li>
+<li>
+<p>Shared Receive Queue (SRQ) support with flow control, uses
+    significantly less memory for MPI library</p>
+</li>
+<li>
+<p>Header caching for low-latency</p>
+</li>
+<li>
+<p>Support for additional features (such as hwloc, hierarchical
+    collectives, one-sided, multi-threading, etc.), as included in
+    the MPICH Nemesis channel</p>
+</li>
+<li>
+<p>Support of Shared-Memory-Nemesis interface on multi-core
+    platforms requiring intra-node communication only (SMP-only
+    systems, laptops, etc.)</p>
+</li>
+<li>
+<p>Support for 3D torus topology with appropriate SL settings</p>
+</li>
+<li>
+<p>Quality of Service (QoS) support with multiple InfiniBand SL</p>
+</li>
+<li>
+<p>Automatic inter-node communication parameter tuning based on
+    platform and adapter detection</p>
+</li>
+<li>
+<p>Flexible HCA selection</p>
+</li>
+<li>
+<p>Checkpoint-Restart support</p>
+</li>
+<li>
+<p>Run-through stabilization support to handle process failures</p>
+</li>
+<li>
+<p>Enhancements to handle IB errors gracefully</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Flexible process manager support</p>
+<ul>
+<li>
+<p>Support for PMI-2 based startup with SLURM</p>
+</li>
+<li>
+<p>Enhanced startup performance with SLURM</p>
+<ul>
+<li>Support for PMIX_Iallgather and PMIX_Ifence</li>
+</ul>
+</li>
+<li>
+<p>Enhanced startup performance and reduced memory footprint for
+    storing InfiniBand end-point information with SLURM</p>
+<ul>
+<li>Support for shared memory based PMI operations</li>
+</ul>
+</li>
+<li>
+<p>[NEW] On-demand connection management for
+    PSM-CH3 and PSM2-CH3 channels</p>
+</li>
+<li>
+<p>[NEW] Support for JSM and Flux resource
+    managers</p>
+</li>
+<li>
+<p>[NEW] Enhanced job-startup performance for
+    flux job launcher</p>
+</li>
+<li>
+<p>[NEW] Improved job startup performance with
+    mpirun_rsh</p>
+</li>
+<li>
+<p>[NEW] Support in mpirun_rsh for using srun
+    daemons to launch jobs</p>
+</li>
+<li>
+<p>[NEW] Support in mpirun_rsh for specifying
+    processes per node using '-ppn'</p>
+</li>
+<li>
+<p>Improved startup performance for TrueScale (PSM-CH3) channel</p>
+</li>
+<li>
+<p>[NEW] Improved job startup time for
+    OFA-IB-CH3, PSM-CH3, and PSM2-CH3</p>
+</li>
+<li>
+<p>Improved hierarchical job startup performance</p>
+</li>
+<li>
+<p>Enhanced hierarchical ssh-based robust mpirun_rsh framework to
+    work with any interface (CH3 and Nemesis channel-based)
+    including OFA-IB-Nemesis, TCP/IP-CH3 and TCP/IP-Nemesis to
+    launch jobs on multi-thousand core clusters</p>
+</li>
+<li>
+<p>Introduced option to export environment variables automatically
+    with mpirun_rsh</p>
+</li>
+<li>
+<p>Support for automatic detection of path to utilities(rsh, ssh,
+    xterm, TotalView) used by mpirun_rsh during configuration</p>
+</li>
+<li>
+<p>Support for launching jobs on heterogeneous networks with
+    mpirun_rsh</p>
+</li>
+<li>
+<p>MPMD job launch capability</p>
+</li>
+<li>
+<p>Hydra process manager to work with any of the ten interfaces
+    (CH3 and Nemesis channel-based) including OFA-IB-CH3,
+    OFA-iWARP-CH3, OFA-RoCE-CH3 and TCP/IP-CH3</p>
+</li>
+<li>
+<p>Improved debug message output in process management and fault
+    tolerance functionality</p>
+</li>
+<li>
+<p>Better handling of process signals and error management in
+    mpispawn</p>
+</li>
+<li>
+<p>Flexibility for process execution with alternate group IDs</p>
+</li>
+<li>
+<p>Using in-band IB communication with MPD</p>
+</li>
+<li>
+<p>SLURM integration with mpiexec.mpirun_rsh to use SLURM allocated
+    hosts without specifying a hostfile</p>
+</li>
+<li>
+<p>Support added to automatically use PBS_NODEFILE in Torque and
+    PBS environments</p>
+</li>
+<li>
+<p>Support for suspend/resume functionality with mpirun_rsh
+    framework</p>
+</li>
+<li>
+<p>Exporting local rank, local size, global rank and global size
+    through environment variables (both mpirun_rsh and hydra)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for various job launchers and job schedulers (such as SGE
+    and OpenPBS/Torque)</p>
+</li>
+<li>
+<p>Configuration file support (similar to one available in MVAPICH).
+    Provides a convenient method for handling all runtime variables
+    through a configuration file.</p>
+</li>
+<li>
+<p>Fault-tolerance support</p>
+<ul>
+<li>
+<p>Checkpoint-Restart Support with DMTCP (Distributed MultiThreaded
+    CheckPointing)</p>
+</li>
+<li>
+<p>Enable hierarchical SSH-based startup with Checkpoint-Restart</p>
+</li>
+<li>
+<p>Enable the use of Hydra launcher with Checkpoint-Restart for
+    OFA-IB-CH3 and OFA-IB-Nemesis interfaces</p>
+</li>
+<li>
+<p>Checkpoint/Restart using LLNL's Scalable Checkpoint/Restart
+    Library (SCR)</p>
+<ul>
+<li>
+<p>Support for application-level checkpointing</p>
+</li>
+<li>
+<p>Support for hierarchical system-level checkpointing</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Checkpoint-restart support for application transparent
+    systems-level fault tolerance.
+    <a href="http://ftg.lbl.gov/CheckpointRestart/CheckpointRestart.shtml">BLCR-based</a>
+    support using OFA-IB-CH3 and OFA-IB-Nemesis interfaces</p>
+<ul>
+<li>
+<p>Scalable Checkpoint-restart with mpirun_rsh framework</p>
+</li>
+<li>
+<p>Checkpoint-restart with <a href="http://www.mcs.anl.gov/research/cifts/index.php"> Fault-Tolerance Backplane
+    (FTB)</a>
+    framework (FTB-CR)</p>
+</li>
+<li>
+<p>Checkpoint-restart with intra-node shared memory
+    (user-level) support</p>
+</li>
+<li>
+<p>Checkpoint-restart with intra-node shared memory
+    (kernel-level with LiMIC2) support</p>
+</li>
+<li>
+<p>Checkpoint-restart support with pure SMP mode</p>
+</li>
+<li>
+<p>Allows best performance and scalability with fault-tolerance
+    support</p>
+</li>
+<li>
+<p>Run-through stabilization support to handle process failures
+    using OFA-IB-Nemesis interface</p>
+</li>
+<li>
+<p>Enhancements to handle IB errors gracefully using
+    OFA-IB-Nemesis interface</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Application-initiated system-level checkpointing is also
+    supported. User application can request a whole program
+    checkpoint synchronously by calling special MVAPICH2 functions.</p>
+<ul>
+<li>Flexible interface to work with different files systems.
+    Tested with ext3 (local disk), NFS and PVFS2.</li>
+</ul>
+</li>
+<li>
+<p>Network-Level fault tolerance with Automatic Path Migration
+    (APM) for tolerating intermittent network failures over
+    InfiniBand.</p>
+</li>
+<li>
+<p>Fast Checkpoint-Restart support with aggregation scheme</p>
+</li>
+<li>
+<p>Job Pause-Migration-Restart Framework for Pro-active
+    Fault-Tolerance</p>
+<ul>
+<li>Enable signal-triggered (SIGUSR2) migration</li>
+</ul>
+</li>
+<li>
+<p>Fast process migration using RDMA</p>
+</li>
+<li>
+<p>Support for new standardized Fault Tolerant Backplane (FTB)
+    Events for Checkpoint-Restart and Job Pause-Migration-Restart
+    Framework</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Enhancement to software installation</p>
+<ul>
+<li>
+<p>Revamped Build system</p>
+<ul>
+<li>
+<p>Uses automake instead of simplemake,</p>
+</li>
+<li>
+<p>Allows for parallel builds (\"make -j8\" and similar)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Full autoconf-based configuration</p>
+</li>
+<li>
+<p>Automatically detects system architecture and adapter types and
+    optimizes MVAPICH2 for any particular installation.</p>
+</li>
+<li>
+<p>A utility (mpiname) for querying the MVAPICH2 library version
+    and configuration information</p>
+</li>
+<li>
+<p>Automatically builds and installs OSU Benchmarks for end-user
+    convenience</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Optimized intra-node communication support by taking advantage of
+    shared-memory communication. Available for all interfaces (IB and
+    iWARP).</p>
+<ul>
+<li>
+<p>[NEW] Improve support for large processes
+    per node and hugepages on SMP systems</p>
+</li>
+<li>
+<p>Enhanced intra-node SMP performance</p>
+</li>
+<li>
+<p>Tuned SMP eager threshold parameters</p>
+</li>
+<li>
+<p>New shared memory design for enhanced intra-node small message
+    performance</p>
+</li>
+<li>
+<p>[NEW] Enhanced performance for shared-memory
+    collectives</p>
+</li>
+<li>
+<p>Support for single copy intra-node communication using Linux
+    supported CMA (Cross Memory Attach)</p>
+<ul>
+<li>
+<p>Enabled by default</p>
+</li>
+<li>
+<p>[NEW] Give preference to CMA if LiMIC2
+    and CMA are enabled at the same time</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Kernel-level single-copy intra-node communication solution based
+    on LiMIC2</p>
+<ul>
+<li>
+<p>Upgraded to LiMIC2 version 0.5.6 to support unlocked ioctl
+    calls</p>
+</li>
+<li>
+<p>LiMIC2 is designed and developed by jointly by The Ohio
+    State University and System Software Laboratory at Konkuk
+    University, Korea.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Efficient Buffer Organization for Memory Scalability of
+    Intra-node Communication</p>
+</li>
+<li>
+<p>Multi-core optimized</p>
+</li>
+<li>
+<p>Adjust shared-memory communication block size at runtime</p>
+</li>
+<li>
+<p>[NEW] Enhanced intra-node and inter-node
+    tuning for PSM-CH3 and PSM2-CH3 channels</p>
+</li>
+<li>
+<p>[NEW] Added logic to detect heterogeneous
+    CPU/HFI configurations in PSM-CH3 and PSM2-CH3 channels</p>
+</li>
+<li>
+<p>[NEW] support for process placement aware
+    HCA selection</p>
+</li>
+<li>
+<p>Automatic intra-node communication parameter tuning based on
+    platform</p>
+</li>
+<li>
+<p>Efficient connection set-up for multi-core systems</p>
+</li>
+<li>
+<p>[NEW] Portable Hardware Locality (hwloc v)
+    support for defining CPU affinity</p>
+</li>
+<li>
+<p>[NEW] Portable Hardware Locality (hwloc v)
+    support for defining CPU affinity</p>
+</li>
+<li>
+<p>[NEW] NUMA-aware hybrid binding policy for
+    dense numa systems such as AMD EPYC (hwloc v)</p>
+</li>
+<li>
+<p>[NEW] NUMA-aware hybrid binding policy for
+    dense numa systems such as AMD EPYC (hwloc v)</p>
+</li>
+<li>
+<p>[NEW] Add support to select hwloc v1 and
+    hwloc v2 at configure time</p>
+</li>
+<li>
+<p>[NEW] Efficient CPU binding policies
+    (spread, bunch, and scatter) to specify CPU binding per job for
+    modern multi-core platforms with SMT support</p>
+</li>
+<li>
+<p>[NEW] Improved multi-rail selection logic</p>
+</li>
+<li>
+<p>[NEW] Improved heterogeneity detection logic
+    for HCA and CPU</p>
+</li>
+<li>
+<p>Enhanced support for CPU binding with socket and numanode level
+    granularity</p>
+</li>
+<li>
+<p>Enhance MV2_SHOW_CPU_BINDING to enable display of CPU bindings
+    on all nodes</p>
+</li>
+<li>
+<p>Improve performance of architecture detection</p>
+</li>
+<li>
+<p>Enhanced process mapping support for multi-threaded MPI
+    applications</p>
+<ul>
+<li>
+<p>[NEW] Improve support for process to
+    core mapping on many-core systems</p>
+<ul>
+<li>
+<p>New environment variable MV2_HYBRID_BINDING_POLICY for
+    multi-threaded MPI and MPI+OpenMP applications</p>
+</li>
+<li>
+<p>Support 'spread', 'linear', and 'compact' placement of
+    threads</p>
+</li>
+<li>
+<p>Warn user if oversubcription of core is detected</p>
+</li>
+</ul>
+</li>
+<li>
+<p>[NEW] Introduce
+    MV2_CPU_BINDING_POLICY=hybrid</p>
+</li>
+<li>
+<p>[NEW] Introduce
+    MV2_HYBRID_BINDING_POLICY</p>
+</li>
+<li>
+<p>[NEW] Introduce MV2_THREADS_PER_PROCESS</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Improved usability of process to CPU mapping with support of
+    delimiters (',' , '-') in CPU listing</p>
+</li>
+<li>
+<p>Also allows user-defined CPU binding</p>
+</li>
+<li>
+<p>Optimized for Bus-based SMP and NUMA-Based SMP systems.</p>
+</li>
+<li>
+<p>Efficient support for diskless clusters</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Optimized collective communication operations. Available for
+    OFA-IB-CH3, OFA-iWARP-CH3, and OFA-RoCE-CH3 interfaces</p>
+<ul>
+<li>
+<p>[NEW] Enhanced small message performance for
+    Alltoallv</p>
+</li>
+<li>
+<p>[NEW] Support collective offload using
+    Mellanox's SHARP for Allreduce and Barrier</p>
+</li>
+<li>
+<p>[NEW] Support collective offload using
+    Mellanox's SHARP for Reduce and Bcast</p>
+</li>
+<li>
+<p>[NEW] Enhanced tuning framework for Reduce
+    and Bcast using SHARP</p>
+</li>
+<li>
+<p>[NEW] Enhanced collective tuning for
+    OpenPOWER (POWER8 and POWER9), Intel Skylake and Cavium ARM
+    (ThunderX) systems</p>
+</li>
+<li>
+<p>[NEW] Enhanced point-to-point and collective
+    tuning for AMD EPYC Rome, Frontera\@TACC, Longhorn\@TACC,
+    Mayer\@Sandia, Pitzer\@OSC, Catalyst\@EPCC, Summit\@ORNL,
+    Lassen\@LLNL, Sierra\@LLNL, Expanse\@SDSC, Ookami\@StonyBrook,
+    and bb5\@EPFL systems</p>
+</li>
+<li>
+<p>[NEW] Enhanced collective tuning for Intel
+    Knights Landing and Intel Omni-path</p>
+</li>
+<li>
+<p>[NEW] Enhance collective tuning for
+    Bebop\@ANL, Bridges\@PSC, and Stampede2\@TACC systems</p>
+</li>
+<li>
+<p>[NEW] Efficient CPU binding policies</p>
+</li>
+<li>
+<p>Optimized collectives (bcast, reduce, and allreduce) for 4K
+    processes</p>
+</li>
+<li>
+<p>Optimized and tuned blocking and non-blocking collectives for
+    OFA-IB-CH3, OFA-IB-Nemesis and TrueScale (PSM-CH3) channels</p>
+</li>
+<li>
+<p>Enhanced MPI_Bcast, MPI_Reduce, MPI_Scatter, MPI_Gather
+    performance</p>
+</li>
+<li>
+<p>Hardware UD-Multicast based designs for collectives - Bcast,
+    Allreduce and Scatter</p>
+</li>
+<li>
+<p>Intra-node Zero-Copy designs for MPI_Gather collective (using
+    LiMIC2)</p>
+</li>
+<li>
+<p>Enhancements and optimizations for point-to-point designs for
+    Broadcast, Allreduce collectives</p>
+</li>
+<li>
+<p>Improved performance for shared-memory based collectives -
+    Broadcast, Barrier, Allreduce, Reduce</p>
+</li>
+<li>
+<p>Performance improvements in Scatterv and Gatherv collectives for
+    CH3 interface</p>
+</li>
+<li>
+<p>Enhancements and optimizations for collectives (Alltoallv,
+    Allgather)</p>
+</li>
+<li>
+<p>Tuned Bcast, alltoall, Scatter, Allgather, Allgatherv, Reduce,
+    Reduce_Scatter, Allreduce collectives</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Integrated multi-rail communication support. Available for
+    OFA-IB-CH3 and OFA-iWARP-CH3 interfaces.</p>
+<ul>
+<li>
+<p>Supports multiple queue pairs per port and multiple ports per
+    adapter</p>
+</li>
+<li>
+<p>Supports multiple adapters</p>
+</li>
+<li>
+<p>Support to selectively use some or all rails according to user
+    specification</p>
+</li>
+<li>
+<p>Support for both one-sided and point-to-point operations</p>
+</li>
+<li>
+<p>Reduced stack size of internal threads to dramatically reduce
+    memory requirement on multi-rail systems</p>
+</li>
+<li>
+<p>Dynamic detection of multiple InfiniBand adapters and using
+    these by default in multi-rail configurations (OFA-IB-CH3,
+    OFA-iWARP-CH3 and OFA-RoCE-CH3 interfaces)</p>
+</li>
+<li>
+<p>Support for process-to-rail binding policy (bunch, scatter and
+    user-defined) in multi-rail configurations (OFA-IB-CH3,
+    OFA-iWARP-CH3 and OFA-RoCE-CH3 interfaces)</p>
+</li>
+<li>
+<p>[NEW] Enhance HCA detection to handle cases
+    where node has both IB and RoCE HCAs</p>
+</li>
+<li>
+<p>[NEW] Add support to auto-detect RoCE HCAs
+    and auto-detect GID index</p>
+</li>
+<li>
+<p>[NEW] Add support to use RoCE/Ethernet and
+    InfiniBand HCAs at the same time</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for InfiniBand Quality of Service (QoS) with multiple lanes</p>
+</li>
+<li>
+<p>Multi-threading support. Available for all interfaces (IB and
+    iWARP), including TCP/IP.</p>
+<ul>
+<li>
+<p>Enhanced support for multi-threaded applications</p>
+</li>
+<li>
+<p>[NEW] Add support to enable fork safety in
+    MVAPICH2 using environment variable</p>
+</li>
+</ul>
+</li>
+<li>
+<p>High-performance optimized and scalable support for one-sided
+    communication: Put, Get and Accumulate. Supported synchronization
+    calls: Fence, Active Target, Passive (lock and unlock). Available
+    for all interfaces.</p>
+<ul>
+<li>
+<p>Support for handling very large messages in RMA</p>
+</li>
+<li>
+<p>Enhanced direct RDMA based designs for MPI_Put and MPI_Get
+    operations in OFA-IB-CH3 channel</p>
+</li>
+<li>
+<p>Optimized communication when using MPI_Win_allocate for
+    OFA-IB-CH3 channel</p>
+</li>
+<li>
+<p>Direct RDMA based One-sided communication support for
+    OpenFabrics Gen2-iWARP and RDMA CM (with Gen2-IB)</p>
+</li>
+<li>
+<p>Shared memory backed Windows for one-sided communication</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Two modes of communication progress</p>
+<ul>
+<li>
+<p>Polling</p>
+</li>
+<li>
+<p>Blocking (enables running multiple MPI processes/processor).
+    Available for OpenFabrics (IB and iWARP) interfaces.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Advanced AVL tree-based Resource-aware registration cache</p>
+</li>
+<li>
+<p>Adaptive number of registration cache entries based on job size</p>
+</li>
+<li>
+<p>Automatic detection and tuning for 24-core Haswell architecture</p>
+</li>
+<li>
+<p>Automatic detection and tuning for 28-core Broadwell architecture</p>
+</li>
+<li>
+<p>Automatic detection and tuning for Intel Knights Landing
+    architecture</p>
+</li>
+<li>
+<p>Automatic tuning based on both platform type and network adapter</p>
+</li>
+<li>
+<p>Remove verbs dependency when building the PSM-CH3 and PSM2-CH3
+    channels</p>
+</li>
+<li>
+<p>Progress engine optimization for TrueScale (PSM-CH3) interface</p>
+</li>
+<li>
+<p>Improved performance for medium size messages for TrueScale
+    (PSM-CH3) channel</p>
+</li>
+<li>
+<p>Multi-core-aware collective support for TrueScale (PSM-CH3) channel</p>
+</li>
+<li>
+<p>Collective optimization for TrueScale (PSM-CH3) channel</p>
+</li>
+<li>
+<p>Memory Hook Support provided by integration with ptmalloc2 library.
+    This provides safe release of memory to the Operating System and is
+    expected to benefit the memory usage of applications that heavily
+    use malloc and free operations.</p>
+</li>
+<li>
+<p>Warn and continue when ptmalloc fails to initialize</p>
+</li>
+<li>
+<p>[NEW] Add support to intercept aligned_alloc in
+    ptmalloc</p>
+</li>
+<li>
+<p>Support for TotalView debugger with mpirun_rsh framework</p>
+</li>
+<li>
+<p>[NEW] Remove dependency on underlying
+    libibverbs, libibmad, libibumad, and librdmacm libraries using
+    dlopen</p>
+</li>
+<li>
+<p>Support for linking Intel Trace Analyzer and Collector</p>
+</li>
+<li>
+<p>Shared library support for existing binary MPI application programs
+    to run.</p>
+</li>
+<li>
+<p>Enhanced debugging config options to generate core files and
+    back-traces</p>
+</li>
+<li>
+<p>Use of gfortran as the default F77 compiler</p>
+</li>
+<li>
+<p>[NEW] Add support for MPI_REAL16 based reduction
+    opertaions for Fortran programs</p>
+</li>
+<li>
+<p>[NEW] Supports AMD Optimizing C/C++ (AOCC)
+    compiler v2.1.0</p>
+</li>
+<li>
+<p>[NEW] Enhanced support for SHArP v2.1.0</p>
+</li>
+<li>
+<p>ROMIO Support for MPI-IO.</p>
+<ul>
+<li>
+<p>[NEW] Support for DDN Infinite Memory Engine
+    (IME)</p>
+</li>
+<li>
+<p>Optimized, high-performance ADIO driver for Lustre</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Single code base for the following platforms (Architecture, OS,
+    Compilers, Devices and InfiniBand adapters)</p>
+<ul>
+<li>
+<p>Architecture: Knights Landing, OpenPOWER(POWER8 and POWER9),
+    ARM, EM64T, x86_64 and x86</p>
+</li>
+<li>
+<p>Operating Systems: (tested with) Linux</p>
+</li>
+<li>
+<p>Compilers: GCC, Intel, PGI, and Open64</p>
+<ul>
+<li>
+<p>[NEW] Support for GCC compiler v11</p>
+</li>
+<li>
+<p>[NEW] Support for Intel IFX Compiler</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Devices: OFA-IB-CH3, OFA-iWARP-CH3, OFA-RoCE-CH3, TrueScale
+    (PSM-CH3), Omni-Path (PSM2-CH3), TCP/IP-CH3, OFA-IB-Nemesis and
+    TCP/IP-Nemesis</p>
+</li>
+<li>
+<p>InfiniBand adapters (tested with):</p>
+<ul>
+<li>
+<p>Mellanox InfiniHost adapters (SDR and DDR)</p>
+</li>
+<li>
+<p>Mellanox ConnectX (DDR and QDR with PCIe2)</p>
+</li>
+<li>
+<p>Mellanox ConnectX-2 (QDR with PCIe2)</p>
+</li>
+<li>
+<p>Mellanox ConnectX-3 (FDR with PCIe3)</p>
+</li>
+<li>
+<p>Mellanox Connect-IB (Dual FDR ports with PCIe3)</p>
+</li>
+<li>
+<p>Mellanox Connect-4 (EDR with PCIe3)</p>
+</li>
+<li>
+<p>Mellanox ConnectX-5 (EDR with PCIe3)</p>
+</li>
+<li>
+<p>Mellanox ConnectX-6 (HDR with PCIe3)</p>
+</li>
+<li>
+<p>Intel TrueScale adapter (SDR)</p>
+</li>
+<li>
+<p>Intel TrueScale adapter (DDR and QDR with PCIe2)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Intel Omni-Path adapters (tested with):</p>
+<ul>
+<li>Intel Omni-Path adapter (100 Gbps with PCIe3)</li>
+</ul>
+</li>
+<li>
+<p>10GigE (iWARP and RoCE) adapters:</p>
+<ul>
+<li>
+<p>(tested with) Chelsio T3 and T4 adapter with iWARP support</p>
+</li>
+<li>
+<p>(tested with) Mellanox ConnectX-EN 10GigE adapter</p>
+</li>
+<li>
+<p>(tested with) Intel NE020 adapter with iWARP support</p>
+</li>
+</ul>
+</li>
+<li>
+<p>40GigE RoCE adapters:</p>
+<ul>
+<li>(tested with) Mellanox ConnectX-EN 40GigE adapter</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The MVAPICH2 package and the project also includes the following
+provisions:</p>
+<p>::: itemize
+<a href="https://scm.nowlab.cse.ohio-state.edu/svn/mpi/mvapich2/">Public SVN</a>
+access of the code-base</p>
+<p>A set of micro-benchmarks (including multi-threading latency test) for
+carrying out MPI-level performance evaluation after the installation</p>
+<p>Public
+<a href="http://mailman.cse.ohio-state.edu/mailman/listinfo/mvapich-discuss">mvapich-discuss</a>
+mailing list for mvapich users to</p>
+<p>::: itemize
+Ask for help and support from each other and get prompt response</p>
+<p>Enable users and developers to contribute patches and enhancements
+:::
+:::</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://example.com/install/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Installation - MVAPICH</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../extra.css" rel="stylesheet">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">MVAPICH</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../benchmarks/" class="nav-link">Benchmarks</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Installation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../perf-tuning/" class="nav-link">Tunning</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Parameters <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../parameters/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-general/" class="dropdown-item">General</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-mpirun_rsh/" class="dropdown-item">MPIrun</a>
+</li>
+                                    
+<li>
+    <a href="../parameters-nem/" class="dropdown-item">Nem</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../scalable/" class="nav-link">Scalability</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../troubleshooting/" class="nav-link">Troubleshooting</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../usage/" class="nav-link">Usage</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../benchmarks/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../perf-tuning/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#installation-instructions" class="nav-link">Installation Instructions</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#building-from-a-tarball" class="nav-link">Building from a tarball</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#obtaining-and-building-the-source-from-svn-repository" class="nav-link">Obtaining and Building the Source from SVN repository</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#selecting-a-process-manager" class="nav-link">Selecting a Process Manager</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3" class="nav-link">Configuring a build for OFA-IB-CH3/OFA-iWARP-CH3/OFA-RoCE-CH3</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-nvidia-gpu-with-ofa-ib-ch3" class="nav-link">Configuring a build for NVIDIA GPU with OFA-IB-CH3</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-to-support-running-jobs-across-multiple-infiniband-subnets" class="nav-link">Configuring a build to support running jobs across multiple InfiniBand subnets</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-shared-memory-ch3" class="nav-link">Configuring a build for Shared-Memory-CH3</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-ofa-ib-nemesis" class="nav-link">Configuring a build for OFA-IB-Nemesis</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-intel-truescale-psm-ch3" class="nav-link">Configuring a build for Intel TrueScale (PSM-CH3)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-intel-omni-path-psm2-ch3" class="nav-link">Configuring a build for Intel Omni-Path (PSM2-CH3)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-tcpip-nemesis" class="nav-link">Configuring a build for TCP/IP-Nemesis</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-tcpip-ch3" class="nav-link">Configuring a build for TCP/IP-CH3</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-ofa-ib-nemesis-and-tcpip-nemesis-unified-binary" class="nav-link">Configuring a build for OFA-IB-Nemesis and TCP/IP Nemesis (unified binary)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-a-build-for-shared-memory-nemesis" class="nav-link">Configuring a build for Shared-Memory-Nemesis</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuration-and-installation-with-singularity" class="nav-link">Configuration and Installation with Singularity</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#installation-with-spack" class="nav-link">Installation with Spack</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="installation-instructions">Installation Instructions</h1>
+<p>The MVAPICH2 installation process is designed to enable the most widely
+utilized features on the target build OS by default. The other
+interfaces, as indicated in
+Figure <a href="#fig:modules">[fig:modules]</a>{reference-type="ref"
+reference="fig:modules"}, can also be selected on Linux. This
+installation section provides generic instructions for building from a
+tarball or our latest sources.</p>
+<p><em>In order to obtain best performance and scalability while having
+flexibility to use a large number of features, the MVAPICH team strongly
+recommends the use of following interfaces for different adapters: 1)
+OFA-IB-CH3 interface for all Mellanox InfiniBand adapters, 2) TrueScale
+(PSM-CH3) interface for all Intel InfiniBand adapters, 3) OFA-RoCE-CH3
+interface for all RoCE adapters, 4) OFA-iWARP-CH3 for all iWARP adapters
+and 5) Shared-Memory-CH3 for single node SMP system and laptop.</em></p>
+<p>Please see the appropriate subsection for specific configuration
+instructions for the interface-adapter you are targeting.</p>
+<h2 id="building-from-a-tarball">Building from a tarball</h2>
+<p>The MVAPICH2 source code package includes MPICH . All the required files
+are present as a single tarball. Download the most recent distribution
+tarball from:\
+ <a href="http://mvapich.cse.ohio-state.edu/downloads">http://mvapich.cse.ohio-state.edu/downloads</a></p>
+<p>Unpack the tarball and use the standard GNU procedure to compile:</p>
+<p>We now support parallel make and you can use the -j$&lt;$num threads$&gt;$
+option to speed up the build process. You can use the following example
+to spawn 4 threads instead of the preceding make step.</p>
+<p>\
+In order to install a debug build, please use the following
+configuration option. <em>Please note that using debug builds may impact
+performance.</em></p>
+<h2 id="obtaining-and-building-the-source-from-svn-repository">Obtaining and Building the Source from SVN repository</h2>
+<p>These instructions assume you have already installed subversion.</p>
+<p>The MVAPICH2 SVN repository is available at:\
+ <a href="https://scm.nowlab.cse.ohio-state.edu/svn/mpi/mvapich2/">https://scm.nowlab.cse.ohio-state.edu/svn/mpi/mvapich2/</a></p>
+<p>Please keep in mind the following guidelines before deciding which
+version to check out:</p>
+<ul>
+<li>
+<p>"tags/" is the exact version released with no updates for bug fixes
+    or new features.</p>
+<ul>
+<li>To obtain the source code from tags/:</li>
+</ul>
+</li>
+<li>
+<p>"trunk" will contain the latest source code as we enhance and
+    improve MVAPICH2. It may contain newer features and bug fixes, but
+    is lightly tested.</p>
+<ul>
+<li>To obtain the source code from trunk:</li>
+</ul>
+</li>
+</ul>
+<p>The mvapich2 directory under your present working directory contains a
+working copy of the MVAPICH2 source code. Now that you have obtained a
+copy of the source code, you need to update the files in the source
+tree:</p>
+<p>This script will generate all of the source and configuration files you
+need to build MVAPICH2. You will need <code>autoconf</code> version $&gt;=$ 2.67,
+<code>automake</code> version $&gt;=$ 1.12.3, <code>libtool</code> version $&gt;=$ 2.4</p>
+<h2 id="selecting-a-process-manager">Selecting a Process Manager</h2>
+<p>MVAPICH2 provides the mpirun_rsh/mpispawn framework from MVAPICH
+distribution. Using mpirun_rsh should provide the fastest startup of
+your MPI jobs. More details can be found in
+Section <a href="#sec:run-mpirun-rsh">[sec:run-mpirun-rsh]</a>{reference-type="ref"
+reference="sec:run-mpirun-rsh"}. In addition, MVAPICH2 also includes the
+Hydra process manager from MPICH-. For more details on using Hydra,
+please refer to
+Section <a href="#sec:run-hydra">[sec:run-hydra]</a>{reference-type="ref"
+reference="sec:run-hydra"}.</p>
+<p>By default, <em>mpiexec</em> uses the Hydra process launcher. Please note that
+neither mpirun_rsh, nor Hydra require you to start daemons in advance on
+the nodes used for a MPI job. Both mpirun_rsh and Hydra can be used with
+any of the eight interfaces of this MVAPICH2 release, as indicated in
+Figure <a href="#fig:modules">[fig:modules]</a>{reference-type="ref"
+reference="fig:modules"}.</p>
+<h3 id="customizing-commands-used-by-mpirun_rsh">Customizing Commands Used by mpirun_rsh</h3>
+<p>Usage: ./configure [OPTION]... [VAR=VALUE]...</p>
+<p>To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE. See below for descriptions of some of the useful variables.</p>
+<hr />
+<p>RSH_CMD         path to rsh command
+  SSH_CMD         path to ssh command
+  ENV_CMD         path to env command
+  DBG_CMD         path to debugger command
+  XTERM_CMD       path to xterm command
+  SHELL_CMD       path to shell command
+  TOTALVIEW_CMD   path to totalview command</p>
+<hr />
+<h3 id="using-slurm">Using SLURM</h3>
+<p>If you'd like to use SLURM to launch your MPI programs please use the
+following configure options.</p>
+<p>To configure MVAPICH2 to use PMI-1 support in SLURM:</p>
+<p>To configure MVAPICH2 to use PMI-2 support in SLURM:</p>
+<p>To configure MVAPICH2 to use PMIx support in SLURM:</p>
+<h3 id="using-slurm-with-support-for-pmi-extensions">Using SLURM with support for PMI Extensions</h3>
+<p>MVAPICH2 automatically detects and uses PMI extensions if available from
+the process manager. To build and install SLURM with PMI support, please
+follow these steps:</p>
+<p>Download the SLURM source tarball for SLURM-15.08.8 from\
+ <a href="http://slurm.schedmd.com/download.html">http://slurm.schedmd.com/download.html</a>.</p>
+<p>Download the patch to add PMI Extensions in SLURM from\
+ <a href="http://mvapich.cse.ohio-state.edu/download/mvapich/osu-shmempmi-slurm-15.08.8.patch">http://mvapich.cse.ohio-state.edu/download/mvapich/osu-shmempmi-slurm-15.08.8.patch</a>.</p>
+<p>To configure MVAPICH2 with the modified SLURM, please use:</p>
+<p>MVAPICH2 can also be configured with PMIx plugin of SLURM:</p>
+<p>Note that --with-pmix should refer to the pmix/install directory that is
+used to build SLURM.</p>
+<p>Please refer to
+Section <a href="#sec:run-slurm">[sec:run-slurm]</a>{reference-type="ref"
+reference="sec:run-slurm"} for information on how to run MVAPICH2 using
+SLURM.</p>
+<h3 id="using-job-step-manager-jsm">Using Job Step Manager (JSM)</h3>
+<p>MVAPICH2 supports PMIx extensions for JSM. To configure MVAPICH2 with
+PMIx plugin of JSM, please use:</p>
+<p>Note that --with-pmix should refer to the pmix/install directory that is
+used to build JSM.</p>
+<p>MVAPICH2 can also use pmi4pmix library to support JSM. It can be
+configured as follows:</p>
+<p>Please refer to
+Section <a href="#sec:run-jsm">[sec:run-jsm]</a>{reference-type="ref"
+reference="sec:run-jsm"} for information on how to run MVAPICH2 using
+the Jsrun launcher.</p>
+<h3 id="using-flux-resource-manager">Using Flux Resource Manager</h3>
+<p>To configure MVAPICH2 with Flux support, please use:</p>
+<p>Please refer to
+Section <a href="#sec:run-flux">[sec:run-flux]</a>{reference-type="ref"
+reference="sec:run-flux"} for information on how to run MVAPICH2 using
+Flux.</p>
+<h2 id="configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3">Configuring a build for OFA-IB-CH3/OFA-iWARP-CH3/OFA-RoCE-CH3</h2>
+<p>OpenFabrics (OFA) IB/iWARP/RoCE with the CH3 channel is the default
+interface on Linux. It can be explicitly selected by configuring with:</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<p>Configuration Options for OpenFabrics IB/iWARP/RoCE</p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to OpenFabrics Header Files</p>
+<ul>
+<li>
+<p>Default: Your PATH</p>
+</li>
+<li>
+<p>Specify: <code>–with-ib-include=path</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to OpenFabrics Libraries</p>
+<ul>
+<li>
+<p>Default: The systems search path for libraries.</p>
+</li>
+<li>
+<p>Specify: <code>–with-ib-libpath=path</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for Hybrid UD-RC/XRC transports</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-hybrid</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for RDMA CM</p>
+<ul>
+<li>
+<p>Default: enabled, except when BLCR support is enabled</p>
+</li>
+<li>
+<p>Disable: <code>–disable-rdma-cm</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for RoCE</p>
+<ul>
+<li>Default: enabled</li>
+</ul>
+</li>
+<li>
+<p>Registration Cache</p>
+<ul>
+<li>
+<p>Default: enabled</p>
+</li>
+<li>
+<p>Disable: <code>–disable-registration-cache</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>ADIO driver for Lustre:</p>
+<ul>
+<li>When compiled with this support, MVAPICH2 will use the optimized
+    driver for Lustre. In order to enable this feature, the flag\
+    <code>–enable-romio –with-file-system=lustre</code>\
+    should be passed to <code>configure</code> (<code>–enable-romio</code> is optional as
+    it is enabled by default). You can add support for more file
+    systems using\
+    <code>–enable-romio –with-file-system=lustre+nfs+pvfs2</code></li>
+</ul>
+</li>
+<li>
+<p>LiMIC2 Support</p>
+<ul>
+<li>
+<p>Default: disabled</p>
+</li>
+<li>
+<p>Enable:\
+    <code>–with-limic2[=&lt;path to LiMIC2 installation&gt;] –with-limic2-include=&lt;path to LiMIC2 headers&gt; –with-limic2-libpath=&lt;path to LiMIC2 library&gt;</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>CMA Support</p>
+<ul>
+<li>
+<p>Default: enabled</p>
+</li>
+<li>
+<p>Disable: <code>–without-cma</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Header Caching</p>
+<ul>
+<li>
+<p>Default: enabled</p>
+</li>
+<li>
+<p>Disable: <code>–disable-header-caching</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>MPI Tools Information Interface (MPI-T) Support</p>
+<ul>
+<li>
+<p>Default: disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-mpit-pvars</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Checkpoint/Restart</p>
+<ul>
+<li>
+<p>Option name: <code>–enable-ckpt</code></p>
+</li>
+<li>
+<p>Require: Berkeley Lab Checkpoint/Restart (BLCR)</p>
+</li>
+<li>
+<p>Default: disabled</p>
+</li>
+</ul>
+<p>The Berkeley Lab Checkpoint/Restart (BLCR) installation is
+automatically detected if installed in the standard location. To
+specify an alternative path to the BLCR installation, you can either
+use:\
+<code>–with-blcr=&lt;path/to/blcr/installation&gt;</code>\
+or\
+<code>–with-blcr-include=&lt;path/to/blcr/headers&gt; –with-blcr-libpath=&lt;path/to/blcr/library&gt;</code></p>
+</li>
+<li>
+<p>Checkpoint Aggregation</p>
+<ul>
+<li>
+<p>Option name: <code>–enable-ckpt-aggregation</code> or
+    <code>–disable-ckpt-aggregation</code></p>
+</li>
+<li>
+<p>Automatically enable Checkpoint/Restart</p>
+</li>
+<li>
+<p>Require: Filesystem in Userspace (FUSE)</p>
+</li>
+<li>
+<p>Default: enabled (if Checkpoint/Restart enabled and FUSE is
+    present)</p>
+</li>
+</ul>
+<p>The Filesystem in Userspace (FUSE) installation is automatically
+detected if installed in the standard location. To specify an
+alternative path to the FUSE installation, you can either use:\
+<code>–with-fuse=&lt;path/to/fuse/installation&gt;</code>\
+or\
+<code>–with-fuse-include=&lt;path/to/fuse/headers&gt; –with-fuse-libpath=&lt;path/to/fuse/library&gt;</code></p>
+</li>
+<li>
+<p>Application-Level and Transparent System-Level Checkpointing with
+    SCR</p>
+<ul>
+<li>
+<p>Option name: <code>–with-scr</code></p>
+</li>
+<li>
+<p>Default: disabled</p>
+</li>
+</ul>
+<p>SCR caches checkpoint data in storage on the compute nodes of a
+Linux cluster to provide a fast, scalable checkpoint / restart
+capability for MPI codes.</p>
+</li>
+<li>
+<p>Process Migration</p>
+<ul>
+<li>
+<p>Option name: <code>–enable-ckpt-migration</code></p>
+</li>
+<li>
+<p>Automatically enable Checkpoint/Restart</p>
+</li>
+<li>
+<p>Require: Fault Tolerance Backplane (FTB)</p>
+</li>
+<li>
+<p>Default: disabled</p>
+</li>
+</ul>
+<p>The Fault Tolerance Backplane (FTB) installation is automatically
+detected if installed in the standard location. To specify an
+alternative path to the FTB installation, you can either use:\
+<code>–with-ftb=&lt;path/to/ftb/installation&gt;</code>\
+or\
+<code>–with-ftb-include=&lt;path/to/ftb/headers&gt; –with-ftb-libpath=&lt;path/to/ftb/library&gt;</code></p>
+</li>
+<li>
+<p>eXtended Reliable Connection</p>
+<ul>
+<li>
+<p>Default: enabled (if OFED installation supports it)</p>
+</li>
+<li>
+<p>Enable: <code>–enable-xrc</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-xrc</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>HWLOC Support (Affinity)</p>
+<ul>
+<li>
+<p>Default: enabled</p>
+</li>
+<li>
+<p>Disable: <code>–without-hwloc</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for 64K or greater number of cores</p>
+<ul>
+<li>
+<p>Default: 64K or lower number of cores</p>
+</li>
+<li>
+<p>Enable: <code>–with-ch3-rank-bits=32</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuring-a-build-for-nvidia-gpu-with-ofa-ib-ch3">Configuring a build for NVIDIA GPU with OFA-IB-CH3</h2>
+<p>This section details the configuration option to enable GPU-GPU
+communication with the OFA-IB-CH3 interface of the MVAPICH2 MPI library.
+For more options on configuring the OFA-IB-CH3 interface, please refer
+to Section <a href="#subsec:config-gen2">1.4</a>{reference-type="ref"
+reference="subsec:config-gen2"}.</p>
+<ul>
+<li>
+<p>Default: disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-cuda</code></p>
+</li>
+</ul>
+<p>The CUDA installation is automatically detected if installed in the
+standard location. To specify an alternative path to the CUDA
+installation, you can either use:\
+<code>–with-cuda=&lt;path/to/cuda/installation&gt;</code>\
+or\
+<code>–with-cuda-include=&lt;path/to/cuda/include&gt; –with-cuda-libpath=&lt;path/to/cuda/libraries&gt;</code></p>
+<p>In addition to these we have added the following variables to help
+account for libraries being installed in different locations:\
+<code>–with-libcuda=&lt;path/to/directory/containing/libcuda&gt;</code>\
+<code>–with-libcudart=&lt;path/to/directory/containing/libcudart</code></p>
+<p>::: small</p>
+<h4 id="note">Note:</h4>
+<p>If using the PGI compiler, you will need to add the following to your
+<code>CPPFLAGS</code> and <code>CFLAGS</code>. You'll also need to use the
+<code>–enable-cuda=basic</code> configure option to build properly. See the example
+below.</p>
+<p>Example:</p>
+<p>:   <code>./configure –enable-cuda=basic CPPFLAGS="-D__x86_64 -D__align__\(n\)=__attribute__\(\(aligned\(n\)\)\) -D__location__\(a\)=__annotate__\(a\) -DCUDARTAPI=" CFLAGS="-ta=tesla:nordc"</code>
+:::</p>
+<h2 id="configuring-a-build-to-support-running-jobs-across-multiple-infiniband-subnets">Configuring a build to support running jobs across multiple InfiniBand subnets</h2>
+<p>The support for running jobs across multiple subnets in MVAPICH2 can be
+enabled at configure time as follows:</p>
+<p>MVAPICH2 relies on RDMA_CM module to establish connections with peer
+processes. The RDMA_CM modules shipped some older versions of OFED (like
+OFED-1.5.4.1), do not have the necessary support to enable communication
+across multiple subnets. MVAPICH2 is capable of automatically detecting
+such OFED installations at configure time. If the OFED installation
+present on the system does not support running across multiple subnets,
+the configure step will detect this and exit with an error message.</p>
+<h2 id="configuring-a-build-for-shared-memory-ch3">Configuring a build for Shared-Memory-CH3</h2>
+<p>The default CH3 channel provides native support for shared memory
+communication on stand alone multi-core nodes that are not equipped with
+InfiniBand adapters. The steps to configure CH3 channel explicitly can
+be found in Section  <a href="#subsec:config-gen2">1.4</a>{reference-type="ref"
+reference="subsec:config-gen2"}. Dynamic Process Management
+(<a href="#subsec:dpm">[subsec:dpm]</a>{reference-type="ref"
+reference="subsec:dpm"}) is currently not supported on stand-alone nodes
+without InfiniBand adapters.</p>
+<h2 id="configuring-a-build-for-ofa-ib-nemesis">Configuring a build for OFA-IB-Nemesis</h2>
+<p>[The Nemesis sub-channel for OFA-IB is now
+deprecated.] It can be built with:</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<p>Configuration options for OFA-IB-Nemesis:</p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to IB Verbs</p>
+<ul>
+<li>
+<p>Default: System Path</p>
+</li>
+<li>
+<p>Specify: <code>–with-ibverbs=&lt;path&gt;</code> or
+    <code>–with-ibverbs-include=&lt;path&gt;</code> and <code>–with-ibverbs-lib=&lt;path&gt;</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Registration Cache</p>
+<ul>
+<li>
+<p>Default: enabled</p>
+</li>
+<li>
+<p>Disable: <code>–disable-registration-cache</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Header Caching</p>
+<ul>
+<li>
+<p>Default: enabled</p>
+</li>
+<li>
+<p>Disable: <code>–disable-header-caching</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for 64K or greater number of cores</p>
+<ul>
+<li>
+<p>Default: 64K or lower number of cores</p>
+</li>
+<li>
+<p>Enable: <code>–with-ch3-rank-bits=32</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Checkpoint/Restart</p>
+<ul>
+<li>
+<p>Default: disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-checkpointing</code> and
+    <code>–with-hydra-ckpointlib=blcr</code></p>
+</li>
+<li>
+<p>Require: Berkeley Lab Checkpoint/Restart (BLCR)</p>
+</li>
+</ul>
+<p>The Berkeley Lab Checkpoint/Restart (BLCR) installation is
+automatically detected if installed in the standard location. To
+specify an alternative path to the BLCR installation, you can either
+use:\
+<code>–with-blcr=&lt;path/to/blcr/installation&gt;</code>\
+or\
+<code>–with-blcr-include=&lt;path/to/blcr/headers&gt; –with-blcr-libpath=&lt;path/to/blcr/library&gt;</code></p>
+</li>
+</ul>
+<h2 id="configuring-a-build-for-intel-truescale-psm-ch3">Configuring a build for Intel TrueScale (PSM-CH3)</h2>
+<p>The TrueScale (PSM-CH3) interface needs to be built to use MVAPICH2 on
+Intel TrueScale adapters. It can built with:</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<p>Configuration options for Intel TrueScale PSM channel:</p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg  –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to Intel TrueScale PSM header files</p>
+<ul>
+<li>
+<p>Default: The systems search path for header files</p>
+</li>
+<li>
+<p>Specify: <code>–with-psm-include=path</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to Intel TrueScale PSM library</p>
+<ul>
+<li>
+<p>Default: The systems search path for libraries</p>
+</li>
+<li>
+<p>Specify: <code>–with-psm-lib=path</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for 64K or greater number of cores</p>
+<ul>
+<li>
+<p>Default: 64K or lower number of cores</p>
+</li>
+<li>
+<p>Enable: <code>–with-ch3-rank-bits=32</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuring-a-build-for-intel-omni-path-psm2-ch3">Configuring a build for Intel Omni-Path (PSM2-CH3)</h2>
+<p>The Omni-Path (PSM2-CH3) interface needs to be built to use MVAPICH2 on
+Intel Omni-Path adapters. It can built with:</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<p>Configuration options for Intel Omni-Path PSM2 channel:</p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg  –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to Intel Omni-Path PSM2 header files</p>
+<ul>
+<li>
+<p>Default: The systems search path for header files</p>
+</li>
+<li>
+<p>Specify: <code>–with-psm2-include=path</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Path to Intel Omni-Path PSM2 library</p>
+<ul>
+<li>
+<p>Default: The systems search path for libraries</p>
+</li>
+<li>
+<p>Specify: <code>–with-psm2-lib=path</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for 64K or greater number of cores</p>
+<ul>
+<li>
+<p>Default: 64K or lower number of cores</p>
+</li>
+<li>
+<p>Enable: <code>–with-ch3-rank-bits=32</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuring-a-build-for-tcpip-nemesis">Configuring a build for TCP/IP-Nemesis</h2>
+<p>The use of TCP/IP with Nemesis channel requires the following
+configuration:</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<p>Additional instructions for configuring with TCP/IP-Nemesis can be found
+in the MPICH documentation available at:
+ <a href="http://www.mcs.anl.gov/research/projects/mpich2/documentation/index.php?s=docs">http://www.mcs.anl.gov/research/projects/mpich2/documentation/index.php?s=docs</a></p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for 64K or greater number of cores</p>
+<ul>
+<li>
+<p>Default: 64K or lower number of cores</p>
+</li>
+<li>
+<p>Enable: <code>–with-ch3-rank-bits=32</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuring-a-build-for-tcpip-ch3">Configuring a build for TCP/IP-CH3</h2>
+<p>The use of TCP/IP requires the explicit selection of a TCP/IP enabled
+channel. The recommended channel is TCP/IP Nemesis (described in Section
+ <a href="#subsec:config-tcpip_nemesis-and-ofa_nemesis">1.13</a>{reference-type="ref"
+reference="subsec:config-tcpip_nemesis-and-ofa_nemesis"}). The
+alternative ch3:sock channel can be selected by configuring with:</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Support for 64K or greater number of cores</p>
+<ul>
+<li>
+<p>Default: 64K or lower number of cores</p>
+</li>
+<li>
+<p>Enable: <code>–with-ch3-rank-bits=32</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Additional instructions for configuring with TCP/IP can be found in the
+MPICH documentation available at:</p>
+<p><a href="http://www.mpich.org/documentation/guides/">http://www.mpich.org/documentation/guides/</a></p>
+<h2 id="configuring-a-build-for-ofa-ib-nemesis-and-tcpip-nemesis-unified-binary">Configuring a build for OFA-IB-Nemesis and TCP/IP Nemesis (unified binary)</h2>
+<p>MVAPICH2 supports a unified binary for both OFA and TCP/IP communication
+through the Nemesis interface.</p>
+<p>In order to configure MVAPICH2 for unified binary support, perform the
+following steps:</p>
+<p>You can use mpicc as usual to compile MPI applications. In order to run
+your application on OFA:</p>
+<p>To run your application on TCP/IP:</p>
+<h2 id="configuring-a-build-for-shared-memory-nemesis">Configuring a build for Shared-Memory-Nemesis</h2>
+<p>The use of Nemesis shared memory channel requires the following
+configuration.</p>
+<p>Both static and shared libraries are built by default. In order to build
+with static libraries only, configure as follows:</p>
+<p>To enable use of the TotalView debugger, the library needs to be
+configured in the following manner:</p>
+<p>Additional instructions for configuring with Shared-Memory-Nemesis can
+be found in the MPICH documentation available at:\
+ <a href="http://www.mcs.anl.gov/research/projects/mpich2/documentation/index.php?s=docs">http://www.mcs.anl.gov/research/projects/mpich2/documentation/index.php?s=docs</a></p>
+<ul>
+<li>
+<p>Configuring with Shared Libraries</p>
+<ul>
+<li>
+<p>Default: Enabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-shared</code></p>
+</li>
+<li>
+<p>Disable: <code>–disable-shared</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Configuring with TotalView support</p>
+<ul>
+<li>
+<p>Default: Disabled</p>
+</li>
+<li>
+<p>Enable: <code>–enable-g=dbg –enable-debuginfo</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuration-and-installation-with-singularity">Configuration and Installation with Singularity</h2>
+<p>MVAPICH2 can be configured and installed with Singularity in the
+following manner. Note that the following prerequisites must be
+fulfilled before this step.</p>
+<ul>
+<li>
+<p>Singularity must be installed and operational</p>
+</li>
+<li>
+<p>Singularity image must be created as appropriate</p>
+</li>
+</ul>
+<h4 id="sample-configuration-and-installation-with-singularity">Sample Configuration and Installation with Singularity</h4>
+<pre><code> # Clone the MVAPICH2 in current directory (on host)
+ $ git@scm.mvapich.cse.ohio-state.edu:mvapich2.git
+ $ cd mvapich2
+
+ # Build MVAPICH2 in the working directory, 
+ # using the tool chain within the container
+ $ singularity exec Singularity-Centos-7.img ./autogen.sh
+ $ singularity exec Singularity-Centos-7.img ./configure --prefix=/usr/local
+ $ singularity exec Singularity-Centos-7.img make
+
+ # Install MVAPICH2 into the container as root and writeable option
+ $ sudo singularity exec -w Singularity-Centos-7.img make install
+</code></pre>
+<h2 id="installation-with-spack">Installation with Spack</h2>
+<p>MVAPICH2 can be configured and installed with Spack. For detailed
+instruction of installing MVAPICH2 with Spack, please refer to Spack
+userguide in:\
+ <a href="http://mvapich.cse.ohio-state.edu/userguide/userguide_spack/">http://mvapich.cse.ohio-state.edu/userguide/userguide_spack/</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -12,8 +12,7 @@ This parameter can be used to determine the threshold for the 2-level
 Allreduce algorithm. We now use the shared-memory-based algorithm for
 messages smaller than the\
 MV2_SHMEM_ALLREDUCE_MSG threshold
-([1.57](#def:mv2-shmem-coll-allreduce-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-allreduce-threshold"}), the 2-level
+([1.57](#mv2_shmem_allreduce_msg)), the 2-level
 algorithm for medium sized messages up to the threshold defined by this
 parameter. We use the default point-to-point algorithms messages larger
 than this threshold.
@@ -116,8 +115,7 @@ Checkpoint/Restart functionality at configure time, or when the user
 explicitly configures MVAPICH2 with aggregation support. Please note
 that, to use aggregation support, each node needs to be properly
 configured with FUSE library (cf
-section [\[para:mpi-cr-aggr\]](#para:mpi-cr-aggr){reference-type="ref"
-reference="para:mpi-cr-aggr"}).
+section [mpi-cr-aggr](/usage/#fault-tolerance-backplane-ftb-support)).
 
 ## MV2_DEBUG_FT_VERBOSE 
 
@@ -183,8 +181,7 @@ the cost of generating duplicate messages.
 
 This allows users to specify process to CPU (core) mapping. The detailed
 usage of this parameter is described in
-Section [\[usage:mv2_cpu_mapping\]](#usage:mv2_cpu_mapping){reference-type="ref"
-reference="usage:mv2_cpu_mapping"}. This parameter will not take effect
+Section [mv2_cpu_mapping](/usage/#running-with-efficient-cpu-core-mapping). This parameter will not take effect
 if either *MV2_ENABLE_AFFINITY* or *MV2_USE_SHARED_MEM* run-time
 parameters are set to 0, or if the library was configured with the
 "--disable-hwloc" option. MV2_CPU_MAPPING is currently not supported on
@@ -205,8 +202,7 @@ systems with hyper-threading enabled or systems that have vendor
 specific core mappings. This allows users to specify process to CPU
 (core) mapping with the CPU binding policy. The detailed usage of this
 parameter is described in
-Section [\[usage:mv2_use_hwloc_cpu_binding\]](#usage:mv2_use_hwloc_cpu_binding){reference-type="ref"
-reference="usage:mv2_use_hwloc_cpu_binding"}. This parameter will not
+Section [mv2_use_hwloc_cpu_binding](/usage/#using-hwloc-for-cpu-mapping). This parameter will not
 take effect: if\
 *MV2_ENABLE_AFFINITY* or *MV2_USE_SHARED_MEM* run-time parameters are
 set to 0; or\
@@ -227,8 +223,7 @@ used as the default policy.
 This allows users to specify binding policies for application thread in
 MPI+Threads applications. The detailed usage of this parameter is
 described in
-Section [\[sec:advanced_thread_binding_policies\]](#sec:advanced_thread_binding_policies){reference-type="ref"
-reference="sec:advanced_thread_binding_policies"}. This parameter will
+Section [advanced_thread_binding_policies](/usage/#hybrid-and-thread-specific-binding-policies-for-mpi-and-mpithreads-applications). This parameter will
 not take effect: if\
 *MV2_ENABLE_AFFINITY* or *MV2_USE_SHARED_MEM* run-time parameters are
 set to 0; or\
@@ -249,8 +244,7 @@ value isn't set, "linear" will be used as the default policy.
 
 This allows users to specify process to CPU (core) mapping at different
 binding level. The detailed usage of this parameter is described in
-Section [\[usage:mv2_use_hwloc_cpu_binding\]](#usage:mv2_use_hwloc_cpu_binding){reference-type="ref"
-reference="usage:mv2_use_hwloc_cpu_binding"}. This parameter will not
+Section [mv2_use_hwloc_cpu_binding](/usage/#using-hwloc-for-cpu-mapping). This parameter will not
 take effect: if *MV2_ENABLE_AFFINITY* or *MV2_USE_SHARED_MEM* run-time
 parameters are set to 0; or `MV2_ENABLE_AFFINITY` is set to 1 and
 `MV2_CPU_MAPPING` is set, or if the library was configured with the
@@ -551,8 +545,7 @@ ranks specified. e.g. 0:1:1:0. This list must map equally to the number
 of local processes on the nodes failing which, the default policy will
 be used. Similarly the number of processes on each node must be the
 same. The detailed usage of this parameter is described in
-Section [\[subsec:mpi-mr\]](#subsec:mpi-mr){reference-type="ref"
-reference="subsec:mpi-mr"}.
+Section [mpi-mr](/usage/#running-with-multiple-rail-configurations).
 
 ## MV2_RDMA_FAST_PATH_BUF_SIZE 
 
@@ -705,8 +698,7 @@ connections.
 This parameter can be used to determine the threshold for the 2-level
 reduce algorithm. We now use the shared-memory-based algorithm for
 messages smaller than the MV2_SHMEM_REDUCE_MSG
-([1.63](#def:mv2-shmem-coll-reduce-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-reduce-threshold"}), the 2-level algorithm
+([1.63](#mv2_shmem_reduce_msg)), the 2-level algorithm
 for medium sized messages up to the threshold defined by this parameter.
 We use the default point-to-point algorithms messages larger than this
 threshold.
@@ -985,8 +977,7 @@ invoked.
 This parameter is used for utilizing hot-spot avoidance with InfiniBand
 clusters. To leverage this functionality, the subnet should be
 configured with lmc greater than zero. Please refer to
-section [\[def:mv2-hsam\]](#def:mv2-hsam){reference-type="ref"
-reference="def:mv2-hsam"} for detailed information.
+section [mv2-hsam](/usage/#running-with-hot-spot-and-congestion-avoidance) for detailed information.
 
 ## MV2_USE_IWARP_MODE 
 

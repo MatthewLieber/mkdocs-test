@@ -49,8 +49,7 @@ More details about these designs can be obtained from:
     -   Default: 64 (OFA-IB-CH3), 16 (OFA-iWARP-CH3)
 
     -   Should be enabled for fast startup. See
-        Section [\[def:mv2-on-demand-threshold\]](#def:mv2-on-demand-threshold){reference-type="ref"
-        reference="def:mv2-on-demand-threshold"} for details.
+        Section [mv2-on-demand-threshold](/parameters/#mv2_on_demand_threshold) for details.
 
 -   MV2_ON_DEMAND_UD_INFO_EXCHANGE
 
@@ -67,35 +66,30 @@ More details about these designs can be obtained from:
     For large clusters, it might be beneficial to further flatten the
     tree by specifying a higher degree. The degree can be overridden
     with the environment variable MV2_MT_DEGREE
-    (see [\[def:mt-degree\]](#def:mt-degree){reference-type="ref"
-    reference="def:mt-degree"}).
+    (see [mt-degree](/parameters-mpirun_rsh/#mv2_mt_degree)).
 
 -   **MV2_FASTSSH_THRESHOLD**: MVAPICH2 can use a faster, hierarchical
     launching mechanism on large clusters. This is enabled manually
     using MV2_FASTSSH_THRESHOLD
-    (see [\[def:mv2_fastssh_threshold\]](#def:mv2_fastssh_threshold){reference-type="ref"
-    reference="def:mv2_fastssh_threshold"}).
+    (see [mv2_fastssh_threshold](/parameters-mpirun_rsh/#mv2_fastssh_threshold)).
 
 -   **MV2_NPROCS_THRESHOLD**: When the number of processes involved is
     beyond 8k, the mpirun_rsh uses a file-based communication scheme to
     create the hierarchical tree. The default value can be overridden
     with the environment variable MV2_NPROCS_THRESHOLD
-    (see [\[def:mv2_nprocs_threshold\]](#def:mv2_nprocs_threshold){reference-type="ref"
-    reference="def:mv2_nprocs_threshold"}).
+    (see [mv2_nprocs_threshold](/parameters-mpirun_rsh/#mv2_nprocs_threshold)).
 
 ### Enabling Optimizations Specific to SLURM
 
 -   **Using OSU optimized SLURM**: For best performance with SLURM, the
     OSU-optimized PMI2 plugin should be used. This requires applying the
     appropriate patch to SLURM. Please refer to
-    Section [\[subsec:config-slurm-pmix\]](#subsec:config-slurm-pmix){reference-type="ref"
-    reference="subsec:config-slurm-pmix"} for more details.
+    Section [config-slurm-pmix](/install/#using-slurm-with-support-for-pmi-extensions) for more details.
 
 -   **Using Default SLURM**: If the SLURM installation cannot be
     modified, the default PMI2 plugin provided by SLURM should be used.
     Please see
-    section [\[subsec:config-slurm\]](#subsec:config-slurm){reference-type="ref"
-    reference="subsec:config-slurm"} for more details.
+    section [config-slurm](/install/#using-slurm) for more details.
 
 ## Basic QP Resource Tuning
 
@@ -114,10 +108,8 @@ to less memory consumption. They are especially important for large
 scale clusters with a large amount of connections and multiple rails.
 
 These two parameters are run-time adjustable. Please refer to
-Sections [\[def:max-send-wqe\]](#def:max-send-wqe){reference-type="ref"
-reference="def:max-send-wqe"}
-and [\[def:max-inline-size\]](#def:max-inline-size){reference-type="ref"
-reference="def:max-inline-size"} for details.
+Sections [max-send-wqe](/parameters-nem/#mv2_default_max_send_wqe)
+and [max-inline-size](/parameters-nem/#mv2_max_inline_size) for details.
 
 ## RDMA Based Point-to-Point Tuning
 
@@ -125,12 +117,10 @@ The following parameters are important in tuning the memory requirements
 for adaptive rdma fast path feature.
 
 -   MV2_RDMA_FAST_PATH_BUF_SIZE
-    ([\[def:rdma-fast-path-buf-size\]](#def:rdma-fast-path-buf-size){reference-type="ref"
-    reference="def:rdma-fast-path-buf-size"})
+    ([rdma-fast-path-buf-size](/parameters/#mv2_rdma_fast_path_buf_size))
 
 -   MV2_NUM_RDMA_BUFFER
-    ([\[def:num-rdma-buffer\]](#def:num-rdma-buffer){reference-type="ref"
-    reference="def:num-rdma-buffer"})
+    ([num-rdma-buffer](/parameters-nem/#mv2_num_rdma_buffer))
 
 MV2_RDMA_FAST_PATH_BUF_SIZE is the size of each buffer used in RDMA fast
 path communication.
@@ -149,16 +139,13 @@ The main environmental parameters controlling the behavior of the Shared
 Receive Queue design are:
 
 -   MV2_SRQ_MAX_SIZE
-    ([\[def:viadev-srq-max-size\]](#def:viadev-srq-max-size){reference-type="ref"
-    reference="def:viadev-srq-max-size"})
+    ([viadev-srq-max-size](/parameters/#mv2_srq_max_size))
 
 -   MV2_SRQ_SIZE
-    ([\[def:viadev-srq-size\]](#def:viadev-srq-size){reference-type="ref"
-    reference="def:viadev-srq-size"})
+    ([viadev-srq-size](/parameters-nem/#mv2_srq_size))
 
 -   MV2_SRQ_LIMIT
-    ([\[def:viadev-srq-limit\]](#def:viadev-srq-limit){reference-type="ref"
-    reference="def:viadev-srq-limit"})
+    ([viadev-srq-limit](/parameters-nem/#mv2_srq_limit))
 
 MV2_SRQ_MAX_SIZE is the maximum size of the Shared Receive Queue
 (default 4096). You may increase this to value 8192 if the application
@@ -176,8 +163,7 @@ This can be reduced if your aim is to reduce the number of interrupts.
 MVAPICH2 now supports the eXtended Reliable Connection (XRC) transport
 available in recent Mellanox HCAs. This transport helps reduce the
 number of QPs needed on multi-core systems. Set MV2_USE_XRC
-([\[def:mv2_use_xrc\]](#def:mv2_use_xrc){reference-type="ref"
-reference="def:mv2_use_xrc"}) to use XRC with MVAPICH2.
+([mv2_use_xrc](/parameters/#mv2_use_xrc)) to use XRC with MVAPICH2.
 
 ## Shared Memory Tuning
 
@@ -185,17 +171,13 @@ MVAPICH2 uses shared memory communication channel to achieve
 high-performance message passing among processes that are on the same
 physical node. The two main parameters which are used for tuning shared
 memory performance for small messages are SMP_QUEUE_LENGTH
-(Section [\[def:smp-queue-length\]](#def:smp-queue-length){reference-type="ref"
-reference="def:smp-queue-length"}), and SMP_EAGER_SIZE
-(Section [\[def:smp-eagersize\]](#def:smp-eagersize){reference-type="ref"
-reference="def:smp-eagersize"}). The two main parameters which are used
+(Section [smp-queue-length](/parameters/#mv2_smp_queue_length)), and SMP_EAGER_SIZE
+(Section [smp-eagersize](/parameters/#mv2_smp_eagersize)). The two main parameters which are used
 for tuning shared memory performance for large messages are
 SMP_SEND_BUF_SIZE
-(Section [\[def:smp-send-buf-size\]](#def:smp-send-buf-size){reference-type="ref"
-reference="def:smp-send-buf-size"}) and\
+(Section [smp-send-buf-size](/parameters/#mv2_smp_send_buf_size)) and\
 SMP_NUM_SEND_BUFFER
-(Section [\[def:smp-num-send-buffer\]](#def:smp-num-send-buffer){reference-type="ref"
-reference="def:smp-num-send-buffer"}).
+(Section [smp-num-send-buffer](/parameters/#mv2_smp_num_send_buffer)).
 
 SMP_QUEUE_LENGTH is the size of the shared memory buffer which is used
 to store outstanding small and control messages. SMP_EAGER_SIZE defines
@@ -211,16 +193,12 @@ SMP_NUM_SEND_BUFFER is the number of send buffers.
 MVAPICH2 uses on-demand connection management to reduce the memory usage
 of MPI library. There are 4 parameters to tune connection manager:
 MV2_ON_DEMAND_THRESHOLD
-(Section [\[def:mv2-on-demand-threshold\]](#def:mv2-on-demand-threshold){reference-type="ref"
-reference="def:mv2-on-demand-threshold"}),\
+(Section [mv2-on-demand-threshold](/parameters/#mv2_on_demand_threshold)),\
 MV2_CM_RECV_BUFFERS
-(Section [\[def:mv2-cm-recv-buffers\]](#def:mv2-cm-recv-buffers){reference-type="ref"
-reference="def:mv2-cm-recv-buffers"}), MV2_CM_TIMEOUT
-(Section [\[def:mv2-cm-timeout\]](#def:mv2-cm-timeout){reference-type="ref"
-reference="def:mv2-cm-timeout"}), and\
+(Section [mv2-cm-recv-buffers](/parameters/#mv2_cm_recv_buffers)), MV2_CM_TIMEOUT
+(Section [mv2-cm-timeout](/parameters/#mv2_cm_timeout)), and\
 MV2_CM_SPIN_COUNT
-(Section [\[def:mv2-cm-spin-count\]](#def:mv2-cm-spin-count){reference-type="ref"
-reference="def:mv2-cm-spin-count"}). The first one applies to OFA-IB-CH3
+(Section [mv2-cm-spin-count](/parameters/#mv2_cm_spin_count)). The first one applies to OFA-IB-CH3
 and OFA-iWARP-CH3 interfaces and the other three only apply to
 OFA-IB-CH3 interface.
 
@@ -253,15 +231,12 @@ messages and fall back to the default point-to-point based algorithms
 for very large messages. The upper-limits for shared-memory based
 collectives are tunable parameters that are specific to each collective
 operation. We have variables such as MV2_SHMEM_ALLREDUCE_MSG
-([\[def:mv2-shmem-coll-allreduce-threshold\]](#def:mv2-shmem-coll-allreduce-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-allreduce-threshold"}),
+([mv2-shmem-coll-allreduce-threshold](/parameters/#mv2_shmem_allreduce_msg)),
 MV2_SHMEM_REDUCE_MSG
-([\[def:mv2-shmem-coll-reduce-threshold\]](#def:mv2-shmem-coll-reduce-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-reduce-threshold"}) and\
+([mv2-shmem-coll-reduce-threshold](/parameters/#mv2_shmem_reduce_msg)) and\
 MV2_SHMEM_BCAST_MSG
-([\[def:mv2-shmem-coll-bcast-threshold\]](#def:mv2-shmem-coll-bcast-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-bcast-threshold"}), for MPI_Allreduce,
-MPI_Reduce and MPI_Bcast collective operations. The default values for
+([mv2-shmem-coll-bcast-threshold](/parameters/#mv2_shmem_bcast_msg)), for MPI_Allreduce,
+MPI_Reduce and MPI_Bcast collective operations.) The default values for
 these variables have been set through experimental analysis on some of
 our clusters and a few large scale clusters, such as the TACC Ranger.
 Users can choose to set these variables at job-launch time to tune the
@@ -284,18 +259,14 @@ become the bottleneck, as they have to perform the reduction operation
 on the entire data block. We now rely on shared-memory algorithms for
 MPI_Reduce and MPI_Allreduce for message sizes set by the thresholds
 MV2_SHMEM_ALLREDUCE_MSG
-([\[def:mv2-shmem-coll-allreduce-threshold\]](#def:mv2-shmem-coll-allreduce-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-allreduce-threshold"}),
+([mv2-shmem-coll-allreduce-threshold](/parameters/#mv2_shmem_allreduce_msg)),
 MV2_SHMEM_REDUCE_MSG
-([\[def:mv2-shmem-coll-reduce-threshold\]](#def:mv2-shmem-coll-reduce-threshold){reference-type="ref"
-reference="def:mv2-shmem-coll-reduce-threshold"}), the new 2-level
+([mv2-shmem-coll-reduce-threshold](/parameters/#mv2_shmem_reduce_msg)), the new 2-level
 algorithms for medium sized messages and the default point-to-point
 based algorithms for large messages. We have introduced two new run-time
 variables MV2_ALLREDUCE_2LEVEL_MSG
-([\[def:mv2_allreduce_2level_msg\]](#def:mv2_allreduce_2level_msg){reference-type="ref"
-reference="def:mv2_allreduce_2level_msg"}) and MV2_REDUCE_2LEVEL_MSG
-([\[def:mv2_reduce_2level_msg\]](#def:mv2_reduce_2level_msg){reference-type="ref"
-reference="def:mv2_reduce_2level_msg"}) to determine when to fall back
+([mv2_allreduce_2level_msg](/parameters/#mv2_allreduce_2level_msg)) and MV2_REDUCE_2LEVEL_MSG
+([mv2_reduce_2level_msg](/parameters/#mv2_reduce_2level_msg)) to determine when to fall back
 to the default point-to-point based algorithms.
 
 ### Optimizations for MPI_Gather and MPI_Scatter
@@ -313,34 +284,26 @@ sizes (up to 386 cores), we use the "2-level" algorithm following by the
 "Binomial" algorithm following by the "Direct" algorithm. It's possible
 to set the switching point between algorithms using the run-time
 parameter MV2_GATHER_SWITCH_PT
-([\[def:mv2_gather_switch_pt\]](#def:mv2_gather_switch_pt){reference-type="ref"
-reference="def:mv2_gather_switch_pt"}). For MPI_Scatter, when the system
+([mv2_gather_switch_pt](/parameters/#mv2_gather_switch_pt)). For MPI_Scatter, when the system
 size is lower than 512 cores, we use the "Binomial" algorithm for small
 message sizes following by the "2-level" algorithm for medium message
 sizes and the "Direct" algorithm for large message sizes. Users can
 define the threshold for small and medium message sizes using the
 run-time parameters MV2_SCATTER_SMALL_MSG
-([\[def:mv2_scatter_small_msg\]](#def:mv2_scatter_small_msg){reference-type="ref"
-reference="def:mv2_scatter_small_msg"}) and MV2_SCATTER_MEDIUM_MSG
-([\[def:mv2_scatter_medium_msg\]](#def:mv2_scatter_medium_msg){reference-type="ref"
-reference="def:mv2_scatter_medium_msg"}). Users can also choose to use
+([mv2_scatter_small_msg](/parameters/#mv2_scatter_small_msg)) and MV2_SCATTER_MEDIUM_MSG
+([mv2_scatter_medium_msg](/parameters/#mv2_scatter_medium_msg)). Users can also choose to use
 only one of these algorithms by toggling the run-time parameters
- [\[def:mv2_use_direct_gather\]](#def:mv2_use_direct_gather){reference-type="ref"
-reference="def:mv2_use_direct_gather"} and
- [\[def:mv2_use_two_level_gather\]](#def:mv2_use_two_level_gather){reference-type="ref"
-reference="def:mv2_use_two_level_gather"} for MPI_Gather and
- [\[def:mv2_use_direct_scatter\]](#def:mv2_use_direct_scatter){reference-type="ref"
-reference="def:mv2_use_direct_scatter"} and
- [\[def:mv2_use_two_level_scatter\]](#def:mv2_use_two_level_scatter){reference-type="ref"
-reference="def:mv2_use_two_level_scatter"} for MPI_Scatter.
+ [mv2_use_direct_gather](/parameters/#mv2_use_direct_gather) and
+ [mv2_use_two_level_gather](/parameters/#mv2_use_two_level_gather) for MPI_Gather and
+ [mv2_use_direct_scatter](/parameters/#mv2_use_direct_scatter) and
+ [mv2_use_two_level_scatter](/parameters/#mv2_use_two_level_scatter) for MPI_Scatter.
 
 ## Process Placement on Multi-core platforms
 
 Process placement has a significant impact on performance of
 applications. Depending on your application communication patterns,
 various process placements can result in performance gains. In
-Section [\[sec:usage:mv2-cpu-mapping\]](#sec:usage:mv2-cpu-mapping){reference-type="ref"
-reference="sec:usage:mv2-cpu-mapping"}, we have described the usage of
+Section [usage:mv2-cpu-mapping](/usage/#running-with-efficient-cpu-core-mapping), we have described the usage of
 "bunch" and "scatter" placement modes provided by MVAPICH2. Using these
 modes, one can control the placement of processes within a particular
 node. Placement of processes across nodes can be controlled by adjusting
@@ -356,8 +319,7 @@ better when using block distribution.
 
 MVAPICH2 uses HugePages(2MB) by default for communication buffers if
 they are configured on the system. The run-time variable,
-MV2_USE_HUGEPAGES( [\[def:use-hugepage\]](#def:use-hugepage){reference-type="ref"
-reference="def:use-hugepage"}) can be used to control the behavior of
+MV2_USE_HUGEPAGES( [use-hugepage](/parameters/#mv2_use_hugepages)) can be used to control the behavior of
 this feature.
 
 In order to use HugePages, Make sure HugePages are configured on all

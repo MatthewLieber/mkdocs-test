@@ -72,12 +72,10 @@ need to build MVAPICH2. You will need `autoconf` version $>=$ 2.67,
 MVAPICH2 provides the mpirun_rsh/mpispawn framework from MVAPICH
 distribution. Using mpirun_rsh should provide the fastest startup of
 your MPI jobs. More details can be found in
-Section [\[sec:run-mpirun-rsh\]](#sec:run-mpirun-rsh){reference-type="ref"
-reference="sec:run-mpirun-rsh"}. In addition, MVAPICH2 also includes the
+Section [run-mpirun-rsh](/usage/#run-using-mpirun_rsh). In addition, MVAPICH2 also includes the
 Hydra process manager from MPICH-. For more details on using Hydra,
 please refer to
-Section [\[sec:run-hydra\]](#sec:run-hydra){reference-type="ref"
-reference="sec:run-hydra"}.
+Section [run-hydra](/usage/#run-using-hydra-mpiexec).
 
 By default, *mpiexec* uses the Hydra process launcher. Please note that
 neither mpirun_rsh, nor Hydra require you to start daemons in advance on
@@ -134,8 +132,7 @@ Note that --with-pmix should refer to the pmix/install directory that is
 used to build SLURM.
 
 Please refer to
-Section [\[sec:run-slurm\]](#sec:run-slurm){reference-type="ref"
-reference="sec:run-slurm"} for information on how to run MVAPICH2 using
+Section [run-slurm](/usage/#run-using-slurm) for information on how to run MVAPICH2 using
 SLURM.
 
 ### Using Job Step Manager (JSM) 
@@ -150,8 +147,7 @@ MVAPICH2 can also use pmi4pmix library to support JSM. It can be
 configured as follows:
 
 Please refer to
-Section [\[sec:run-jsm\]](#sec:run-jsm){reference-type="ref"
-reference="sec:run-jsm"} for information on how to run MVAPICH2 using
+Section [run-jsm](/usage/#run-using-jsmjsrun) for information on how to run MVAPICH2 using
 the Jsrun launcher.
 
 ### Using Flux Resource Manager 
@@ -159,8 +155,7 @@ the Jsrun launcher.
 To configure MVAPICH2 with Flux support, please use:
 
 Please refer to
-Section [\[sec:run-flux\]](#sec:run-flux){reference-type="ref"
-reference="sec:run-flux"} for information on how to run MVAPICH2 using
+Section [run-flux](/usage/#run-using-flux) for information on how to run MVAPICH2 using
 Flux.
 
 ## Configuring a build for OFA-IB-CH3/OFA-iWARP-CH3/OFA-RoCE-CH3 
@@ -347,8 +342,7 @@ Configuration Options for OpenFabrics IB/iWARP/RoCE
 This section details the configuration option to enable GPU-GPU
 communication with the OFA-IB-CH3 interface of the MVAPICH2 MPI library.
 For more options on configuring the OFA-IB-CH3 interface, please refer
-to Section [1.4](#subsec:config-gen2){reference-type="ref"
-reference="subsec:config-gen2"}.
+to Section [1.4](#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3).
 
 -   Default: disabled
 
@@ -366,7 +360,7 @@ account for libraries being installed in different locations:\
 `–with-libcuda=<path/to/directory/containing/libcuda>`\
 `–with-libcudart=<path/to/directory/containing/libcudart`
 
-::: small
+
 #### Note:
 
 If using the PGI compiler, you will need to add the following to your
@@ -397,10 +391,8 @@ the configure step will detect this and exit with an error message.
 The default CH3 channel provides native support for shared memory
 communication on stand alone multi-core nodes that are not equipped with
 InfiniBand adapters. The steps to configure CH3 channel explicitly can
-be found in Section  [1.4](#subsec:config-gen2){reference-type="ref"
-reference="subsec:config-gen2"}. Dynamic Process Management
-([\[subsec:dpm\]](#subsec:dpm){reference-type="ref"
-reference="subsec:dpm"}) is currently not supported on stand-alone nodes
+be found in Section  [1.4](#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3). Dynamic Process Management
+([dpm](/usage/#run-with-dynamic-process-management-support)) is currently not supported on stand-alone nodes
 without InfiniBand adapters.
 
 ## Configuring a build for OFA-IB-Nemesis
@@ -601,8 +593,7 @@ in the MPICH documentation available at:
 
 The use of TCP/IP requires the explicit selection of a TCP/IP enabled
 channel. The recommended channel is TCP/IP Nemesis (described in Section
- [1.13](#subsec:config-tcpip_nemesis-and-ofa_nemesis){reference-type="ref"
-reference="subsec:config-tcpip_nemesis-and-ofa_nemesis"}). The
+ [1.13](#configuring-a-build-for-ofa-ib-nemesis-and-tcpip-nemesis-unified-binary)). The
 alternative ch3:sock channel can be selected by configuring with:
 
 Both static and shared libraries are built by default. In order to build

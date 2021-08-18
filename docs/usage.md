@@ -18,8 +18,7 @@ MVAPICH2 installation directory can also be specified by modifying
 This section provides instructions on how to run applications with
 MVAPICH2. Please note that on new multi-core architectures,
 process-to-core placement has an impact on performance. Please refer to
-Section [2.5](#sec:usage:mv2-cpu-mapping){reference-type="ref"
-reference="sec:usage:mv2-cpu-mapping"} to learn about running MVAPICH2
+Section [2.5](#running-with-efficient-cpu-core-mapping) to learn about running MVAPICH2
 library on multi-core nodes.
 
 ### Run using `mpirun_rsh` 
@@ -130,8 +129,7 @@ arguments.
 There are many different parameters which could be used to improve the
 performance of applications depending upon their requirements from the
 MPI library. For a discussion on how to identify such parameters, see
-Section [\[sec:performance-tuning\]](#sec:performance-tuning){reference-type="ref"
-reference="sec:performance-tuning"}.
+Section [performance-tuning](/scalable/#on-demand-connection-management-tuning).
 
 #### Job Launch using MPMD 
 
@@ -253,8 +251,7 @@ an example of how to run your application.
 -   To run your application using mpiexec (Hydra)\
 
 Please refer to Section
-[\[def:support-dpm\]](#def:support-dpm){reference-type="ref"
-reference="def:support-dpm"} for information about the MV2_SUPPORT_DPM
+[support-dpm](/parameters/#mv2_support_dpm) for information about the MV2_SUPPORT_DPM
 environment variable.
 
 ### Run with mpirun_rsh using OFA-iWARP Interface 
@@ -279,8 +276,7 @@ Programs can be executed as follows:
 
 The iWARP interface also provides TotalView debugging and shared library
 support. Please refer to
-Section [\[subsec:config-gen2\]](#subsec:config-gen2){reference-type="ref"
-reference="subsec:config-gen2"}.
+Section [config-gen2](/usage/#run-using-totalview-debugger-support).
 
 ### Run with mpirun_rsh using OFA-RoCE Interface 
 
@@ -304,8 +300,7 @@ two ways
 -   All VLAN interfaces will appear as additional GID indexes (starting
     from 1) on the InfiniBand HCA side of the RoCE adapter. User can
     select non-default GID index using run-time parameter\
-    MV2_DEFAULT_GID_INDEX([\[def:mv2-gid-index\]](#def:mv2-gid-index){reference-type="ref"
-    reference="def:mv2-gid-index"}) and RoCE priority service level
+    MV2_DEFAULT_GID_INDEX([mv2-gid-index](/parameters/#mv2_default_gid_index)) and RoCE priority service level
     using MV2_DEFAULT_SERVICE_LEVEL.\
     \
 
@@ -315,18 +310,17 @@ You would like to run an MPI job using IPoIB but your IB card is not the
 default interface for IP traffic. Assume that you have a cluster setup
 as the following:
 
-::: 
-  ----------- ------------- ------------- --
-   #hostname    Eth Addr     IPoIB Addr   
-   compute1    192.168.0.1   192.168.1.1  
-   compute2    192.168.0.2   192.168.1.2  
-   compute3    192.168.0.3   192.168.1.3  
-   compute4    192.168.0.4   192.168.1.4  
-  ----------- ------------- ------------- --
-:::
 
-[\[table:verification1\]]{#table:verification1
-label="table:verification1"}
+        ----------- ------------- ------------- --
+        #hostname    Eth Addr     IPoIB Addr   
+        compute1    192.168.0.1   192.168.1.1  
+        compute2    192.168.0.2   192.168.1.2  
+        compute3    192.168.0.3   192.168.1.3  
+        compute4    192.168.0.4   192.168.1.4  
+        ----------- ------------- ------------- --
+
+
+
 
 The Ethernet addresses are assigned to eth0 and the IPoIB addresses are
 assigned to the ib0 interface. The host names resolve to the
@@ -354,8 +348,7 @@ MVAPICH2 contains optimized Lustre ADIO support for the OFA-IB-CH3
 interface. The Lustre directory should be mounted on all nodes on which
 MVAPICH2 processes will be running. Compile MVAPICH2 with ADIO support
 for Lustre as described in
-Section [\[sec:install\]](#sec:install){reference-type="ref"
-reference="sec:install"}. If your Lustre mount is /mnt/datafs on nodes
+Section [install](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3). If your Lustre mount is /mnt/datafs on nodes
 n0 and n1, on node n0, you can compile and run your program as follows:
 
 If you have enabled support for multiple file systems, append the prefix
@@ -448,8 +441,7 @@ mpiP;
 
 To compile the file example.c, use the mpicc built in the Singularity
 environment as described in
-Section [\[subsec:config-install-singularity\]](#subsec:config-install-singularity){reference-type="ref"
-reference="subsec:config-install-singularity"}.\
+Section [config-install-singularity](/install/#configuration-and-installation-with-singularity).\
 \
 The MPI binary (example) can be installed into the container at /usr/bin
 as follows.\
@@ -468,8 +460,7 @@ provided by MVAPICH2.
 In MVAPICH2 , run-time variables are used to switch various optimization
 schemes on and off. Following is a list of optimizations schemes and the
 control environmental variables, for a full list please refer to the
-section [\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-reference="def:mvapich-parameters"}:
+section [mvapich-parameters](/paramaters/):
 
 -   **Extended Reliable Connection:** Use the XRC InfiniBand transport
     available with Mellanox ConnectX adapters. Default: off; to enable:\
@@ -580,8 +571,7 @@ processes to cores and none of these schemes will be enabled.
 
 To report the process mapping, users can set the environment variable
 MV2_SHOW_CPU_BINDING to 1 (Section
- [\[def:show-cpu-binding\]](#def:show-cpu-binding){reference-type="ref"
-reference="def:show-cpu-binding"}).
+ [show-cpu-binding](/parameters-general/#mv2_show_cpu_binding)).
 
 ### Using HWLOC for CPU Mapping 
 
@@ -591,8 +581,7 @@ cpu mapping string based. Three policies are currently implemented:
 "bunch", "scatter", and "hybrid". By default, we choose to use the
 "hybrid" mapping. However, we also allow users to choose a binding
 policy through the run-time variable, MV2_CPU_BINDING_POLICY. (Section
-[\[def:mv2-cpu-binding-policy\]](#def:mv2-cpu-binding-policy){reference-type="ref"
-reference="def:mv2-cpu-binding-policy"})
+[mv2-cpu-binding-policy](/parameters-general/?#mv2_show_cpu_binding))
 
 For example, if you want to run 4 processes per node and utilize "bunch"
 policy on each node, you can specify:
@@ -640,8 +629,7 @@ and "numanode" (which is designed for some multicore processor with NUMA
 node unit). We use the "core" as the default binding level, and we also
 allow users to choose a binding level through the run-time variable,
 MV2_CPU_BINDING_LEVEL. (Section
-[\[def:mv2-cpu-binding-level\]](#def:mv2-cpu-binding-level){reference-type="ref"
-reference="def:mv2-cpu-binding-level"}) For example, if you want to run
+[mv2-cpu-binding-level](/parameters/#mv2_cpu_binding_level)) For example, if you want to run
 4 processes per node and utilize "socket" as the binding level on each
 node, you can specify:
 
@@ -676,15 +664,13 @@ MV2_CPU_BINDING_POLICY variable. This policy can also be used for hybrid
 MPI+Threads (OpenMP, pthreads, etc.) applications where each MPI rank
 additionally spawns multiple threads. The detailed usage of this
 variable and any additional variables you might need is discussed in
-Section [2.20](#sec:knl_multi_thread){reference-type="ref"
-reference="sec:knl_multi_thread"}.
+Section [2.20](/usage/#optimizations-specific-to-intel-knights-landing-knl-processors).
 
 In addition to MV2_CPU_BINDING_POLICY, we have also provided a new
 environment variable called MV2_HYBRID_BINDING_POLICY to specify thread
 specific binding policies. The detailed description and usage of this
 variable is explained in
-Section [2.21](#sec:advanced_thread_binding_policies){reference-type="ref"
-reference="sec:advanced_thread_binding_policies"}.
+Section [2.21](/usage/#hybrid-and-thread-specific-binding-policies-for-mpi-and-mpithreads-applications).
 
 ### User defined CPU Mapping 
 
@@ -693,8 +679,7 @@ processes to CPU's on modern multi-core systems. The feature is
 especially useful on multi-core systems, where performance may be
 different if processes are mapped to different cores. The mapping can be
 specified by setting the environment variable `MV2_CPU_MAPPING` (Section
- [\[def:mv2-cpu-mapping\]](#def:mv2-cpu-mapping){reference-type="ref"
-reference="def:mv2-cpu-mapping"}).
+ [mv2-cpu-mapping](/parameters/#mv2_cpu_mapping)).
 
 For example, if you want to run 4 processes per node and utilize cores
 0, 1, 4, 5 on each node, you can specify:
@@ -730,20 +715,16 @@ quad-core 2.53GHz Intel Xeon processors with 12MB L3 shared cache (among
 cores in one socket). MVAPICH2-was built with gcc-4.4.6 and default
 configure arguments:
 
-::: table*
-::: tabular
-\|l\*3\|l\| &&\
-Core Pair&0-byte&8k-byte&\
-,2&0.17 us&1.83 us&same socket, shared L3 cache, best performance\
-,1&0.17 us&1.87 us&same socket, shared L3 cache, but core 0 handles
-interrupts\
-,5&0.41 us&3.16 us&different sockets\
-,4&0.42 us&3.17 us&different sockets, but core 0 handles interrupts\
-:::
 
-[\[table:cpumapping_perf\]]{#table:cpumapping_perf
-label="table:cpumapping_perf"}
-:::
+Core Pair|0-byte|8k-byte|
+|---|---|---|
+2|0.17 us|1.83 us|same socket, shared L3 cache, best performance|
+1|0.17 us|1.87 us|same socket, shared L3 cache, but core 0 handles interrupts|
+5|0.41 us|3.16 us|different sockets|
+4|0.42 us|3.17 us|different sockets, but core 0 handles interrupts|
+
+
+
 
 ## Running with LiMIC2 
 
@@ -799,39 +780,31 @@ Optionally, these feature can be turned off at run time by using the
 following parameters:
 
 -   `MV2_USE_SHMEM_COLL`
-    (section [\[def:mv2-use-shmem-coll\]](#def:mv2-use-shmem-coll){reference-type="ref"
-    reference="def:mv2-use-shmem-coll"})
+    (section [mv2-use-shmem-coll](/parameters/#mv2_use_shmem_coll))
 
 -   `MV2_USE_SHMEM_ALLREDUCE`
-    (section [\[def:mv2-use-shmem-allreduce\]](#def:mv2-use-shmem-allreduce){reference-type="ref"
-    reference="def:mv2-use-shmem-allreduce"})
+    (section [mv2-use-shmem-allreduce](/parameters/#mv2_use_shmem_allreduce))
 
 -   `MV2_USE_SHMEM_REDUCE`
-    (section [\[def:mv2-use-shmem-reduce\]](#def:mv2-use-shmem-reduce){reference-type="ref"
-    reference="def:mv2-use-shmem-reduce"})
+    (section [mv2-use-shmem-reduce](/parameters/#mv2_use_shmem_reduce))
 
 -   `MV2_USE_SHMEM_BARRIER`
-    (section [\[def:mv2-use-shmem-barrier\]](#def:mv2-use-shmem-barrier){reference-type="ref"
-    reference="def:mv2-use-shmem-barrier"})
+    (section [mv2-use-shmem-barrier](/parameters/#mv2_use_shmem_barrier))
 
 -   `MV2_USE_SHMEM_BCAST`
-    (section [\[def:mv2-use-shmem-bcast\]](#def:mv2-use-shmem-bcast){reference-type="ref"
-    reference="def:mv2-use-shmem-bcast"})
+    (section [mv2-use-shmem-bcast](/parameters/#mv2_use_shmem_bcast))
 
 Please refer to
-Section [\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-reference="def:mvapich-parameters"} for further details.
+Section [mvapich-parameter](/parameters/) for further details.
 
 ## Running with Topology-Aware Shared Memory Collectives
 
 In MVAPICH2, support for intra-node topology aware collectives is
 enabled by default. This feature can be toggled using
 MV2_ENABLE_TOPO_AWARE_COLLECTIVES
-(section [\[def:mv2-enable-socket-aware-collectives\]](#def:mv2-enable-socket-aware-collectives){reference-type="ref"
-reference="def:mv2-enable-socket-aware-collectives"}). It requires
+(section [mv2-enable-socket-aware-collectives](/parameters/#mv2_enable_socket_aware_collectives)). It requires
 shared memory collectives to be enabled (section
- [\[def:mv2-use-shmem-coll\]](#def:mv2-use-shmem-coll){reference-type="ref"
-reference="def:mv2-use-shmem-coll"}). Supported interfaces include
+ [mv2-use-shmem-coll](/parameters/#mv2_use_shmem_coll)). Supported interfaces include
 OFA-IB-CH3, OFA-iWARP-CH3, TrueScale (PSM-CH3) and Omni-Path (PSM2-CH3).
 Currently, this support is available for the following collective
 operations:
@@ -844,22 +817,18 @@ Run-time parameters exist to toggle each one of the supported collective
 operations. The parameters are :
 
 -   `MV2_USE_TOPO_AWARE_ALLREDUCE`
-    (section [\[def:mv2-use-topo-aware-allreduce\]](#def:mv2-use-topo-aware-allreduce){reference-type="ref"
-    reference="def:mv2-use-topo-aware-allreduce"})
+    (section [mv2-use-topo-aware-allreduce](/parameters/#mv2_use_topo_aware_allreduce))
 
 -   `MV2_USE_TOPO_AWARE_BARRIER`
-    (section [\[def:mv2-use-topo-aware-barrier\]](#def:mv2-use-topo-aware-barrier){reference-type="ref"
-    reference="def:mv2-use-topo-aware-barrier"})
+    (section [mv2-use-topo-aware-barrier](/parameters/#mv2_use_topo_aware_barrier))
 
 MVAPICH2 also provides support for topology-aware allreduce with SHArP
 support for inter-node operations by default. Please refer to
-Section [2.27](#subsec:coll-sharp){reference-type="ref"
-reference="subsec:coll-sharp"} for more details on how to enable this
+Section [2.27](/usage/#running-collectives-with-hardware-based-sharp-support) for more details on how to enable this
 feature.
 
 Please refer to
-Section [\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-reference="def:mvapich-parameters"} for further details.
+Section [mvapich-parameters](/parameters/) for further details.
 
 ## Running Collectives with Hardware based Multicast support 
 
@@ -876,12 +845,10 @@ support is available for the following collective operations:
 This feature is enabled by default. This can be toggled at runtime by
 using parameter\
 MV2_USE_MCAST
-(section [\[def:use-mcast\]](#def:use-mcast){reference-type="ref"
-reference="def:use-mcast"}). This feature is effective when the MPI job
+(section [use-mcast](/parameters/#mv2_use_mcast)). This feature is effective when the MPI job
 is running on more than the threshold\
 MV2_MCAST_NUM_NODES_THRESHOLD
-(section [\[def:mcast-num-nodes-thrshold\]](#def:mcast-num-nodes-thrshold){reference-type="ref"
-reference="def:mcast-num-nodes-thrshold"}) number of nodes.
+(section [mcast-num-nodes-thrshold](/parameters/#mv2_mcast_num_nodes_threshold)) number of nodes.
 
 Both RDMA_CM and libibumad based multicast group setup schemes are
 supported.
@@ -889,8 +856,7 @@ supported.
 RDMA_CM based multicast group setup (enabled by default) can be toggled
 using the\
 MV2_USE_RDMA_CM_MCAST
-(section [\[def:mv2-use-rdma-cm-mcast\]](#def:mv2-use-rdma-cm-mcast){reference-type="ref"
-reference="def:mv2-use-rdma-cm-mcast"}) run-time parameter.
+(section [mv2-use-rdma-cm-mcast](/parameters/#mv2_use_rdma_cm_mcast)) run-time parameter.
 
 If RDMA_CM based mutlicast group setup is disabled/cannot be used,
 multicast requires the cluster to be installed with libibumad and
@@ -909,11 +875,9 @@ viable options, then the feature can be disabled using the
 In MVAPICH2, we offer new intra-node Zero-Copy designs (using LiMIC2)
 for the MPI_Gather collective operation based on the LiMIC2 feature.
 This feature can be used, when the library has been configured to use
-LiMIC2( [2.6](#usage:mv2-limic2){reference-type="ref"
-reference="usage:mv2-limic2"}). This feature is disabled by default and
+LiMIC2( [2.6](/usage/#running-with-limic2)). This feature is disabled by default and
 can be turned on at runtime by using the parameter MV2_USE_LIMIC_GATHER
-( [\[def:use-limic-gather\]](#def:use-limic-gather){reference-type="ref"
-reference="def:use-limic-gather"}).
+( [use-limic-gather](/parameters/#mv2_use_limic_gather)).
 
 ## Running with scalable UD transport 
 
@@ -921,8 +885,7 @@ MVAPICH2 has scalable design with InfiniBand connection less transport
 Unreliable Datagram (UD). Applications can use UD only transport by
 simply configuring MVAPICH2 with the '--enable-hybrid' (which is enabled
 by default) and setting the environment variable MV2_USE_ONLY_UD
-( [\[def:use-only-ud\]](#def:use-only-ud){reference-type="ref"
-reference="def:use-only-ud"}). In this mode, library does not use any
+( [use-only-ud](/parameters/#mv2_use_only_ud)). In this mode, library does not use any
 reliable RC connections. This feature eliminates all the overheads
 associated with RC connections and reduces the memory footprint at large
 scale.
@@ -941,19 +904,16 @@ with the '--enable-hybrid' option. In this configuration, MVAPICH2
 seamlessly uses UD and RC/XRC connections by default. The use of UD
 transport can be disabled at run time by setting the environment
 variable
-MV2_USE_UD_HYBRID( [\[def:use-ud-hybrid\]](#def:use-ud-hybrid){reference-type="ref"
-reference="def:use-ud-hybrid"}) to Zero.
+MV2_USE_UD_HYBRID( [use-ud-hybrid](/parameters/#mv2_use_ud_hybrid)) to Zero.
 
 MV2_HYBRID_ENABLE_THRESHOLD
-( [\[def:ud-hybrid-threshold\]](#def:ud-hybrid-threshold){reference-type="ref"
-reference="def:ud-hybrid-threshold"}) defines the threshold for enabling
+( [ud-hybrid-threshold](/parameters/#mv2_hybrid_enable_threshold)) defines the threshold for enabling
 the hybrid transport. Hybrid mode will be used when the size of the job
 is greater than or equal to the threshold. Otherwise, it uses default
 RC/XRC connections.
 
 For a full list of Hybrid environment variables, please refer
-Section [\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-reference="def:mvapich-parameters"}.
+Section [mvapich-parameters](/paramaters/).
 
 ## Running with Multiple-Rail Configurations 
 
@@ -961,14 +921,11 @@ MVAPICH2 has integrated multi-rail support for OFA-IB-CH3 and
 OFA-iWARP-CH3 interfaces. Run-time variables are used to specify the
 control parameters of the multi-rail support; number of adapters with
 MV2_NUM_HCAS
-(section [\[def:num-hcas\]](#def:num-hcas){reference-type="ref"
-reference="def:num-hcas"}), number of ports per adapter with
+(section [num-hcas](/parameters/#mv2_num_hcas)), number of ports per adapter with
 MV2_NUM_PORTS
-(section [\[def:num-ports\]](#def:num-ports){reference-type="ref"
-reference="def:num-ports"}), and number of queue pairs per port with
+(section [num-ports](/parameters/#mv2_num_ports)), and number of queue pairs per port with
 MV2_NUM_QP_PER_PORT
-(section [\[def:num-qp-per-port\]](#def:num-qp-per-port){reference-type="ref"
-reference="def:num-qp-per-port"}). Those variables are default to 1 if
+(section [num-qp-per-port](/parameters/#mv2_num_qp_per_port)). Those variables are default to 1 if
 you do not specify them.
 
 Large messages are striped across all HCAs. The threshold for striping
@@ -976,8 +933,7 @@ is set according to the following formula:\
 (MV2_VBUF_TOTAL_SIZE $\times$ MV2_NUM_PORTS $\times$ MV2_NUM_QP_PER_PORT
 $\times$ MV2_NUM_HCAS). In addition, there is another parameter
 MV2_STRIPING_THRESHOLD
-(section [\[def:viadev-striping-threshold\]](#def:viadev-striping-threshold){reference-type="ref"
-reference="def:viadev-striping-threshold"}) which users can utilize to
+(section [viadev-striping-threshold](/parameters-nem/#mv2_striping_threshold)) which users can utilize to
 set the striping threshold directly.
 
 MVAPICH2 also gives the flexibility to balance short message traffic
@@ -1002,8 +958,7 @@ Using the Hydra process launcher, the following command can be used:\
 
 The user can also select the particular network card(s) that should be
 used by using the MV2_IBA_HCA environment variable specified in
-section [\[def:rdma-iba-hcas\]](#def:rdma-iba-hcas){reference-type="ref"
-reference="def:rdma-iba-hcas"}. The following is an example of how to
+section [rdma-iba-hcas](/parameters-nem/#mv2_iba_hca). The following is an example of how to
 run MVAPICH2 in this mode. (In the example "mlx4_0" is the name of the
 InfiniBand card as displayed by the output of the "ibstat" command).
 
@@ -1035,8 +990,7 @@ Binding and Rail Sharing.
 
 -   The Rail Sharing policy has been kept the same as in earlier
     versions and can be set using the MV2_RAIL_SHARING_POLICY
-    (section [\[def:rail-sharing-policy\]](#def:rail-sharing-policy){reference-type="ref"
-    reference="def:rail-sharing-policy"}) (previously MV2_SM_SCHEDULING)
+    (section [rail-sharing-policy](/parameters/#mv2_rail_sharing_policy)) (previously MV2_SM_SCHEDULING)
     parameter. It can take the values USE_FIRST or ROUND_ROBIN. However
     as opposed to the earlier versions, the number of HCAs of the same
     type on a system get detected automatically and used. The user can
@@ -1056,8 +1010,7 @@ Binding and Rail Sharing.
     The user defined policies can be set in the following manner by
     giving appropriate values to the parameter
     MV2_PROCESS_TO_RAIL_MAPPING
-    (section [\[def:process-to-rail-mapping\]](#def:process-to-rail-mapping){reference-type="ref"
-    reference="def:process-to-rail-mapping"})
+    (section [process-to-rail-mapping](/parameters/#mv2_process_to_rail_mapping))
 
     -   MV2_PROCESS_TO_RAIL_MAPPING=BUNCH : The HCAs are assigned in a
         block manner. e.g. For 4 rails and 16 processes the mapping will
@@ -1078,8 +1031,7 @@ Binding and Rail Sharing.
     (previously MV2_STRIPING_THRESHOLD), MV2_IBA_HCA. Please refer to
     the usage described for these parameters as well as the ones
     described above in (section 
-    [\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-    reference="def:mvapich-parameters"}).
+    [mvapich-parameters](/paramaters/)).
 
 ## Running with Fault-Tolerance Support 
 
@@ -1090,16 +1042,13 @@ coordinated Checkpoint-Restart protocol involving all the application
 processes.
 
 The following section
-( [2.15.1.1](#para:mpi-cr-basic){reference-type="ref"
-reference="para:mpi-cr-basic"}) provides instructions for basic
+( [2.15.1.1](#basic-checkpointrestart-scheme)) provides instructions for basic
 checkpoint/restart operations with MVAPICH2. These require the Berkeley
 Lab Checkpoint/Restart (BLCR) library in order perform checkpoints of
 local processes. Then, advanced features are presented.
-Section [2.15.1.2](#para:mpi-cr-aggr){reference-type="ref"
-reference="para:mpi-cr-aggr"} details the usage of the
+Section [2.15.1.2](#write-aggregation-based-fast-checkpointing-scheme) details the usage of the
 fast-checkpointing scheme based on aggregation.
-Section [2.15.1.3](#para:mpi-cr-ftb){reference-type="ref"
-reference="para:mpi-cr-ftb"} present the support of the new standardized
+Section [2.15.1.3](#fault-tolerance-backplane-ftb-support) present the support of the new standardized
 Fault Tolerance Backplane (FTB).
 
 #### Basic Checkpoint/Restart Scheme: 
@@ -1118,8 +1067,7 @@ allows the usage of BLCR with MVAPICH2.
     BLCR, usually `$BLCR_HOME/lib`.
 
 -   MVAPICH2 needs to be compiled with checkpoint/restart support, see
-    section [\[subsec:config-gen2\]](#subsec:config-gen2){reference-type="ref"
-    reference="subsec:config-gen2"}.
+    section [config-gen2](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3).
 
 -   BLCR kernel modules must be loaded on all the compute nodes.
 
@@ -1148,24 +1096,20 @@ through the command line.
     checkpoint files. For example, if your PVFS2 is mounted at\
     `/mnt/pvfs2`, using ` MV2_CKPT_FILE=/mnt/pvfs2/ckptfile` will let
     the checkpoint files being stored in pvfs2 file system. See
-    Section [\[def:mv2-ckpt-file\]](#def:mv2-ckpt-file){reference-type="ref"
-    reference="def:mv2-ckpt-file"} for details.
+    Section [mv2-ckpt-file](/parameters/#mv2_ckpt_file) for details.
 
 -   MV2_CKPT_INTERVAL: This parameter (in minutes) can be used to enable
     automatic checkpointing. See
-    Section [\[def:mv2-ckpt-interval\]](#def:mv2-ckpt-interval){reference-type="ref"
-    reference="def:mv2-ckpt-interval"} for details.
+    Section [mv2-ckpt-interval](/parameters/#mv2_ckpt_interval) for details.
 
 -   MV2_CKPT_MAX_SAVE_CKPTS: This parameter is used to limit the number
     of checkpoints saved on file system. See
-    Section [\[def:mv2-max-save-ckpts\]](#def:mv2-max-save-ckpts){reference-type="ref"
-    reference="def:mv2-max-save-ckpts"} for details.
+    Section [mv2-max-save-ckpts](/parameters/#mv2_ckpt_max_save_ckpts) for details.
 
 -   MV2_CKPT_NO_SYNC: This parameter is used to control whether the
     program forces the checkpoint files being synced to disk or not
     before it continues execution. See
-    Section [\[def:mv2-ckpt-no-sync\]](#def:mv2-ckpt-no-sync){reference-type="ref"
-    reference="def:mv2-ckpt-no-sync"} for details.
+    Section [mv2-ckpt-no-sync](/parameters/#mv2_ckpt_no_sync) for details.
 
 In order to provide maximum flexibility to end users who wish to use the
 checkpoint/restart features of MVAPICH2, we have provided three
@@ -1194,8 +1138,7 @@ follows:
     bullet, a parameter (`MV2_CKPT_INTERVAL`) can be set to
     automatically take checkpoints and user-defined intervals. Please
     refer to
-    Section [\[def:mv2-ckpt-interval\]](#def:mv2-ckpt-interval){reference-type="ref"
-    reference="def:mv2-ckpt-interval"} for a complete usage description
+    Section [mv2-ckpt-interval](/parameters/#mv2_ckpt_interval) for a complete usage description
     of this variable. This mode can be used to take checkpoints of a
     long running application, for example every 1 hour, 2 hours etc.
     based on user's choice.
@@ -1262,8 +1205,7 @@ Section](https://upc-bugs.lbl.gov//blcr/doc/html/FAQ.html#prelink) of
 the BLCR userguide for more information.
 
 Please refer to the
-Section [\[sec:troubleshooting-ckpt\]](#sec:troubleshooting-ckpt){reference-type="ref"
-reference="sec:troubleshooting-ckpt"} for troubleshooting with
+Section [troubleshooting-ckpt](/troubleshooting/#checkpointrestart) for troubleshooting with
 Checkpoint/Restart.
 
 #### Write-Aggregation based Fast Checkpointing Scheme: 
@@ -1276,12 +1218,10 @@ Although Aggregation is optional, its usage is recommended to achieve
 best performances during checkpoint and restart operations. That is why,
 if the FUSE library is detected during configuration step, it will be
 automatically enabled (see
-section [\[subsec:config-gen2\]](#subsec:config-gen2){reference-type="ref"
-reference="subsec:config-gen2"}). Once enabled at configuration step,
+section [config-gen2](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3)). Once enabled at configuration step,
 aggregation scheme can be disabled at run time by setting the
 environment variable `MV2_CKPT_USE_AGGREGATION=0` (see
-section [\[def:mv2-ckpt-use-aggregation\]](#def:mv2-ckpt-use-aggregation){reference-type="ref"
-reference="def:mv2-ckpt-use-aggregation"} for details).
+section [mv2-ckpt-use-aggregation](/parameters/#mv2_ckpt_use_aggregation) for details).
 
 The following steps need to be done to use FUSE library for aggregation
 scheme.
@@ -1297,8 +1237,7 @@ scheme.
     FUSE, usually `$FUSE_HOME/lib`.
 
 -   MVAPICH2 needs to be compiled with checkpoint/restart support, see
-    section [\[subsec:config-gen2\]](#subsec:config-gen2){reference-type="ref"
-    reference="subsec:config-gen2"}.
+    section [config-gen2](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3).
 
 -   FUSE kernel modules must be loaded on all the compute nodes.
 
@@ -1340,8 +1279,7 @@ need to be done in addition to the above nodes.
 
 -   MVAPICH2 needs to be compiled with checkpoint/restart as well as FTB
     support, see
-    section [\[subsec:config-gen2\]](#subsec:config-gen2){reference-type="ref"
-    reference="subsec:config-gen2"}.
+    section [config-gen2](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3).
 
 -   Start FTB Database server (`$FTB_HOME/sbin/ftb_database_server`) on
     one of the nodes, this node will act as server node for all the FTB
@@ -1496,12 +1434,10 @@ The benefits of SCR can also be leveraged by applications that do not
 employ their own Checkpoint-Restart mechanism. The SCR-MVAPICH2
 integration makes this possible by using SCR to manage the checkpoints
 generated by BLCR the basic system-level Checkpointing scheme described
-in Section [2.15.1.1](#para:mpi-cr-basic){reference-type="ref"
-reference="para:mpi-cr-basic"}. Once MVAPICH2 has been configured with
+in Section [2.15.1.1](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3). Once MVAPICH2 has been configured with
 SCR, the steps required to checkpoint and restart a job transparently
 using BLCR and SCR are the same as what is described in
-Section [2.15.1.1](#para:mpi-cr-basic){reference-type="ref"
-reference="para:mpi-cr-basic"}. MVAPICH2 uses SCR's APIs internally to
+Section [2.15.1.1](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3). MVAPICH2 uses SCR's APIs internally to
 transparently manage checkpoint storage efficiently.
 
 For information about the various SCR-specific runtime parameters that
@@ -1517,8 +1453,7 @@ a given failing node to a healthy node, selected from a pool of spare
 hosts provided by the user during job-launch.
 
 This Job Migration framework relies on BLCR and FTB libraries. See
-subsections in  [2.15.1](#subsubsec:mpi-cr){reference-type="ref"
-reference="subsubsec:mpi-cr"} to set up these libraries. The source and
+subsections in  [2.15.1](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3) to set up these libraries. The source and
 target nodes are required to have these libraries installed in the same
 path.
 
@@ -1559,8 +1494,7 @@ all MPI processes need to be migrated.
 Please note, that the `ftb_agent` daemon will have to be launched on all
 the compute nodes and the spare nodes before launching the MPI
 application, in order to successfully migrate MPI processes. See section
- [2.15.1.3](#para:mpi-cr-ftb){reference-type="ref"
-reference="para:mpi-cr-ftb"} for information about setting up the FTB
+ [2.15.1.3](/install/#configuring-a-build-for-ofa-ib-ch3ofa-iwarp-ch3ofa-roce-ch3) for information about setting up the FTB
 infrastructure.
 
 ### Run-Through Stabilization
@@ -1585,8 +1519,7 @@ It can be enabled at run-time by:
 
 -   Setting the environment variable `MV2_RUN_THROUGH_STABILIZATION=1`
     (see
-    section [\[def:nem-run-through-stab\]](#def:nem-run-through-stab){reference-type="ref"
-    reference="def:nem-run-through-stab"}), and
+    section [nem-run-through-stab](/parameters-nem/#mv2_run_through_stabilization)), and
 
 -   passing the `--disable-auto-cleanup` flag to Hydra launcher.
 
@@ -1598,8 +1531,7 @@ available for MPI applications using OpenFabrics stack and InfiniBand
 adapters.
 
 To enable this functionality, a run-time variable, MV2_USE_APM
-(Section [\[def:mv2-use-apm\]](#def:mv2-use-apm){reference-type="ref"
-reference="def:mv2-use-apm"}) can be enabled, as shown in the following
+(Section [mv2-use-apm](/parameters/#mv2_use_apm)) can be enabled, as shown in the following
 example:\
 \
 or\
@@ -1607,8 +1539,7 @@ or\
 MVAPICH2 also supports testing Automatic Path Migration in the subnet in
 the absence of network faults. This can be controlled by using a
 run-time variable MV2_USE_APM_TEST
-(Section [\[def:mv2-use-apm-test\]](#def:mv2-use-apm-test){reference-type="ref"
-reference="def:mv2-use-apm-test"}). This should be combined with
+(Section [mv2-use-apm-test](/parameters/#mv2_use_apm_test)). This should be combined with
 MV2_USE_APM as follows:\
 \
 or\
@@ -1618,8 +1549,7 @@ or\
 
 In MVAPICH2, for using RDMA CM the run time variable `MV2_USE_RDMA_CM`
 needs to be used as described in
-[\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-reference="def:mvapich-parameters"}. This applies to OFA-IB-CH3,
+[mvapich-parameters](/parameters/). This applies to OFA-IB-CH3,
 OFA-iWARP-CH3 and OFA-RoCE-CH3 interfaces.
 
 In addition to these flags, all the systems to be used need the
@@ -1631,8 +1561,7 @@ following one time setup for enabling RDMA CM usage.
 -   **Setup the Local Address File:** Create mv2.conf file in a standard
     location (`/etc/mv2.conf`) or user defined path specified using
     MV2_RDMA_CM_CONF_FILE_PATH
-    ( [\[def:mv2-rdma-cm-conf-file-path\]](#def:mv2-rdma-cm-conf-file-path){reference-type="ref"
-    reference="def:mv2-rdma-cm-conf-file-path"} ) with the local IP
+    ( [mv2-rdma-cm-conf-file-path](/parameters/#mv2_rdma_cm_conf_file_path) ) with the local IP
     address to be used by RDMA CM. (Multiple IP addresses can be listed
     (one per line) for multi-rail configurations).\
     `$ echo 10.1.1.1 >> /etc/mv2.conf`\
@@ -1648,11 +1577,9 @@ MVAPICH2 relies on RDMA_CM to establish connections with peer processes.
 
 The environment variables `MV2_RDMA_CM_MULTI_SUBNET_SUPPORT` (described
 in
-Section [\[def:mv2-rdma-cm-multi-subnet-support\]](#def:mv2-rdma-cm-multi-subnet-support){reference-type="ref"
-reference="def:mv2-rdma-cm-multi-subnet-support"}) and `MV2_USE_RDMA_CM`
+Section [mv2-rdma-cm-multi-subnet-support](/parameters/#mv2_rdma_cm_multi_subnet_support)) and `MV2_USE_RDMA_CM`
 (described in
-Section [\[def:mv2-use-rdma-cm\]](#def:mv2-use-rdma-cm){reference-type="ref"
-reference="def:mv2-use-rdma-cm"}) must be set to 1 (default value is 0)
+Section [mv2-use-rdma-cm](/parameters/#mv2_use_rdma_cm)) must be set to 1 (default value is 0)
 to enable the multi-subnet support in MVAPICH2.
 
 The multi-subnet support in MVAPICH2 relies on the GID of the underlying
@@ -1661,8 +1588,7 @@ scenarios, the GID may be populated in non-default indices in the GID
 table resulting in failure when trying to establish communication. In
 such scenarios, users can take advantage of the `MV2_DEFAULT_GID_INDEX`
 environment variable (described in
-Section [\[def:mv2-gid-index\]](#def:mv2-gid-index){reference-type="ref"
-reference="def:mv2-gid-index"}) to point to the correct index in the GID
+Section [mv2-gid-index](/parameters/#mv2_default_gid_index)) to point to the correct index in the GID
 table.
 
 Programs can be executed as follows if GID is populated in the default
@@ -1676,8 +1602,30 @@ be executed as follows:\
 
 MVAPICH2 binds processes to processor cores for optimal performance.
 Please refer to
-Section [2.5](#sec:usage:mv2-cpu-mapping){reference-type="ref"
-reference="sec:usage:mv2-cpu-mapping"} for more details. However, in
+reference="def:mv2-use-rdma-cm"}) must be set to 1 (default value is 0)
+to enable the multi-subnet support in MVAPICH2.
+
+The multi-subnet support in MVAPICH2 relies on the GID of the underlying
+InfiniBand HCA to establish communication with peer processes. In some
+scenarios, the GID may be populated in non-default indices in the GID
+table resulting in failure when trying to establish communication. In
+such scenarios, users can take advantage of the `MV2_DEFAULT_GID_INDEX`
+environment variable (described in
+Section [mv2-gid-index](/parameters/#mv2_default_gid_index)) to point to the correct index in the GID
+table.
+
+Programs can be executed as follows if GID is populated in the default
+location:\
+\
+If the GID is populated in a non-default location (e.g. 1), programs can
+be executed as follows:\
+\
+
+## Running MVAPICH2 in Multi-threaded Environments 
+
+MVAPICH2 binds processes to processor cores for optimal performance.
+Please refer to
+Section [2.5](#running-with-efficient-cpu-core-mapping) for more details. However, in
 multi-threaded environments, it might be desirable to have each thread
 compute using a separate processor core. This is especially true for
 OpenMP+MPI programs.
@@ -1902,8 +1850,7 @@ multi-pathing mechanism. This support is available for MPI applications
 using OFA-IB-CH3 interface.
 
 To enable this functionality, a run-time variable, MV2_USE_HSAM
-(Section [\[def:mv2-use-hsam\]](#def:mv2-use-hsam){reference-type="ref"
-reference="def:mv2-use-hsam"}) can be enabled, as shown in the following
+(Section [mv2-use-hsam](/parameters/#mv2_use_hsam)) can be enabled, as shown in the following
 example:\
 \
 or\
@@ -1912,8 +1859,7 @@ This functionality automatically defines the number of paths for
 hot-spot avoidance. Alternatively, the maximum number of paths to be
 used between a pair of processes can be defined by using a run-time
 variable MV2_NUM_QP_PER_PORT
-(Section [\[def:num-qp-per-port\]](#def:num-qp-per-port){reference-type="ref"
-reference="def:num-qp-per-port"}).
+(Section [num-qp-per-port](/parameters/#mv2_num_qp_per_port)).
 
 We expect this functionality to show benefits in the presence of at
 least partially non-overlapping paths in the network. OpenSM, the subnet
@@ -1955,14 +1901,12 @@ MPI_Isend(device_buf, size, MPI_CHAR, 1, 100, MPI_COMM_WORLD, req);\
 
 This support can be enabled by configuring MVAPICH2 with `–enable-cuda`
 and setting the environment variable MV2_USE_CUDA
-( [\[def:use-cuda\]](#def:use-cuda){reference-type="ref"
-reference="def:use-cuda"}) to 1 during runtime.
+( [use-cuda](/parameters/#mv2_use_cuda)) to 1 during runtime.
 
 To minimize communication overhead, MVAPICH2 divides copies between
 device and host into chunks. This can be better tuned for internode
 transfers with a runtime environment variable MV2_CUDA_BLOCK_SIZE
-( [\[def:cuda-block-size\]](#def:cuda-block-size){reference-type="ref"
-reference="def:cuda-block-size"}). The default chunk size is 64K
+( [cuda-block-size](/parameters/#mv2_cuda_block_size)). The default chunk size is 64K
 (65536). However, higher values of this parameter, such as 256K (262144)
 and 512K (524288), might deliver better performance if the MPI
 application uses large messages. The optimal value for this parameter
@@ -1979,12 +1923,10 @@ involving GPU memory. The CUDA thread block size and dimensions are
 automatically tuned based on the dimensions of the vector. Users can
 also control the number of CUDA threads per block using the runtime
 parameter: MV2_CUDA_KERNEL_VECTOR_TIDBLK_SIZE (default value is 1024)
-( [\[def:cuda-kernel-vector-threadblock\]](#def:cuda-kernel-vector-threadblock){reference-type="ref"
-reference="def:cuda-kernel-vector-threadblock"}). They can adjust the
+( [cuda-kernel-vector-threadblock](/parameters/#mv2_cuda_kernel_vector_tidblk_size)). They can adjust the
 number of threads operating on each data block of the vector using\
 MV2_CUDA_KERNEL_VECTOR_YSIZE (tuned based on vector size)
-( [\[def:cuda-kernel-vector-ysize\]](#def:cuda-kernel-vector-ysize){reference-type="ref"
-reference="def:cuda-kernel-vector-ysize"}).
+( [cuda-kernel-vector-ysize](/parameters/#mv2_cuda_kernel_vector_ysize)).
 
 #### GPU Affinity:
 
@@ -2171,8 +2113,7 @@ sub-folder of the SHArP installation directory.
 
 This feature is turned off by default at runtime and can be turned on at
 runtime by using parameter MV2_ENABLE_SHARP=1
-( [\[def:enable-sharp\]](#def:enable-sharp){reference-type="ref"
-reference="def:enable-sharp"}). Collective tuning has been done to
+( [enable-sharp](/parameters/#mv2_enable_sharp)). Collective tuning has been done to
 ensure the best performance.
 
 When using HPCX v1.7, we recommend setting

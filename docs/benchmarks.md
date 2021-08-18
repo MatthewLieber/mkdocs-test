@@ -12,57 +12,57 @@ discrepancy, please let us know by sending an email to
 
 The benchmarks provided are:
 
-::: center
-  MPI-1, MPI-2 and MPI-3   
-  ------------------------ -----------------------------------------------------------------------------
-  osu_bibw                 Bidirectional Bandwidth Test
-  osu_bw                   Bandwidth Test
-  osu_latency              Latency Test
-  osu_latency_mt           Multi-threaded Latency Test
-  osu_mbw_mr               Multiple Bandwidth / Message Rate Test
-  osu_multi_lat            Multi-pair Latency Test
-  osu_allgather            MPI_Allgather Latency Test
-  osu_allgatherv           MPI_Allgatherv Latency Test
-  osu_allreduce            MPI_Allreduce Latency Test
-  osu_alltoall             MPI_Alltoall Latency Test
-  osu_alltoallv            MPI_Alltoallv Latency Test
-  osu_barrier              MPI_Barrier Latency Test
-  osu_bcast                MPI_Bcast Latency Test
-  osu_gather               MPI_Gather Latency Test
-  osu_gatherv              MPI_Gatherv Latency Test
-  osu_reduce               MPI_Reduce Latency Test
-  osu_reduce_scatter       MPI_Reduce_scatter Latency Test
-  osu_scatter              MPI_Scatter Latency Test
-  osu_scatterv             MPI_Scatterv Latency Test
-                           
-  MPI-2 and MPI-3 only     
-  osu_acc_latency          Accumulate Latency Test with Active/Passive Synchronization
-  osu_get_bw               One-Sided Get Bandwidth Test with Active/Passive Synchronization
-  osu_get_latency          One-Sided Get Latency Test with Active/Passive Synchronization
-  osu_latency_mt           Multi-threaded Latency Test
-  osu_put_bibw             One-Sided Put Bidirectional Test with Active Synchronization
-  osu_put_bw               One-Sided Put Bandwidth Test with Active/Passive Synchronization
-  osu_put_latency          One-Sided Put Latency Test with Active/Passive Synchronization
-                           
-  MPI-3 only               
-  osu_cas_latency          One-Sided Compare_and_swap Latency Test with Active/Passive Synchronization
-  osu_fop_latency          One-Sided Fetch_and_op Latency Test with Active/Passive Synchronization
-  osu_get_acc_latency      One-Sided Get_accumulate Latency Test with Active/Passive Synchronization
-  osu_iallgather           MPI_Iallgather Latency Test
-  osu_iallgatherv          MPI_Iallgatherv Latency Test
-  osu_iallreduce           MPI_Iallreduce Latency Test
-  osu_ialltoall            MPI_Ialltoall Latency Test
-  osu_ialltoallv           MPI_Ialltoallv Latency Test
-  osu_ialltoallw           MPI_Ialltoallw Latency Test
-  osu_ibarrier             MPI_Ibarrier Latency Test
-  osu_ibcast               MPI_Ibcast Latency Test
-  osu_igather              MPI_Igather Latency Test
-  osu_igatherv             MPI_Igatherv Latency Test
-  osu_ireduce              MPI_Ireduce Latency Test
-  osu_iscatter             MPI_Iscatter Latency Test
-  osu_iscatterv            MPI_Iscatterv Latency Test
-                           
-:::
+
+        MPI-1, MPI-2 and MPI-3   
+                ------------------------ -----------------------------------------------------------------------------
+        osu_bibw                 Bidirectional Bandwidth Test
+        osu_bw                   Bandwidth Test
+        osu_latency              Latency Test
+        osu_latency_mt           Multi-threaded Latency Test
+        osu_mbw_mr               Multiple Bandwidth / Message Rate Test
+        osu_multi_lat            Multi-pair Latency Test
+        osu_allgather            MPI_Allgather Latency Test
+        osu_allgatherv           MPI_Allgatherv Latency Test
+        osu_allreduce            MPI_Allreduce Latency Test
+        osu_alltoall             MPI_Alltoall Latency Test
+        osu_alltoallv            MPI_Alltoallv Latency Test
+        osu_barrier              MPI_Barrier Latency Test
+        osu_bcast                MPI_Bcast Latency Test
+        osu_gather               MPI_Gather Latency Test
+        osu_gatherv              MPI_Gatherv Latency Test
+        osu_reduce               MPI_Reduce Latency Test
+        osu_reduce_scatter       MPI_Reduce_scatter Latency Test
+        osu_scatter              MPI_Scatter Latency Test
+        osu_scatterv             MPI_Scatterv Latency Test
+                                
+        MPI-2 and MPI-3 only     
+        osu_acc_latency          Accumulate Latency Test with Active/Passive Synchronization
+        osu_get_bw               One-Sided Get Bandwidth Test with Active/Passive Synchronization
+        osu_get_latency          One-Sided Get Latency Test with Active/Passive Synchronization
+        osu_latency_mt           Multi-threaded Latency Test
+        osu_put_bibw             One-Sided Put Bidirectional Test with Active Synchronization
+        osu_put_bw               One-Sided Put Bandwidth Test with Active/Passive Synchronization
+        osu_put_latency          One-Sided Put Latency Test with Active/Passive Synchronization
+                                
+        MPI-3 only               
+        osu_cas_latency          One-Sided Compare_and_swap Latency Test with Active/Passive Synchronization
+        osu_fop_latency          One-Sided Fetch_and_op Latency Test with Active/Passive Synchronization
+        osu_get_acc_latency      One-Sided Get_accumulate Latency Test with Active/Passive Synchronization
+        osu_iallgather           MPI_Iallgather Latency Test
+        osu_iallgatherv          MPI_Iallgatherv Latency Test
+        osu_iallreduce           MPI_Iallreduce Latency Test
+        osu_ialltoall            MPI_Ialltoall Latency Test
+        osu_ialltoallv           MPI_Ialltoallv Latency Test
+        osu_ialltoallw           MPI_Ialltoallw Latency Test
+        osu_ibarrier             MPI_Ibarrier Latency Test
+        osu_ibcast               MPI_Ibcast Latency Test
+        osu_igather              MPI_Igather Latency Test
+        osu_igatherv             MPI_Igatherv Latency Test
+        osu_ireduce              MPI_Ireduce Latency Test
+        osu_iscatter             MPI_Iscatter Latency Test
+        osu_iscatterv            MPI_Iscatterv Latency Test
+                            
+
 
 More information about the benchmarks can be found at
 <http://mvapich.cse.ohio-state.edu/benchmarks/>. You can also check this
@@ -93,8 +93,7 @@ GPU Device memory.
 The OSU Benchmarks are run in the same manner as other MPI Applications.
 The following examples will use mpirun_rsh as the process manager.
 Please see
-section [\[sec:run-applications\]](#sec:run-applications){reference-type="ref"
-reference="sec:run-applications"} for more information on running with
+section [run-applications](#running) for more information on running with
 other process managers.
 
 ### Running OSU Latency and Bandwidth
@@ -176,43 +175,42 @@ node2\
 The following benchmarks have been extended to evaluate performance of
 MPI communication from and to buffers on NVIDIA GPU devices.
 
-::: center
-  -------------------- ----------------------------------------
-  osu_bibw             Bidirectional Bandwidth Test
-  osu_bw               Bandwidth Test
-  osu_latency          Latency Test
-  osu_latency_mt       Multi-threaded Latency Test
-  osu_mbw_mr           Multiple Bandwidth / Message Rate Test
-  osu_multi_lat        Multi-pair Letency Test
-  osu_put_latency      Latency Test for Put
-  osu_get_latency      Latency Test for Get
-  osu_put_bw           Bandwidth Test for Put
-  osu_get_bw           Bandwidth Test for Get
-  osu_put_bibw         Bidirectional Bandwidth Test for Put
-  osu_acc_latency      Latency Test for Accumulate
-  osu_cas_latency      Latency Test for Compare and Swap
-  osu_fop_latency      Latency Test for Fetch and Op
-  osu_allgather        MPI_Allgather Latency Test
-  osu_allgatherv       MPI_Allgatherv Latency Test
-  osu_allreduce        MPI_Allreduce Latency Test
-  osu_alltoall         MPI_Alltoall Latency Test
-  osu_alltoallv        MPI_Alltoallv Latency Test
-  osu_bcast            MPI_Bcast Latency Test
-  osu_gather           MPI_Gather Latency Test
-  osu_gatherv          MPI_Gatherv Latency Test
-  osu_reduce           MPI_Reduce Latency Test
-  osu_reduce_scatter   MPI_Reduce_scatter Latency Test
-  osu_scatter          MPI_Scatter Latency Test
-  osu_scatterv         MPI_Scatterv Latency Test
-  osu_iallgather       MPI_Iallgather Latency Test
-  osu_iallreduce       MPI_Iallreduce Latency Test
-  osu_ialltoall        MPI_Ialltoall Latency Test
-  osu_ibcast           MPI_Ibcast Latency Test
-  osu_igather          MPI_Igather Latency Test
-  osu_ireduce          MPI_Ireduce Latency Test
-  osu_iscatter         MPI_Iscatter Latency Test
-  -------------------- ----------------------------------------
-:::
+
+        -------------------- ----------------------------------------
+        osu_bibw             Bidirectional Bandwidth Test
+        osu_bw               Bandwidth Test
+        osu_latency          Latency Test
+        osu_latency_mt       Multi-threaded Latency Test
+        osu_mbw_mr           Multiple Bandwidth / Message Rate Test
+        osu_multi_lat        Multi-pair Letency Test
+        osu_put_latency      Latency Test for Put
+        osu_get_latency      Latency Test for Get
+        osu_put_bw           Bandwidth Test for Put
+        osu_get_bw           Bandwidth Test for Get
+        osu_put_bibw         Bidirectional Bandwidth Test for Put
+        osu_acc_latency      Latency Test for Accumulate
+        osu_cas_latency      Latency Test for Compare and Swap
+        osu_fop_latency      Latency Test for Fetch and Op
+        osu_allgather        MPI_Allgather Latency Test
+        osu_allgatherv       MPI_Allgatherv Latency Test
+        osu_allreduce        MPI_Allreduce Latency Test
+        osu_alltoall         MPI_Alltoall Latency Test
+        osu_alltoallv        MPI_Alltoallv Latency Test
+        osu_bcast            MPI_Bcast Latency Test
+        osu_gather           MPI_Gather Latency Test
+        osu_gatherv          MPI_Gatherv Latency Test
+        osu_reduce           MPI_Reduce Latency Test
+        osu_reduce_scatter   MPI_Reduce_scatter Latency Test
+        osu_scatter          MPI_Scatter Latency Test
+        osu_scatterv         MPI_Scatterv Latency Test
+        osu_iallgather       MPI_Iallgather Latency Test
+        osu_iallreduce       MPI_Iallreduce Latency Test
+        osu_ialltoall        MPI_Ialltoall Latency Test
+        osu_ibcast           MPI_Ibcast Latency Test
+        osu_igather          MPI_Igather Latency Test
+        osu_ireduce          MPI_Ireduce Latency Test
+        osu_iscatter         MPI_Iscatter Latency Test
+        -------------------- ----------------------------------------
 
 Each of the pt2pt benchmarks takes two input parameters. The first
 parameter indicates the location of the buffers at rank 0 and the second
@@ -254,27 +252,27 @@ The following benchmarks have been extended to evaluate performance of
 MPI communication from and to buffers allocated using CUDA Managed
 Memory.
 
-::: center
-  -------------------- ----------------------------------------
-  osu_bibw             Bidirectional Bandwidth Test
-  osu_bw               Bandwidth Test
-  osu_latency          Latency Test
-  osu_mbw_mr           Multiple Bandwidth / Message Rate Test
-  osu_multi_lat        Multi-pair Letency Test
-  osu_allgather        MPI_Allgather Latency Test
-  osu_allgatherv       MPI_Allgatherv Latency Test
-  osu_allreduce        MPI_Allreduce Latency Test
-  osu_alltoall         MPI_Alltoall Latency Test
-  osu_alltoallv        MPI_Alltoallv Latency Test
-  osu_bcast            MPI_Bcast Latency Test
-  osu_gather           MPI_Gather Latency Test
-  osu_gatherv          MPI_Gatherv Latency Test
-  osu_reduce           MPI_Reduce Latency Test
-  osu_reduce_scatter   MPI_Reduce_scatter Latency Test
-  osu_scatter          MPI_Scatter Latency Test
-  osu_scatterv         MPI_Scatterv Latency Test
-  -------------------- ----------------------------------------
-:::
+
+        -------------------- ----------------------------------------
+        osu_bibw             Bidirectional Bandwidth Test
+        osu_bw               Bandwidth Test
+        osu_latency          Latency Test
+        osu_mbw_mr           Multiple Bandwidth / Message Rate Test
+        osu_multi_lat        Multi-pair Letency Test
+        osu_allgather        MPI_Allgather Latency Test
+        osu_allgatherv       MPI_Allgatherv Latency Test
+        osu_allreduce        MPI_Allreduce Latency Test
+        osu_alltoall         MPI_Alltoall Latency Test
+        osu_alltoallv        MPI_Alltoallv Latency Test
+        osu_bcast            MPI_Bcast Latency Test
+        osu_gather           MPI_Gather Latency Test
+        osu_gatherv          MPI_Gatherv Latency Test
+        osu_reduce           MPI_Reduce Latency Test
+        osu_reduce_scatter   MPI_Reduce_scatter Latency Test
+        osu_scatter          MPI_Scatter Latency Test
+        osu_scatterv         MPI_Scatterv Latency Test
+        -------------------- ----------------------------------------
+
 
 In addition to support for communications to and from GPU memories
 allocated using CUDA or OpenACC, we now provide additional capability of

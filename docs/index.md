@@ -54,36 +54,27 @@ This guide is designed to take the user through all the steps involved
 in configuring, installing, running and tuning MPI applications over
 InfiniBand using MVAPICH2 .
 
-In Section [3](#sec:features){reference-type="ref"
-reference="sec:features"} we describe all the features in MVAPICH2 . As
+In Section [3](#mvapich2-features) we describe all the features in MVAPICH2 . As
 you read through this section, please note our new features (highlighted
 as [NEW]) compared to version . Some of these
 features are designed in order to optimize specific type of MPI
 applications and achieve greater scalability.
-Section [\[sec:install\]](#sec:install){reference-type="ref"
-reference="sec:install"} describes in detail the configuration and
+Section [Install](/install/) describes in detail the configuration and
 installation steps. This section enables the user to identify specific
 compilation flags which can be used to turn some of the features on or
 off. Basic usage of MVAPICH2 is explained in
-Section [\[sec:usage\]](#sec:usage){reference-type="ref"
-reference="sec:usage"}.
-Section [\[sec:advanced_usage\]](#sec:advanced_usage){reference-type="ref"
-reference="sec:advanced_usage"} provides instructions for running
+Section [Usage](/usage/).
+Section [Advanced Usage](/usage/#advanced-usage-instructions)provides instructions for running
 MVAPICH2 with some of the advanced features.
-Section [\[sec:osubenchmarks\]](#sec:osubenchmarks){reference-type="ref"
-reference="sec:osubenchmarks"} describes the usage of the OSU
+Section [osubenchmarks](/benchmarks/) describes the usage of the OSU
 Benchmarks. In
-Section [\[sec:performance-tuning\]](#sec:performance-tuning){reference-type="ref"
-reference="sec:performance-tuning"} we suggest some tuning techniques
+Section [performance-tuning](/perf-tuning/) we suggest some tuning techniques
 for multi-thousand node clusters using some of our new features. If you
 have any problems using MVAPICH2, please check
-Section [\[sec:troubleshooting\]](#sec:troubleshooting){reference-type="ref"
-reference="sec:troubleshooting"} where we list some of the common
+Section [Troubleshooting](/troubleshooting/) where we list some of the common
 problems people face. Finally, in Sections
-[\[def:mvapich-parameters\]](#def:mvapich-parameters){reference-type="ref"
-reference="def:mvapich-parameters"} and
-[\[def:mvapich-parameters-nem\]](#def:mvapich-parameters-nem){reference-type="ref"
-reference="def:mvapich-parameters-nem"}, we list all important run time
+[mvapich-parameters](/parameters/) and
+[mvapich-parameters-nem](/parameters-nem/), we list all important run time
 parameters, their default values and a short description.
 
 # MVAPICH2 Features  
@@ -1084,20 +1075,18 @@ compared to v2.2 are indicated as [NEW].
 The MVAPICH2 package and the project also includes the following
 provisions:
 
-::: itemize
-[Public SVN](https://scm.nowlab.cse.ohio-state.edu/svn/mpi/mvapich2/)
+
+- [Public SVN](https://scm.nowlab.cse.ohio-state.edu/svn/mpi/mvapich2/)
 access of the code-base
 
-A set of micro-benchmarks (including multi-threading latency test) for
+- A set of micro-benchmarks (including multi-threading latency test) for
 carrying out MPI-level performance evaluation after the installation
 
-Public
+- Public
 [mvapich-discuss](http://mailman.cse.ohio-state.edu/mailman/listinfo/mvapich-discuss)
 mailing list for mvapich users to
 
-::: itemize
-Ask for help and support from each other and get prompt response
 
-Enable users and developers to contribute patches and enhancements
-:::
-:::
+    Ask for help and support from each other and get prompt response
+
+    Enable users and developers to contribute patches and enhancements

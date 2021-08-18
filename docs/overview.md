@@ -54,8 +54,7 @@ This guide is designed to take the user through all the steps involved
 in configuring, installing, running and tuning MPI applications over
 InfiniBand using MVAPICH2 .
 
-In Section [3](#sec:features){reference-type="ref"
-reference="sec:features"} we describe all the features in MVAPICH2 . As
+In Section [3](#mvapich2-features) we describe all the features in MVAPICH2 . As
 you read through this section, please note our new features (highlighted
 as [NEW]) compared to version . Some of these
 features are designed in order to optimize specific type of MPI
