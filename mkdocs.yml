@@ -13,3 +13,5 @@ nav:
     - Scalability: 'scalable.md'
     - Troubleshooting: 'troubleshooting.md'
     - Usage: 'usage.md'
+extra_css:
+  - extra.css
